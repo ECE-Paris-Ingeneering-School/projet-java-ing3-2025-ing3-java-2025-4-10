@@ -1,5 +1,5 @@
 package modele;
 
-public class modele {
+public class test {
     System.out.println(" i ");
 }
