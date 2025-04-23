@@ -2,6 +2,8 @@ package vue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AdminGestionVue extends JFrame {
 
@@ -14,30 +16,54 @@ public class AdminGestionVue extends JFrame {
     public AdminGestionVue() {
         setTitle("Espace d'administration");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400, 350);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
         initialiserInterface();
     }
 
     private void initialiserInterface() {
-        JPanel panel = new JPanel(new GridLayout(5, 1, 10, 10));
+        // Fond bleu ciel
+        JPanel fond = new JPanel(new GridBagLayout());
+        fond.setBackground(new Color(200, 225, 255));
 
-        boutonSpecialistes = new JButton("Gérer les spécialistes");
-        boutonLieux = new JButton("Gérer les lieux");
-        boutonRendezVous = new JButton("Gérer les rendez-vous");
-        boutonStats = new JButton("Voir les statistiques");
-        boutonRetour = new JButton("Retour au menu");
+        // Bloc central blanc
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(210, 210, 210), 1),
+                BorderFactory.createEmptyBorder(40, 60, 40, 60)
+        ));
+        panel.setMaximumSize(new Dimension(500, 500));
+
+        JLabel titre = new JLabel("Espace d'administration");
+        titre.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
+        panel.add(titre);
+
+        // Boutons
+        boutonSpecialistes = createStyledButton("👨‍⚕️ Gérer les spécialistes");
+        boutonLieux = createStyledButton("📍 Gérer les lieux");
+        boutonRendezVous = createStyledButton("📅 Gérer les rendez-vous");
+        boutonStats = createStyledButton("📊 Voir les statistiques");
+        boutonRetour = createStyledButton("↩️ Retour au menu");
 
         panel.add(boutonSpecialistes);
+        panel.add(Box.createVerticalStrut(15));
         panel.add(boutonLieux);
+        panel.add(Box.createVerticalStrut(15));
         panel.add(boutonRendezVous);
+        panel.add(Box.createVerticalStrut(15));
         panel.add(boutonStats);
+        panel.add(Box.createVerticalStrut(25));
         panel.add(boutonRetour);
 
-        add(panel);
+        fond.add(panel);
+        setContentPane(fond);
 
-        // Actions reliées aux vues réelles
+        // Actions
         boutonSpecialistes.addActionListener(e -> {
             dispose();
             new GestionSpecialistesVue().setVisible(true);
@@ -62,6 +88,33 @@ public class AdminGestionVue extends JFrame {
             dispose();
             new MenuPrincipalVue("admin").setVisible(true);
         });
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        button.setBackground(new Color(33, 150, 243));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setMaximumSize(new Dimension(350, 45));
+        button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
+
+        Color base = button.getBackground();
+        Color hover = base.brighter();
+
+        button.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(hover);
+            }
+
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(base);
+            }
+        });
+
+        return button;
     }
 
     public static void main(String[] args) {
