@@ -1,13 +1,18 @@
 package vue;
 
+import dao.RendezVousDAO;
+import modele.RendezVous;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class GestionRendezVousVue extends JFrame {
 
+    private JTable tableRdv;
     private JButton boutonRetour;
+    private DefaultTableModel model;
 
     public GestionRendezVousVue() {
         setTitle("Gestion des rendez-vous");
@@ -19,51 +24,61 @@ public class GestionRendezVousVue extends JFrame {
     }
 
     private void initialiserInterface() {
-        // === Fond bleu ciel ===
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
 
-        // === Bloc blanc central ===
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
-        panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(210, 210, 210), 1),
-                BorderFactory.createEmptyBorder(40, 60, 40, 60)
-        ));
-        panel.setMaximumSize(new Dimension(700, 400));
+        panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
+        panel.setMaximumSize(new Dimension(1000, 500));
 
-        JLabel titre = new JLabel("Gestion des rendez-vous (admin)");
-        titre.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        JLabel titre = new JLabel("Tous les rendez-vous enregistrés");
+        titre.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         panel.add(titre);
-
-        JTextArea infos = new JTextArea(
-                "🛠️ Ici s'affichera la liste des rendez-vous à venir\n" +
-                        "(Cette zone sera remplacée par une JTable ou une liste dynamique liée au DAO)"
-        );
-        infos.setEditable(false);
-        infos.setFont(new Font("Monospaced", Font.PLAIN, 15));
-        infos.setBackground(new Color(245, 245, 245));
-        infos.setMargin(new Insets(10, 15, 10, 15));
-        infos.setMaximumSize(new Dimension(600, 200));
-        infos.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(infos);
-
         panel.add(Box.createVerticalStrut(30));
 
+        // === TABLE ===
+        String[] colonnes = {"ID", "Date", "Heure", "ID Patient", "ID Spécialiste", "ID Lieu", "Note"};
+        model = new DefaultTableModel(colonnes, 0);
+        tableRdv = new JTable(model);
+
+        JScrollPane scrollPane = new JScrollPane(tableRdv);
+        scrollPane.setPreferredSize(new Dimension(900, 300));
+        scrollPane.setMaximumSize(new Dimension(900, 300));
+        panel.add(scrollPane);
+
         boutonRetour = createStyledButton("↩️ Retour");
+        panel.add(Box.createVerticalStrut(20));
         panel.add(boutonRetour);
 
         fond.add(panel);
         setContentPane(fond);
 
-        // === Action ===
         boutonRetour.addActionListener(e -> {
             dispose();
             new AdminGestionVue().setVisible(true);
         });
+
+        chargerDonnees();
+    }
+
+    private void chargerDonnees() {
+        List<RendezVous> liste = new RendezVousDAO().recupererTousLesRendezVous();
+        model.setRowCount(0); // Réinitialise
+
+        for (RendezVous r : liste) {
+            model.addRow(new Object[]{
+                    r.getId(),
+                    r.getDate(),
+                    r.getHeure(),
+                    r.getIdPatient(),
+                    r.getIdSpecialiste(),
+                    r.getIdLieu(),
+                    r.getNote()
+            });
+        }
     }
 
     private JButton createStyledButton(String text) {
@@ -76,20 +91,6 @@ public class GestionRendezVousVue extends JFrame {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setMaximumSize(new Dimension(300, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
-
-        Color base = button.getBackground();
-        Color hover = base.brighter();
-
-        button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(hover);
-            }
-
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(base);
-            }
-        });
-
         return button;
     }
 

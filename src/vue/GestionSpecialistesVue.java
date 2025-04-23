@@ -1,14 +1,19 @@
 package vue;
 
+import dao.SpecialisteDAO;
+import modele.Specialiste;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class GestionSpecialistesVue extends JFrame {
 
     private JTextField champNom, champPrenom, champEmail, champSpecialite, champQualification;
     private JButton boutonAjouter, boutonSupprimer, boutonRetour;
+    private JTable tableSpecialistes;
+    private DefaultTableModel tableModel;
 
     public GestionSpecialistesVue() {
         setTitle("Gestion des spécialistes");
@@ -20,27 +25,21 @@ public class GestionSpecialistesVue extends JFrame {
     }
 
     private void initialiserInterface() {
-        // === Fond bleu ciel ===
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
 
-        // === Bloc blanc central ===
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
-        panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(210, 210, 210), 1),
-                BorderFactory.createEmptyBorder(40, 60, 40, 60)
-        ));
-        panel.setMaximumSize(new Dimension(600, 600));
+        panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
+        panel.setMaximumSize(new Dimension(900, 750));
 
         JLabel titre = new JLabel("Gestion des spécialistes");
         titre.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         panel.add(titre);
 
-        // Champs
         champNom = new JTextField();
         champPrenom = new JTextField();
         champEmail = new JTextField();
@@ -52,57 +51,132 @@ public class GestionSpecialistesVue extends JFrame {
         panel.add(createInput("Email :", champEmail));
         panel.add(createInput("Spécialité :", champSpecialite));
         panel.add(createInput("Qualification :", champQualification));
-
         panel.add(Box.createVerticalStrut(20));
 
-        // Boutons
-        boutonAjouter = createStyledButton("✅ Ajouter spécialiste");
-        boutonSupprimer = createStyledButton("🗑️ Supprimer spécialiste");
-        boutonRetour = createStyledButton("↩️ Retour");
+        boutonAjouter = createStyledButton("Ajouter spécialiste");
+        boutonSupprimer = createStyledButton("Supprimer spécialiste");
+        boutonRetour = createStyledButton("Retour");
 
         panel.add(boutonAjouter);
         panel.add(Box.createVerticalStrut(10));
         panel.add(boutonSupprimer);
         panel.add(Box.createVerticalStrut(20));
         panel.add(boutonRetour);
+        panel.add(Box.createVerticalStrut(30));
+
+        tableSpecialistes = new JTable();
+        JScrollPane scrollPane = new JScrollPane(tableSpecialistes);
+        scrollPane.setPreferredSize(new Dimension(800, 200));
+        scrollPane.setMaximumSize(new Dimension(800, 200));
+        panel.add(scrollPane);
 
         fond.add(panel);
         setContentPane(fond);
 
         // Actions
-        boutonAjouter.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Spécialiste ajouté (simulation)");
-        });
-
-        boutonSupprimer.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Spécialiste supprimé (simulation)");
-        });
-
         boutonRetour.addActionListener(e -> {
             dispose();
             new AdminGestionVue().setVisible(true);
         });
+
+        boutonAjouter.addActionListener(e -> ajouterSpecialiste());
+
+        boutonSupprimer.addActionListener(e -> supprimerSpecialiste());
+
+        chargerSpecialistes();
+    }
+
+    private void chargerSpecialistes() {
+        SpecialisteDAO dao = new SpecialisteDAO();
+        List<Specialiste> liste = dao.recupererTousLesSpecialistes();
+
+        String[] colonnes = {"ID", "Nom", "Prénom", "Email", "Spécialité", "Qualification"};
+        tableModel = new DefaultTableModel(colonnes, 0);
+
+        for (Specialiste s : liste) {
+            Object[] ligne = {
+                    s.getId(),
+                    s.getNom(),
+                    s.getPrenom(),
+                    s.getEmail(),
+                    s.getSpecialite(),
+                    s.getQualification()
+            };
+            tableModel.addRow(ligne);
+        }
+
+        tableSpecialistes.setModel(tableModel);
+    }
+
+    private void ajouterSpecialiste() {
+        String nom = champNom.getText().trim();
+        String prenom = champPrenom.getText().trim();
+        String email = champEmail.getText().trim();
+        String specialite = champSpecialite.getText().trim();
+        String qualification = champQualification.getText().trim();
+
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || specialite.isEmpty() || qualification.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
+            return;
+        }
+
+        Specialiste specialiste = new Specialiste(0, nom, prenom, email, specialite, qualification);
+        SpecialisteDAO dao = new SpecialisteDAO();
+
+        if (dao.ajouterSpecialiste(specialiste)) {
+            JOptionPane.showMessageDialog(this, "Spécialiste ajouté avec succès.");
+            viderChamps();
+            chargerSpecialistes();
+        } else {
+            JOptionPane.showMessageDialog(this, "Échec de l'ajout.");
+        }
+    }
+
+    private void supprimerSpecialiste() {
+        int ligneSelectionnee = tableSpecialistes.getSelectedRow();
+
+        if (ligneSelectionnee == -1) {
+            JOptionPane.showMessageDialog(this, "Veuillez sélectionner un spécialiste à supprimer.");
+            return;
+        }
+
+        int id = (int) tableModel.getValueAt(ligneSelectionnee, 0);
+        SpecialisteDAO dao = new SpecialisteDAO();
+
+        if (dao.supprimerSpecialisteParId(id)) {
+            JOptionPane.showMessageDialog(this, "Spécialiste supprimé.");
+            chargerSpecialistes();
+        } else {
+            JOptionPane.showMessageDialog(this, "Échec de la suppression.");
+        }
+    }
+
+    private void viderChamps() {
+        champNom.setText("");
+        champPrenom.setText("");
+        champEmail.setText("");
+        champSpecialite.setText("");
+        champQualification.setText("");
     }
 
     private JPanel createInput(String labelText, JTextField champ) {
-        JPanel line = new JPanel();
-        line.setLayout(new BoxLayout(line, BoxLayout.Y_AXIS));
-        line.setBackground(Color.WHITE);
-        line.setAlignmentX(Component.CENTER_ALIGNMENT);
-        line.setMaximumSize(new Dimension(500, 60));
+        JPanel wrapper = new JPanel();
+        wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
+        wrapper.setBackground(Color.WHITE);
+        wrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
+        wrapper.setMaximumSize(new Dimension(500, 60));
 
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
+        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 
         champ.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         champ.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        line.add(label);
-        line.add(champ);
-
-        return line;
+        wrapper.add(label);
+        wrapper.add(champ);
+        return wrapper;
     }
 
     private JButton createStyledButton(String text) {
@@ -115,20 +189,6 @@ public class GestionSpecialistesVue extends JFrame {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setMaximumSize(new Dimension(350, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
-
-        Color base = button.getBackground();
-        Color hover = base.brighter();
-
-        button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(hover);
-            }
-
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(base);
-            }
-        });
-
         return button;
     }
 

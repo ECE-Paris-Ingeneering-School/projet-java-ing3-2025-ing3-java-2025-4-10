@@ -1,14 +1,19 @@
 package vue;
 
+import dao.LieuDAO;
+import modele.Lieu;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class GestionLieuxVue extends JFrame {
 
     private JTextField champAdresse, champVille, champCodePostal;
     private JButton boutonAjouter, boutonSupprimer, boutonRetour;
+    private JTable tableLieux;
+    private DefaultTableModel tableModel;
 
     public GestionLieuxVue() {
         setTitle("Gestion des lieux");
@@ -20,24 +25,19 @@ public class GestionLieuxVue extends JFrame {
     }
 
     private void initialiserInterface() {
-        // === Fond bleu ciel ===
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
 
-        // === Bloc blanc central ===
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
-        panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(210, 210, 210), 1),
-                BorderFactory.createEmptyBorder(40, 60, 40, 60)
-        ));
-        panel.setMaximumSize(new Dimension(500, 500));
+        panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
+        panel.setMaximumSize(new Dimension(900, 700));
 
         JLabel titre = new JLabel("Gestion des lieux");
         titre.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         panel.add(titre);
 
         champAdresse = new JTextField();
@@ -47,11 +47,10 @@ public class GestionLieuxVue extends JFrame {
         panel.add(createInput("Adresse :", champAdresse));
         panel.add(createInput("Ville :", champVille));
         panel.add(createInput("Code postal :", champCodePostal));
-
         panel.add(Box.createVerticalStrut(20));
 
         boutonAjouter = createStyledButton("✅ Ajouter lieu");
-        boutonSupprimer = createStyledButton("🗑️ Supprimer lieu");
+        boutonSupprimer = createStyledButton("❌ Supprimer lieu sélectionné");
         boutonRetour = createStyledButton("↩️ Retour");
 
         panel.add(boutonAjouter);
@@ -59,42 +58,113 @@ public class GestionLieuxVue extends JFrame {
         panel.add(boutonSupprimer);
         panel.add(Box.createVerticalStrut(20));
         panel.add(boutonRetour);
+        panel.add(Box.createVerticalStrut(30));
+
+        tableLieux = new JTable();
+        JScrollPane scrollPane = new JScrollPane(tableLieux);
+        scrollPane.setPreferredSize(new Dimension(800, 200));
+        scrollPane.setMaximumSize(new Dimension(800, 200));
+        panel.add(scrollPane);
 
         fond.add(panel);
         setContentPane(fond);
-
-        // === Actions ===
-        boutonAjouter.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Lieu ajouté (simulation)");
-        });
-
-        boutonSupprimer.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Lieu supprimé (simulation)");
-        });
 
         boutonRetour.addActionListener(e -> {
             dispose();
             new AdminGestionVue().setVisible(true);
         });
+
+        boutonAjouter.addActionListener(e -> ajouterLieu());
+
+        boutonSupprimer.addActionListener(e -> supprimerLieu());
+
+        chargerLieux();
     }
 
-    private JPanel createInput(String labelText, JTextField field) {
+    private void chargerLieux() {
+        LieuDAO dao = new LieuDAO();
+        List<Lieu> lieux = dao.recupererTousLesLieux();
+
+        String[] colonnes = {"ID", "Adresse", "Ville", "Code postal"};
+        tableModel = new DefaultTableModel(colonnes, 0);
+
+        for (Lieu l : lieux) {
+            Object[] ligne = {
+                    l.getId(),
+                    l.getAdresse(),
+                    l.getVille(),
+                    l.getCodePostal()
+            };
+            tableModel.addRow(ligne);
+        }
+
+        tableLieux.setModel(tableModel);
+    }
+
+    private void ajouterLieu() {
+        String adresse = champAdresse.getText().trim();
+        String ville = champVille.getText().trim();
+        String codePostal = champCodePostal.getText().trim();
+
+        if (adresse.isEmpty() || ville.isEmpty() || codePostal.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
+            return;
+        }
+
+        Lieu lieu = new Lieu(0, adresse, ville, codePostal);
+        LieuDAO dao = new LieuDAO();
+
+        if (dao.ajouterLieu(lieu)) {
+            JOptionPane.showMessageDialog(this, "✅ Lieu ajouté avec succès.");
+            viderChamps();
+            chargerLieux();
+        } else {
+            JOptionPane.showMessageDialog(this, "❌ Échec de l'ajout du lieu.");
+        }
+    }
+
+    private void supprimerLieu() {
+        int ligneSelectionnee = tableLieux.getSelectedRow();
+
+        if (ligneSelectionnee == -1) {
+            JOptionPane.showMessageDialog(this, "Veuillez sélectionner un lieu à supprimer.");
+            return;
+        }
+
+        int id = (int) tableModel.getValueAt(ligneSelectionnee, 0);
+        LieuDAO dao = new LieuDAO();
+
+        if (dao.supprimerLieuParId(id)) {
+            JOptionPane.showMessageDialog(this, "✅ Lieu supprimé.");
+            chargerLieux();
+        } else {
+            JOptionPane.showMessageDialog(this, "❌ Erreur lors de la suppression.");
+        }
+    }
+
+    private void viderChamps() {
+        champAdresse.setText("");
+        champVille.setText("");
+        champCodePostal.setText("");
+    }
+
+    private JPanel createInput(String labelText, JTextField champ) {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
         wrapper.setBackground(Color.WHITE);
         wrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
-        wrapper.setMaximumSize(new Dimension(450, 60));
+        wrapper.setMaximumSize(new Dimension(500, 60));
 
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 
-        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        field.setAlignmentX(Component.LEFT_ALIGNMENT);
+        champ.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        champ.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         wrapper.add(label);
-        wrapper.add(field);
+        wrapper.add(champ);
         return wrapper;
     }
 
@@ -106,22 +176,8 @@ public class GestionLieuxVue extends JFrame {
         button.setFocusPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setMaximumSize(new Dimension(300, 45));
+        button.setMaximumSize(new Dimension(350, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
-
-        Color base = button.getBackground();
-        Color hover = base.brighter();
-
-        button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(hover);
-            }
-
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(base);
-            }
-        });
-
         return button;
     }
 

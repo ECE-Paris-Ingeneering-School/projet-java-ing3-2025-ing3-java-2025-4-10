@@ -13,19 +13,25 @@ public class MenuPrincipalVue extends JFrame {
     private JButton boutonGestion;
     private JButton boutonDeconnexion;
 
-    public MenuPrincipalVue(String role) {
+    private final int idUser;
+    private final String role;
+
+    public MenuPrincipalVue(String role, int idUser) {
+        this.role = role;
+        this.idUser = idUser;
+
         setTitle("Menu principal - " + role.toUpperCase());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
-        initialiserInterface(role);
+        initialiserInterface();
     }
 
-    private void initialiserInterface(String role) {
+    private void initialiserInterface() {
         // === FOND BLEU CIEL ===
         JPanel fond = new JPanel(new GridBagLayout());
-        fond.setBackground(new Color(200, 225, 255)); // 🎨 BLEU CIEL
+        fond.setBackground(new Color(200, 225, 255));
 
         // === CONTENU CENTRAL ENCADRÉ ===
         JPanel panelCentre = new JPanel();
@@ -56,12 +62,12 @@ public class MenuPrincipalVue extends JFrame {
 
             boutonPrendreRDV.addActionListener(e -> {
                 dispose();
-                new PriseRdvVue().setVisible(true);
+                new PriseRdvVue(idUser).setVisible(true);
             });
 
             boutonHistorique.addActionListener(e -> {
                 dispose();
-                new HistoriqueVue().setVisible(true);
+                new HistoriqueVue(idUser).setVisible(true);
             });
 
         } else if (role.equalsIgnoreCase("admin")) {
@@ -98,7 +104,7 @@ public class MenuPrincipalVue extends JFrame {
 
         // === BARRE DE MENU EN HAUT ===
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(230, 240, 255)); // un bleu encore plus pâle
+        menuBar.setBackground(new Color(230, 240, 255));
 
         for (String title : new String[]{"Accueil", "Prendre RDV", "Recherche", "Profil"}) {
             JMenu menu = new JMenu(title);
@@ -120,7 +126,6 @@ public class MenuPrincipalVue extends JFrame {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setMaximumSize(new Dimension(350, 50));
 
-        // Hover effect
         Color base = button.getBackground();
         Color hover = base.brighter();
         button.addMouseListener(new MouseAdapter() {
@@ -137,8 +142,7 @@ public class MenuPrincipalVue extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MenuPrincipalVue("patient").setVisible(true));
-        // Pour tester admin :
-        // SwingUtilities.invokeLater(() -> new MenuPrincipalVue("admin").setVisible(true));
+        SwingUtilities.invokeLater(() -> new MenuPrincipalVue("patient", 1).setVisible(true));
+        // SwingUtilities.invokeLater(() -> new MenuPrincipalVue("admin", 1).setVisible(true));
     }
 }

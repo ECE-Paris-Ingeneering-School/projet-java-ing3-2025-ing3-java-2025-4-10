@@ -1,31 +1,48 @@
 package modele;
 
 public class Patient {
-    private int idPatient;
+
+    private int idUser;        // Identifiant utilisateur (lié à la table User)
     private String nom;
     private String prenom;
-    private String email;
-    private String motDePasse;
-    private boolean ancien;
-    private int idUser;
 
-    //Constructeur
-    public Patient(int idPatient, String nom, String prenom, String email, String motDePasse, boolean ancien, int idUser) {
-        this.idPatient = idPatient;
+    public Patient(int idUser, String nom, String prenom) {
+        this.idUser = idUser;
         this.nom = nom;
         this.prenom = prenom;
-        this.email = email;
-        this.motDePasse = motDePasse;
-        this.ancien = ancien;
+    }
+
+    // === GETTERS ===
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    // === SETTERS ===
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public void setIdUser(int idUser) {
         this.idUser = idUser;
     }
 
-    //getters
-    public int getIdPatient() {return idPatient;}
-    public String getNom() {return nom;}
-    public String getPrenom() {return prenom;}
-    public String getEmail() {return email;}
-    public String getMotDePasse() {return motDePasse;}
-    public boolean isAncien() {return ancien;}
-    public int getIdUser() {return idUser;}
+    // === Pour affichage ou debug éventuel ===
+    @Override
+    public String toString() {
+        return prenom + " " + nom + " (ID: " + idUser + ")";
+    }
 }

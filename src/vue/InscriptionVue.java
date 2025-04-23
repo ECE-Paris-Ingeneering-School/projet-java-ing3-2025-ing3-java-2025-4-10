@@ -1,5 +1,7 @@
 package vue;
 
+import dao.PatientDAO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -24,11 +26,9 @@ public class InscriptionVue extends JFrame {
     }
 
     private void initialiserInterface() {
-        // === FOND BLEU CIEL ===
         JPanel fond = new JPanel(new GridBagLayout());
-        fond.setBackground(new Color(200, 225, 255)); // Fond bleu ciel doux
+        fond.setBackground(new Color(200, 225, 255));
 
-        // === CONTENU CENTRAL (cadre blanc centré) ===
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
@@ -44,13 +44,11 @@ public class InscriptionVue extends JFrame {
         titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         panel.add(titre);
 
-        // === CHAMPS ALIGNÉS ===
         panel.add(createInputRow("Nom :", champNom = new JTextField()));
         panel.add(createInputRow("Prénom :", champPrenom = new JTextField()));
         panel.add(createInputRow("Email :", champEmail = new JTextField()));
         panel.add(createInputRow("Mot de passe :", champMotDePasse = new JPasswordField()));
 
-        // === BOUTONS ===
         panel.add(Box.createVerticalStrut(20));
         boutonInscription = createStyledButton("✅ S'inscrire");
         panel.add(boutonInscription);
@@ -58,28 +56,44 @@ public class InscriptionVue extends JFrame {
         boutonRetour = createStyledButton("↩️ Retour");
         panel.add(boutonRetour);
 
-        // === Ajout au fond ===
         fond.add(panel);
         setContentPane(fond);
 
-        // === ACTIONS ===
-        boutonInscription.addActionListener(e -> {
-            String nom = champNom.getText();
-            String prenom = champPrenom.getText();
-            String email = champEmail.getText();
-            String motDePasse = new String(champMotDePasse.getPassword());
-
-            JOptionPane.showMessageDialog(this,
-                    "Compte créé pour : " + prenom + " " + nom + "\nEmail : " + email);
-        });
-
+        boutonInscription.addActionListener(e -> inscrire());
         boutonRetour.addActionListener(e -> {
             dispose();
             new ConnexionVue().setVisible(true);
         });
     }
 
-    // ✅ Crée une ligne verticale label au-dessus + champ large
+    private void inscrire() {
+        String nom = champNom.getText().trim();
+        String prenom = champPrenom.getText().trim();
+        String email = champEmail.getText().trim();
+        String motDePasse = new String(champMotDePasse.getPassword()).trim();
+
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || motDePasse.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
+            return;
+        }
+
+        PatientDAO dao = new PatientDAO();
+
+        if (dao.emailExisteDeja(email)) {
+            JOptionPane.showMessageDialog(this, "Cet email est déjà utilisé.");
+            return;
+        }
+
+        boolean success = dao.enregistrerPatient(nom, prenom, email, motDePasse);
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Compte créé avec succès !");
+            dispose();
+            new ConnexionVue().setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erreur lors de la création du compte.");
+        }
+    }
+
     private JPanel createInputRow(String labelText, JTextField field) {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -92,7 +106,7 @@ public class InscriptionVue extends JFrame {
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 
-        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30)); // champ s'étire
+        field.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         field.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         wrapper.add(label);
@@ -100,7 +114,6 @@ public class InscriptionVue extends JFrame {
         return wrapper;
     }
 
-    // ✅ Boutons stylisés
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));

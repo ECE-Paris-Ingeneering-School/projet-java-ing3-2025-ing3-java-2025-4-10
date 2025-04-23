@@ -1,23 +1,29 @@
 package vue;
 
+import dao.LieuDAO;
+import dao.RendezVousDAO;
+import dao.SpecialisteDAO;
+import modele.Lieu;
+import modele.RendezVous;
+import modele.Specialiste;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 public class PriseRdvVue extends JFrame {
 
-    private JComboBox<String> comboSpecialiste;
-    private JComboBox<String> comboLieu;
+    private final int idPatient;
+    private JComboBox<Specialiste> comboSpecialiste;
+    private JComboBox<Lieu> comboLieu;
+    private JComboBox<String> comboHeure;
     private JSpinner champDate;
-    private JComboBox<String> champHeure;
-    private JButton boutonConfirmer;
-    private JButton boutonRetour;
+    private JButton boutonConfirmer, boutonRetour;
 
-    public PriseRdvVue() {
+    public PriseRdvVue(int idPatient) {
+        this.idPatient = idPatient;
+
         setTitle("Prendre un rendez-vous");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -27,111 +33,113 @@ public class PriseRdvVue extends JFrame {
     }
 
     private void initialiserInterface() {
-        // === Fond bleu ciel ===
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
 
-        // === Panel central ===
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
-        panel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220), 1),
-                BorderFactory.createEmptyBorder(40, 60, 40, 60)
-        ));
-        panel.setMaximumSize(new Dimension(500, 600));
+        panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
+        panel.setMaximumSize(new Dimension(600, 500));
 
         JLabel titre = new JLabel("Prise de rendez-vous");
-        titre.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        titre.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         panel.add(titre);
 
-        // === Données
-        String[] specialites = {
-                "Cardiologue", "Dentiste", "Dermatologue", "Gynécologue", "Pédiatre", "Psychiatre",
-                "Ophtalmologue", "Gastro-entérologue", "Neurologue", "Urologue", "Rhumatologue",
-                "ORL", "Endocrinologue", "Allergologue", "Oncologue", "Chirurgien", "Médecin généraliste",
-                "Hématologue", "Néphrologue", "Radiologue", "Anesthésiste", "Médecin du sport",
-                "Médecin du travail", "Sexologue", "Pneumologue", "Diabétologue", "Gériatre",
-                "Immunologiste", "Interniste", "Médecin esthétique"
-        };
+        comboSpecialiste = new JComboBox<>();
+        comboLieu = new JComboBox<>();
+        comboHeure = new JComboBox<>();
+        remplirHeures();
 
-        String[] villes = {
-                "Paris", "Lyon", "Marseille", "Toulouse", "Nice", "Nantes", "Strasbourg",
-                "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Le Havre",
-                "Saint-Étienne", "Toulon", "Grenoble", "Dijon", "Angers", "Nîmes", "Villeurbanne",
-                "Clermont-Ferrand", "Saint-Denis", "Le Mans", "Aix-en-Provence", "Brest",
-                "Tours", "Amiens", "Limoges", "Annecy", "Perpignan", "Besançon", "Metz",
-                "Orléans", "Rouen", "Mulhouse", "Caen", "Boulogne-Billancourt", "Nancy",
-                "Argenteuil", "Montreuil", "Roubaix", "Avignon", "Poitiers", "Troyes",
-                "Pau", "La Rochelle", "Antibes", "Calais", "Saint-Nazaire", "Drancy"
-        };
+        champDate = new JSpinner(new SpinnerDateModel());
+        champDate.setEditor(new JSpinner.DateEditor(champDate, "dd/MM/yyyy"));
 
-        comboSpecialiste = new JComboBox<>(specialites);
-        comboLieu = new JComboBox<>(villes);
+        panel.add(createInput("Spécialiste :", comboSpecialiste));
+        panel.add(createInput("Lieu :", comboLieu));
+        panel.add(createInput("Date :", champDate));
+        panel.add(createInput("Heure :", comboHeure));
 
-        // === Date (JSpinner)
-        SpinnerDateModel dateModel = new SpinnerDateModel();
-        champDate = new JSpinner(dateModel);
-        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(champDate, "dd/MM/yyyy");
-        champDate.setEditor(dateEditor);
-        champDate.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-
-        // === Heure (JComboBox)
-        champHeure = new JComboBox<>(generateTimeSlots("08:00", "20:00"));
-        champHeure.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-
-        panel.add(createInputRow("Spécialiste :", comboSpecialiste));
-        panel.add(createInputRow("Lieu :", comboLieu));
-        panel.add(createInputRow("Date :", champDate));
-        panel.add(createInputRow("Heure :", champHeure));
+        boutonConfirmer = createStyledButton("Confirmer le rendez-vous");
+        boutonRetour = createStyledButton("Retour");
 
         panel.add(Box.createVerticalStrut(20));
-        boutonConfirmer = createStyledButton("✅ Confirmer le rendez-vous");
         panel.add(boutonConfirmer);
         panel.add(Box.createVerticalStrut(10));
-        boutonRetour = createStyledButton("↩️ Retour");
         panel.add(boutonRetour);
 
         fond.add(panel);
         setContentPane(fond);
 
-        // === Actions
-        boutonConfirmer.addActionListener(e -> {
-            String specialiste = (String) comboSpecialiste.getSelectedItem();
-            String lieu = (String) comboLieu.getSelectedItem();
-            String date = new SimpleDateFormat("dd/MM/yyyy").format((Date) champDate.getValue());
-            String heure = (String) champHeure.getSelectedItem();
-
-            JOptionPane.showMessageDialog(this,
-                    "RDV confirmé :\n" +
-                            specialiste + " à " + lieu + "\nLe " + date + " à " + heure);
-        });
-
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("patient").setVisible(true);
+            new MenuPrincipalVue("patient", idPatient).setVisible(true);
         });
+
+        boutonConfirmer.addActionListener(e -> confirmerRDV());
+
+        chargerSpecialistes();
+        chargerLieux();
     }
 
-    private JPanel createInputRow(String labelText, JComponent input) {
+    private void chargerSpecialistes() {
+        List<Specialiste> liste = new SpecialisteDAO().recupererTousLesSpecialistes();
+        for (Specialiste s : liste) comboSpecialiste.addItem(s);
+    }
+
+    private void chargerLieux() {
+        List<Lieu> lieux = new LieuDAO().recupererTousLesLieux();
+        for (Lieu l : lieux) comboLieu.addItem(l);
+    }
+
+    private void remplirHeures() {
+        for (int h = 8; h <= 19; h++) {
+            comboHeure.addItem(String.format("%02d:00", h));
+            comboHeure.addItem(String.format("%02d:30", h));
+        }
+    }
+
+    private void confirmerRDV() {
+        Specialiste s = (Specialiste) comboSpecialiste.getSelectedItem();
+        Lieu l = (Lieu) comboLieu.getSelectedItem();
+        String heure = (String) comboHeure.getSelectedItem();
+        LocalDate date = ((java.util.Date) champDate.getValue()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+
+        if (s == null || l == null || date == null || heure == null) {
+            JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
+            return;
+        }
+
+        RendezVous rdv = new RendezVous(0, idPatient, s.getId(), l.getId(), date.toString(), heure, "");
+        boolean success = new RendezVousDAO().ajouterRendezVous(rdv);
+
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Rendez-vous confirmé !");
+            dispose();
+            new MenuPrincipalVue("patient", idPatient).setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement.");
+        }
+    }
+
+    private JPanel createInput(String labelText, JComponent champ) {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
         wrapper.setBackground(Color.WHITE);
         wrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
-        wrapper.setMaximumSize(new Dimension(400, 60));
+        wrapper.setMaximumSize(new Dimension(500, 60));
 
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 
-        input.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        input.setAlignmentX(Component.LEFT_ALIGNMENT);
+        champ.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        champ.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         wrapper.add(label);
-        wrapper.add(input);
+        wrapper.add(champ);
         return wrapper;
     }
 
@@ -145,37 +153,10 @@ public class PriseRdvVue extends JFrame {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setMaximumSize(new Dimension(350, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
-
-        Color base = button.getBackground();
-        Color hover = base.brighter();
-        button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                button.setBackground(hover);
-            }
-
-            public void mouseExited(MouseEvent e) {
-                button.setBackground(base);
-            }
-        });
-
         return button;
     }
 
-    private String[] generateTimeSlots(String start, String end) {
-        ArrayList<String> slots = new ArrayList<>();
-        int startHour = Integer.parseInt(start.split(":")[0]);
-        int endHour = Integer.parseInt(end.split(":")[0]);
-
-        for (int h = startHour; h <= endHour; h++) {
-            slots.add(String.format("%02d:00", h));
-            if (h != endHour) {
-                slots.add(String.format("%02d:30", h));
-            }
-        }
-        return slots.toArray(new String[0]);
-    }
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PriseRdvVue().setVisible(true));
+        SwingUtilities.invokeLater(() -> new PriseRdvVue(1).setVisible(true));
     }
 }

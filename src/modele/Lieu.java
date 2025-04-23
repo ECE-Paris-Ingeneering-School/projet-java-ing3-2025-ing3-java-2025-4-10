@@ -1,23 +1,59 @@
 package modele;
 
 public class Lieu {
-    private int idLieu;
+
+    private int id;
     private String adresse;
     private String ville;
     private String codePostal;
 
-    //Constructeur
-    public Lieu(int idLieu, String adresse, String ville, String codePostal) {
-        this.idLieu = idLieu;
+    public Lieu(int id, String adresse, String ville, String codePostal) {
+        this.id = id;
         this.adresse = adresse;
         this.ville = ville;
         this.codePostal = codePostal;
     }
 
-    //Getters
-    public int getIdLieu() {return idLieu;}
-    public String getAdresse() {return adresse;}
-    public String getVille() {return ville;}
-    public String getCodePostal() {return codePostal;}
+    // === GETTERS ===
 
+    public int getId() {
+        return id;
+    }
+
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public String getCodePostal() {
+        return codePostal;
+    }
+
+    // === SETTERS (si besoin) ===
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public void setCodePostal(String codePostal) {
+        this.codePostal = codePostal;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    // === Affichage dans les interfaces ===
+
+    @Override
+    public String toString() {
+        return ville + " - " + adresse + " (" + codePostal + ")";
+    }
 }
