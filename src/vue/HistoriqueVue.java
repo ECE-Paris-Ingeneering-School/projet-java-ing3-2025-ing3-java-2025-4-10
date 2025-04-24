@@ -74,8 +74,8 @@ public class HistoriqueVue extends JFrame {
             tableModel.addRow(new Object[]{
                     rdv.getDate(),
                     rdv.getHeure(),
-                    rdv.getNomSpecialiste(),
-                    rdv.getNomLieu(),
+                    rdv.getIdSpecialiste(),
+                    rdv.getIdLieu(),
                     rdv.getNote()
             });
         }
