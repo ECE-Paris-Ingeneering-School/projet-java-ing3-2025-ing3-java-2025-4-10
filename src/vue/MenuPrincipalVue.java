@@ -62,12 +62,12 @@ public class MenuPrincipalVue extends JFrame {
 
             boutonPrendreRDV.addActionListener(e -> {
                 dispose();
-                new PriseRdvVue(idUser).setVisible(true);
+                new PriseRdvVue(/*idUser*/).setVisible(true); //mise en commentaire idUser
             });
 
             boutonHistorique.addActionListener(e -> {
                 dispose();
-                new HistoriqueVue(idUser).setVisible(true);
+                new HistoriqueVue(/*idUser*/).setVisible(true); //mise en commentaire idUser
             });
 
         } else if (role.equalsIgnoreCase("admin")) {

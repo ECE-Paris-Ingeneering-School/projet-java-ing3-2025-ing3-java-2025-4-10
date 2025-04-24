@@ -86,7 +86,7 @@ public class AdminGestionVue extends JFrame {
 
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("admin").setVisible(true);
+            new MenuPrincipalVue("admin",1).setVisible(true); // rajout 1
         });
     }
 

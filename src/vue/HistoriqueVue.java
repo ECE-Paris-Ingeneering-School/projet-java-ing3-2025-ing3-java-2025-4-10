@@ -60,7 +60,7 @@ public class HistoriqueVue extends JFrame {
 
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("patient").setVisible(true);
+            new MenuPrincipalVue("patient",1).setVisible(true); // rajout 1
         });
 
         chargerHistorique();
