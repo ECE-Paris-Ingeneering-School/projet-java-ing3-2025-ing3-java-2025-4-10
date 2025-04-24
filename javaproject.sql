@@ -152,8 +152,8 @@ INSERT INTO `specialiste` (`ID_Spécialiste`, `Nom`, `Prenom`, `Email`, `Spécia
 (1, 'Eutamene', 'Noreddine', 'noreddine.eutamene@edu.ece.fr', 'cardiologue'),
 (2, 'Segado', 'Jean Pierre', 'jeanpierre.segado@edu.ece.fr', 'pediatre'),
 (3, 'Perry', 'Katy', 'katy.perry@edu.ece.fr', 'chirurgien'),
-(4, 'Le Cor', 'Luc', 'luc.lecory@edu.ece.fr', 'generaliste')
-(5, 'Minot', 'Thierry', 'thierry.minot@edu.ece.fr', 'generaliste'),;
+(4, 'Le Cor', 'Luc', 'luc.lecory@edu.ece.fr', 'generaliste'),
+(5, 'Minot', 'Thierry', 'thierry.minot@edu.ece.fr', 'generaliste');
 
 -- --------------------------------------------------------
 
