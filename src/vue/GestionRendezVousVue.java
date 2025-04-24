@@ -73,9 +73,9 @@ public class GestionRendezVousVue extends JFrame {
         for (RendezVous rdv : liste) {
             Object[] ligne = {
                     rdv.getId(),
-                    rdv.getNomPatient(),
-                    rdv.getNomSpecialiste(),
-                    rdv.getNomLieu(),
+                    rdv.getIdPatient(),
+                    rdv.getIdSpecialiste(),
+                    rdv.getIdLieu(),
                     rdv.getDate(),
                     rdv.getHeure(),
                     rdv.getNote()
