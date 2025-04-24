@@ -13,6 +13,7 @@ public class InscriptionVue extends JFrame {
     private JTextField champPrenom;
     private JTextField champEmail;
     private JPasswordField champMotDePasse;
+    private JTextField champAncien;
     private JButton boutonInscription;
     private JButton boutonRetour;
 
@@ -47,6 +48,7 @@ public class InscriptionVue extends JFrame {
         panel.add(createInputRow("Nom :", champNom = new JTextField()));
         panel.add(createInputRow("Prénom :", champPrenom = new JTextField()));
         panel.add(createInputRow("Email :", champEmail = new JTextField()));
+        panel.add(createInputRow("Ancien (0 si new patient 1 sinon) :", champAncien = new JTextField()));
         panel.add(createInputRow("Mot de passe :", champMotDePasse = new JPasswordField()));
 
         panel.add(Box.createVerticalStrut(20));
@@ -70,9 +72,10 @@ public class InscriptionVue extends JFrame {
         String nom = champNom.getText().trim();
         String prenom = champPrenom.getText().trim();
         String email = champEmail.getText().trim();
+        String ancien = champAncien.getText().trim();
         String motDePasse = new String(champMotDePasse.getPassword()).trim();
 
-        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || motDePasse.isEmpty()) {
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || motDePasse.isEmpty() || ancien.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
             return;
         }
@@ -84,7 +87,7 @@ public class InscriptionVue extends JFrame {
             return;
         }
 
-        boolean success = dao.enregistrerPatient(nom, prenom, email, motDePasse);
+        boolean success = dao.enregistrerPatient(nom, prenom, email, motDePasse, ancien);
         if (success) {
             JOptionPane.showMessageDialog(this, "Compte créé avec succès !");
             dispose();

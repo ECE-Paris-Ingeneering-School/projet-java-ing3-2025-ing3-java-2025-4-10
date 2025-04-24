@@ -8,7 +8,7 @@ public class PatientDAO {
 
     // Vérifie si l'email existe déjà dans la table User
     public boolean emailExisteDeja(String email) {
-        String requete = "SELECT id FROM User WHERE email = ?";
+        String requete = "SELECT ID_User FROM  `user` WHERE email = ?";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
@@ -25,9 +25,9 @@ public class PatientDAO {
     }
 
     // Inscrit un patient (User + Patient)
-    public boolean enregistrerPatient(String nom, String prenom, String email, String motDePasse) {
-        String requeteUser = "INSERT INTO User (email, mot_de_passe, role) VALUES (?, ?, 'patient')";
-        String requetePatient = "INSERT INTO Patient (idUser, nom, prenom) VALUES (?, ?, ?)";
+    public boolean enregistrerPatient(String nom, String prenom, String email, String motDePasse, String ancien) {
+        String requeteUser = "INSERT INTO `user` (email, MotDePasse, Role) VALUES (?, ?, 'patient')";
+        String requetePatient = "INSERT INTO `patient` (FK_ID_User, Nom, Prenom, Email, Ancien) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnexionBDD.getConnexion()) {
             conn.setAutoCommit(false); // Démarrer transaction
@@ -52,6 +52,8 @@ public class PatientDAO {
                 stmtPatient.setInt(1, idUser);
                 stmtPatient.setString(2, nom);
                 stmtPatient.setString(3, prenom);
+                stmtPatient.setString(4, email);
+                stmtPatient.setString(5, ancien);
                 stmtPatient.executeUpdate();
             }
 

@@ -15,7 +15,7 @@ public class UserDAO {
     }
 
     public Utilisateur verifierConnexion(String email, String motDePasse) {
-        String requete = "SELECT id, role FROM User WHERE email = ? AND mot_de_passe = ?";
+        String requete = "SELECT ID_User, Role FROM User WHERE email = ? AND MotDePasse = ?";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
