@@ -1,6 +1,6 @@
 package vue;
 
-import dao.LieuDAO;
+import controleur.LieuControleur;
 import modele.Lieu;
 
 import javax.swing.*;
@@ -15,11 +15,15 @@ public class GestionLieuxVue extends JFrame {
     private JTable tableLieux;
     private DefaultTableModel tableModel;
 
+    private final LieuControleur controleur;
+
     public GestionLieuxVue() {
         setTitle("Gestion des lieux");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+
+        this.controleur = new LieuControleur();
 
         initialiserInterface();
     }
@@ -49,9 +53,9 @@ public class GestionLieuxVue extends JFrame {
         panel.add(createInput("Code postal :", champCodePostal));
         panel.add(Box.createVerticalStrut(20));
 
-        boutonAjouter = createStyledButton("✅ Ajouter lieu");
-        boutonSupprimer = createStyledButton("❌ Supprimer lieu sélectionné");
-        boutonRetour = createStyledButton("↩️ Retour");
+        boutonAjouter = createStyledButton("Ajouter lieu");
+        boutonSupprimer = createStyledButton("Supprimer lieu");
+        boutonRetour = createStyledButton("Retour");
 
         panel.add(boutonAjouter);
         panel.add(Box.createVerticalStrut(10));
@@ -82,8 +86,7 @@ public class GestionLieuxVue extends JFrame {
     }
 
     private void chargerLieux() {
-        LieuDAO dao = new LieuDAO();
-        List<Lieu> lieux = dao.recupererTousLesLieux();
+        List<Lieu> lieux = controleur.getTousLesLieux();
 
         String[] colonnes = {"ID", "Adresse", "Ville", "Code postal"};
         tableModel = new DefaultTableModel(colonnes, 0);
@@ -112,14 +115,13 @@ public class GestionLieuxVue extends JFrame {
         }
 
         Lieu lieu = new Lieu(0, adresse, ville, codePostal);
-        LieuDAO dao = new LieuDAO();
 
-        if (dao.ajouterLieu(lieu)) {
-            JOptionPane.showMessageDialog(this, "✅ Lieu ajouté avec succès.");
+        if (controleur.ajouterLieu(lieu)) {
+            JOptionPane.showMessageDialog(this, "Lieu ajouté avec succès.");
             viderChamps();
             chargerLieux();
         } else {
-            JOptionPane.showMessageDialog(this, "❌ Échec de l'ajout du lieu.");
+            JOptionPane.showMessageDialog(this, "Erreur lors de l'ajout.");
         }
     }
 
@@ -132,13 +134,12 @@ public class GestionLieuxVue extends JFrame {
         }
 
         int id = (int) tableModel.getValueAt(ligneSelectionnee, 0);
-        LieuDAO dao = new LieuDAO();
 
-        if (dao.supprimerLieuParId(id)) {
-            JOptionPane.showMessageDialog(this, "✅ Lieu supprimé.");
+        if (controleur.supprimerLieuParId(id)) {
+            JOptionPane.showMessageDialog(this, "Lieu supprimé.");
             chargerLieux();
         } else {
-            JOptionPane.showMessageDialog(this, "❌ Erreur lors de la suppression.");
+            JOptionPane.showMessageDialog(this, "Erreur lors de la suppression.");
         }
     }
 

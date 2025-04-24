@@ -1,6 +1,6 @@
 package vue;
 
-import dao.RendezVousDAO;
+import controleur.RendezVousControleur;
 import modele.RendezVous;
 
 import javax.swing.*;
@@ -10,15 +10,19 @@ import java.util.List;
 
 public class GestionRendezVousVue extends JFrame {
 
-    private JTable tableRdv;
+    private JTable tableRendezVous;
+    private DefaultTableModel tableModel;
     private JButton boutonRetour;
-    private DefaultTableModel model;
+
+    private final RendezVousControleur controleur;
 
     public GestionRendezVousVue() {
         setTitle("Gestion des rendez-vous");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+
+        this.controleur = new RendezVousControleur();
 
         initialiserInterface();
     }
@@ -31,26 +35,22 @@ public class GestionRendezVousVue extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
-        panel.setMaximumSize(new Dimension(1000, 500));
+        panel.setMaximumSize(new Dimension(900, 700));
 
-        JLabel titre = new JLabel("Tous les rendez-vous enregistrés");
+        JLabel titre = new JLabel("Gestion des rendez-vous");
         titre.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         panel.add(titre);
-        panel.add(Box.createVerticalStrut(30));
 
-        // === TABLE ===
-        String[] colonnes = {"ID", "Date", "Heure", "ID Patient", "ID Spécialiste", "ID Lieu", "Note"};
-        model = new DefaultTableModel(colonnes, 0);
-        tableRdv = new JTable(model);
-
-        JScrollPane scrollPane = new JScrollPane(tableRdv);
-        scrollPane.setPreferredSize(new Dimension(900, 300));
-        scrollPane.setMaximumSize(new Dimension(900, 300));
+        tableRendezVous = new JTable();
+        JScrollPane scrollPane = new JScrollPane(tableRendezVous);
+        scrollPane.setPreferredSize(new Dimension(800, 300));
+        scrollPane.setMaximumSize(new Dimension(800, 300));
         panel.add(scrollPane);
+        panel.add(Box.createVerticalStrut(20));
 
         boutonRetour = createStyledButton("↩️ Retour");
-        panel.add(Box.createVerticalStrut(20));
         panel.add(boutonRetour);
 
         fond.add(panel);
@@ -61,24 +61,29 @@ public class GestionRendezVousVue extends JFrame {
             new AdminGestionVue().setVisible(true);
         });
 
-        chargerDonnees();
+        chargerRendezVous();
     }
 
-    private void chargerDonnees() {
-        List<RendezVous> liste = new RendezVousDAO().recupererTousLesRendezVous();
-        model.setRowCount(0); // Réinitialise
+    private void chargerRendezVous() {
+        List<RendezVous> liste = controleur.getTousLesRendezVous();
 
-        for (RendezVous r : liste) {
-            model.addRow(new Object[]{
-                    r.getId(),
-                    r.getDate(),
-                    r.getHeure(),
-                    r.getIdPatient(),
-                    r.getIdSpecialiste(),
-                    r.getIdLieu(),
-                    r.getNote()
-            });
+        String[] colonnes = {"ID", "Patient", "Spécialiste", "Lieu", "Date", "Heure", "Note"};
+        tableModel = new DefaultTableModel(colonnes, 0);
+
+        for (RendezVous rdv : liste) {
+            Object[] ligne = {
+                    rdv.getId(),
+                    rdv.getNomPatient(),
+                    rdv.getNomSpecialiste(),
+                    rdv.getNomLieu(),
+                    rdv.getDate(),
+                    rdv.getHeure(),
+                    rdv.getNote()
+            };
+            tableModel.addRow(ligne);
         }
+
+        tableRendezVous.setModel(tableModel);
     }
 
     private JButton createStyledButton(String text) {

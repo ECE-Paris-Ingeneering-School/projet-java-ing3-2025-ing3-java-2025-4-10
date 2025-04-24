@@ -1,8 +1,8 @@
 package vue;
 
-import dao.LieuDAO;
-import dao.RendezVousDAO;
-import dao.SpecialisteDAO;
+import controleur.LieuControleur;
+import controleur.RendezVousControleur;
+import controleur.SpecialisteControleur;
 import modele.Lieu;
 import modele.RendezVous;
 import modele.Specialiste;
@@ -10,24 +10,31 @@ import modele.Specialiste;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class PriseRdvVue extends JFrame {
 
-    private final int idPatient;
     private JComboBox<Specialiste> comboSpecialiste;
     private JComboBox<Lieu> comboLieu;
     private JComboBox<String> comboHeure;
-    private JSpinner champDate;
-    private JButton boutonConfirmer, boutonRetour;
+    private JSpinner dateSpinner;
+    private JButton boutonConfirmer;
+    private JButton boutonRetour;
 
-    public PriseRdvVue(int idPatient) {
-        this.idPatient = idPatient;
+    private final SpecialisteControleur specialisteControleur;
+    private final LieuControleur lieuControleur;
+    private final RendezVousControleur rdvControleur;
 
+    public PriseRdvVue() {
         setTitle("Prendre un rendez-vous");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+
+        specialisteControleur = new SpecialisteControleur();
+        lieuControleur = new LieuControleur();
+        rdvControleur = new RendezVousControleur();
 
         initialiserInterface();
     }
@@ -40,12 +47,12 @@ public class PriseRdvVue extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
-        panel.setMaximumSize(new Dimension(600, 500));
+        panel.setMaximumSize(new Dimension(600, 600));
 
-        JLabel titre = new JLabel("Prise de rendez-vous");
+        JLabel titre = new JLabel("Réserver un créneau");
         titre.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         panel.add(titre);
 
         comboSpecialiste = new JComboBox<>();
@@ -53,18 +60,18 @@ public class PriseRdvVue extends JFrame {
         comboHeure = new JComboBox<>();
         remplirHeures();
 
-        champDate = new JSpinner(new SpinnerDateModel());
-        champDate.setEditor(new JSpinner.DateEditor(champDate, "dd/MM/yyyy"));
+        dateSpinner = new JSpinner(new SpinnerDateModel());
+        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy");
+        dateSpinner.setEditor(dateEditor);
 
         panel.add(createInput("Spécialiste :", comboSpecialiste));
         panel.add(createInput("Lieu :", comboLieu));
-        panel.add(createInput("Date :", champDate));
+        panel.add(createInput("Date :", dateSpinner));
         panel.add(createInput("Heure :", comboHeure));
-
-        boutonConfirmer = createStyledButton("Confirmer le rendez-vous");
-        boutonRetour = createStyledButton("Retour");
-
         panel.add(Box.createVerticalStrut(20));
+
+        boutonConfirmer = createStyledButton("✅ Confirmer le rendez-vous");
+        boutonRetour = createStyledButton("↩️ Retour");
         panel.add(boutonConfirmer);
         panel.add(Box.createVerticalStrut(10));
         panel.add(boutonRetour);
@@ -72,25 +79,30 @@ public class PriseRdvVue extends JFrame {
         fond.add(panel);
         setContentPane(fond);
 
+        boutonConfirmer.addActionListener(e -> confirmerRDV());
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("patient", idPatient).setVisible(true);
+            new MenuPrincipalVue("patient").setVisible(true);
         });
-
-        boutonConfirmer.addActionListener(e -> confirmerRDV());
 
         chargerSpecialistes();
         chargerLieux();
     }
 
     private void chargerSpecialistes() {
-        List<Specialiste> liste = new SpecialisteDAO().recupererTousLesSpecialistes();
-        for (Specialiste s : liste) comboSpecialiste.addItem(s);
+        comboSpecialiste.removeAllItems();
+        List<Specialiste> liste = specialisteControleur.getTousLesSpecialistes();
+        for (Specialiste s : liste) {
+            comboSpecialiste.addItem(s);
+        }
     }
 
     private void chargerLieux() {
-        List<Lieu> lieux = new LieuDAO().recupererTousLesLieux();
-        for (Lieu l : lieux) comboLieu.addItem(l);
+        comboLieu.removeAllItems();
+        List<Lieu> liste = lieuControleur.getTousLesLieux();
+        for (Lieu l : liste) {
+            comboLieu.addItem(l);
+        }
     }
 
     private void remplirHeures() {
@@ -101,25 +113,29 @@ public class PriseRdvVue extends JFrame {
     }
 
     private void confirmerRDV() {
-        Specialiste s = (Specialiste) comboSpecialiste.getSelectedItem();
-        Lieu l = (Lieu) comboLieu.getSelectedItem();
-        String heure = (String) comboHeure.getSelectedItem();
-        LocalDate date = ((java.util.Date) champDate.getValue()).toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        Specialiste specialiste = (Specialiste) comboSpecialiste.getSelectedItem();
+        Lieu lieu = (Lieu) comboLieu.getSelectedItem();
+        String heureStr = (String) comboHeure.getSelectedItem();
+        LocalDate date = LocalDate.ofInstant(((java.util.Date) dateSpinner.getValue()).toInstant(), java.time.ZoneId.systemDefault());
+        LocalTime heure = LocalTime.parse(heureStr);
 
-        if (s == null || l == null || date == null || heure == null) {
+        if (specialiste == null || lieu == null || date == null || heureStr == null) {
             JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
             return;
         }
 
-        RendezVous rdv = new RendezVous(0, idPatient, s.getId(), l.getId(), date.toString(), heure, "");
-        boolean success = new RendezVousDAO().ajouterRendezVous(rdv);
+        RendezVous rdv = new RendezVous();
+        rdv.setIdSpecialiste(specialiste.getId());
+        rdv.setIdLieu(lieu.getId());
+        rdv.setIdPatient(1); // TODO: remonter id du patient connecté
+        rdv.setDate(date.toString());
+        rdv.setHeure(heure.toString());
+        rdv.setNote("");
 
-        if (success) {
+        if (rdvControleur.ajouterRendezVous(rdv)) {
             JOptionPane.showMessageDialog(this, "Rendez-vous confirmé !");
-            dispose();
-            new MenuPrincipalVue("patient", idPatient).setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement.");
+            JOptionPane.showMessageDialog(this, "Erreur lors de la confirmation.");
         }
     }
 
@@ -128,7 +144,7 @@ public class PriseRdvVue extends JFrame {
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
         wrapper.setBackground(Color.WHITE);
         wrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
-        wrapper.setMaximumSize(new Dimension(500, 60));
+        wrapper.setMaximumSize(new Dimension(500, 70));
 
         JLabel label = new JLabel(labelText);
         label.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -157,6 +173,6 @@ public class PriseRdvVue extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PriseRdvVue(1).setVisible(true));
+        SwingUtilities.invokeLater(() -> new PriseRdvVue().setVisible(true));
     }
 }

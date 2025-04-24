@@ -1,6 +1,6 @@
 package vue;
 
-import dao.RendezVousDAO;
+import controleur.RendezVousControleur;
 import modele.RendezVous;
 
 import javax.swing.*;
@@ -10,18 +10,19 @@ import java.util.List;
 
 public class HistoriqueVue extends JFrame {
 
-    private final int idPatient;
     private JTable tableHistorique;
     private JButton boutonRetour;
-    private DefaultTableModel model;
+    private DefaultTableModel tableModel;
 
-    public HistoriqueVue(int idPatient) {
-        this.idPatient = idPatient;
+    private final RendezVousControleur controleur;
 
+    public HistoriqueVue() {
         setTitle("Historique des rendez-vous");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+
+        this.controleur = new RendezVousControleur();
 
         initialiserInterface();
     }
@@ -34,24 +35,23 @@ public class HistoriqueVue extends JFrame {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
-        panel.setMaximumSize(new Dimension(800, 500));
+        panel.setMaximumSize(new Dimension(900, 600));
 
-        JLabel titre = new JLabel("Historique des rendez-vous");
-        titre.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        JLabel titre = new JLabel("Historique de vos rendez-vous");
+        titre.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         panel.add(titre);
 
-        String[] colonnes = {"Date", "Heure", "ID Spécialiste", "ID Lieu", "Note"};
-        model = new DefaultTableModel(colonnes, 0);
-        tableHistorique = new JTable(model);
-
+        String[] colonnes = {"Date", "Heure", "Spécialiste", "Lieu", "Note"};
+        tableModel = new DefaultTableModel(colonnes, 0);
+        tableHistorique = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(tableHistorique);
-        scrollPane.setPreferredSize(new Dimension(700, 300));
-        scrollPane.setMaximumSize(new Dimension(700, 300));
+        scrollPane.setPreferredSize(new Dimension(800, 250));
+        scrollPane.setMaximumSize(new Dimension(800, 250));
         panel.add(scrollPane);
 
-        boutonRetour = createStyledButton("Retour");
+        boutonRetour = createStyledButton("↩️ Retour au menu");
         panel.add(Box.createVerticalStrut(20));
         panel.add(boutonRetour);
 
@@ -60,24 +60,24 @@ public class HistoriqueVue extends JFrame {
 
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("patient", idPatient).setVisible(true);
+            new MenuPrincipalVue("patient").setVisible(true);
         });
 
         chargerHistorique();
     }
 
     private void chargerHistorique() {
-        List<RendezVous> liste = new RendezVousDAO().recupererRendezVousParPatient(idPatient);
+        int idPatientSimule = 1; // À remplacer par l'ID réel du patient connecté
+        List<RendezVous> historique = controleur.getRendezVousParPatient(idPatientSimule);
 
-        for (RendezVous r : liste) {
-            Object[] ligne = {
-                    r.getDate(),
-                    r.getHeure(),
-                    r.getIdSpecialiste(),
-                    r.getIdLieu(),
-                    r.getNote()
-            };
-            model.addRow(ligne);
+        for (RendezVous rdv : historique) {
+            tableModel.addRow(new Object[]{
+                    rdv.getDate(),
+                    rdv.getHeure(),
+                    rdv.getNomSpecialiste(),
+                    rdv.getNomLieu(),
+                    rdv.getNote()
+            });
         }
     }
 
@@ -89,12 +89,12 @@ public class HistoriqueVue extends JFrame {
         button.setFocusPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setMaximumSize(new Dimension(300, 45));
+        button.setMaximumSize(new Dimension(350, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
         return button;
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new HistoriqueVue(1).setVisible(true));
+        SwingUtilities.invokeLater(() -> new HistoriqueVue().setVisible(true));
     }
 }

@@ -1,6 +1,6 @@
 package vue;
 
-import dao.SpecialisteDAO;
+import controleur.SpecialisteControleur;
 import modele.Specialiste;
 
 import javax.swing.*;
@@ -15,11 +15,15 @@ public class GestionSpecialistesVue extends JFrame {
     private JTable tableSpecialistes;
     private DefaultTableModel tableModel;
 
+    private final SpecialisteControleur controleur;
+
     public GestionSpecialistesVue() {
         setTitle("Gestion des spécialistes");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+
+        this.controleur = new SpecialisteControleur();
 
         initialiserInterface();
     }
@@ -73,7 +77,6 @@ public class GestionSpecialistesVue extends JFrame {
         fond.add(panel);
         setContentPane(fond);
 
-        // Actions
         boutonRetour.addActionListener(e -> {
             dispose();
             new AdminGestionVue().setVisible(true);
@@ -87,8 +90,7 @@ public class GestionSpecialistesVue extends JFrame {
     }
 
     private void chargerSpecialistes() {
-        SpecialisteDAO dao = new SpecialisteDAO();
-        List<Specialiste> liste = dao.recupererTousLesSpecialistes();
+        List<Specialiste> liste = controleur.getTousLesSpecialistes();
 
         String[] colonnes = {"ID", "Nom", "Prénom", "Email", "Spécialité", "Qualification"};
         tableModel = new DefaultTableModel(colonnes, 0);
@@ -121,9 +123,8 @@ public class GestionSpecialistesVue extends JFrame {
         }
 
         Specialiste specialiste = new Specialiste(0, nom, prenom, email, specialite, qualification);
-        SpecialisteDAO dao = new SpecialisteDAO();
 
-        if (dao.ajouterSpecialiste(specialiste)) {
+        if (controleur.ajouterSpecialiste(specialiste)) {
             JOptionPane.showMessageDialog(this, "Spécialiste ajouté avec succès.");
             viderChamps();
             chargerSpecialistes();
@@ -141,9 +142,8 @@ public class GestionSpecialistesVue extends JFrame {
         }
 
         int id = (int) tableModel.getValueAt(ligneSelectionnee, 0);
-        SpecialisteDAO dao = new SpecialisteDAO();
 
-        if (dao.supprimerSpecialisteParId(id)) {
+        if (controleur.supprimerSpecialisteParId(id)) {
             JOptionPane.showMessageDialog(this, "Spécialiste supprimé.");
             chargerSpecialistes();
         } else {
