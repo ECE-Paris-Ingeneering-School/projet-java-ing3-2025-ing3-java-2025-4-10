@@ -18,7 +18,7 @@ public class RendezVousControleur {
     }
 
     public boolean supprimerRendezVous(int id) {
-        return dao.supprimerRendezVous(id);
+        return dao.supprimerRendezVousParId(id);
     }
 
     public List<RendezVous> getRendezVousParPatient(int idPatient) {

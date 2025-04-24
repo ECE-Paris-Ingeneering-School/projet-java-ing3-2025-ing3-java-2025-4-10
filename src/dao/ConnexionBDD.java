@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnexionBDD {
-    private static final String URL = "jdbc:mysql://localhost:3306/nom_de_votre_bdd";
+    private static final String URL = "jdbc:mysql://localhost:3306/javaproject";
     private static final String UTILISATEUR = "root";
     private static final String MOT_DE_PASSE = "";
 
