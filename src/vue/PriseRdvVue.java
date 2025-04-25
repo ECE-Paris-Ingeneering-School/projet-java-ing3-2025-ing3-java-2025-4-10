@@ -19,6 +19,7 @@ public class PriseRdvVue extends JFrame {
     private JComboBox<Lieu> comboLieu;
     private JComboBox<String> comboHeure;
     private JSpinner dateSpinner;
+    private JTextField textMotif;
     private JButton boutonConfirmer;
     private JButton boutonRetour;
 
@@ -58,6 +59,7 @@ public class PriseRdvVue extends JFrame {
         comboSpecialiste = new JComboBox<>();
         comboLieu = new JComboBox<>();
         comboHeure = new JComboBox<>();
+        textMotif = new JTextField();
         remplirHeures();
 
         dateSpinner = new JSpinner(new SpinnerDateModel());
@@ -68,6 +70,7 @@ public class PriseRdvVue extends JFrame {
         panel.add(createInput("Lieu :", comboLieu));
         panel.add(createInput("Date :", dateSpinner));
         panel.add(createInput("Heure :", comboHeure));
+        panel.add(createInput("Motif :", textMotif));
         panel.add(Box.createVerticalStrut(20));
 
         boutonConfirmer = createStyledButton("✅ Confirmer le rendez-vous");
@@ -82,7 +85,7 @@ public class PriseRdvVue extends JFrame {
         boutonConfirmer.addActionListener(e -> confirmerRDV());
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("patient",1).setVisible(true); // rajout 1
+            new MenuPrincipalVue("patient",1).setVisible(true);
         });
 
         chargerSpecialistes();
@@ -116,21 +119,22 @@ public class PriseRdvVue extends JFrame {
         Specialiste specialiste = (Specialiste) comboSpecialiste.getSelectedItem();
         Lieu lieu = (Lieu) comboLieu.getSelectedItem();
         String heureStr = (String) comboHeure.getSelectedItem();
+        String motif = textMotif.getText().trim();
         LocalDate date = LocalDate.ofInstant(((java.util.Date) dateSpinner.getValue()).toInstant(), java.time.ZoneId.systemDefault());
         LocalTime heure = LocalTime.parse(heureStr);
 
-        if (specialiste == null || lieu == null || date == null || heureStr == null) {
+        if (specialiste == null || lieu == null || date == null || heureStr == null || motif == null) {
             JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
             return;
         }
 
-        RendezVous rdv = new RendezVous(1, 1, 1, 1, "12/12","10:00","help" ); //rajout informations au pif
+        RendezVous rdv = new RendezVous();
         rdv.setIdSpecialiste(specialiste.getId());
         rdv.setIdLieu(lieu.getId());
         rdv.setIdPatient(1); // TODO: remonter id du patient connecté
         rdv.setDate(date.toString());
         rdv.setHeure(heure.toString());
-        rdv.setNote("");
+        rdv.setMotif(motif);
 
         if (rdvControleur.ajouterRendezVous(rdv)) {
             JOptionPane.showMessageDialog(this, "Rendez-vous confirmé !");

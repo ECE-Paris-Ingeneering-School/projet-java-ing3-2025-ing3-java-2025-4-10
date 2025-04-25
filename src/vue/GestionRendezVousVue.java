@@ -78,7 +78,7 @@ public class GestionRendezVousVue extends JFrame {
                     rdv.getIdLieu(),
                     rdv.getDate(),
                     rdv.getHeure(),
-                    rdv.getNote()
+                    rdv.getMotif()
             };
             tableModel.addRow(ligne);
         }

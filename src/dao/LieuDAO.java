@@ -18,10 +18,10 @@ public class LieuDAO {
 
             while (rs.next()) {
                 Lieu l = new Lieu(
-                        rs.getInt("id"),
+                        rs.getInt("id_lieu"),
                         rs.getString("adresse"),
                         rs.getString("ville"),
-                        rs.getString("code_postal")
+                        rs.getString("codepostal")
                 );
                 lieux.add(l);
             }
