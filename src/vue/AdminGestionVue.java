@@ -44,11 +44,11 @@ public class AdminGestionVue extends JFrame {
         panel.add(titre);
 
         // Boutons
-        boutonSpecialistes = createStyledButton("Gérer les spécialistes");
-        boutonLieux = createStyledButton("Gérer les lieux");
-        boutonRendezVous = createStyledButton("Gérer les rendez-vous");
-        boutonStats = createStyledButton("Voir les statistiques");
-        boutonRetour = createStyledButton("Retour au menu");
+        boutonSpecialistes = createStyledButton("👨‍⚕️ Gérer les spécialistes");
+        boutonLieux = createStyledButton("📍 Gérer les lieux");
+        boutonRendezVous = createStyledButton("📅 Gérer les rendez-vous");
+        boutonStats = createStyledButton("📊 Voir les statistiques");
+        boutonRetour = createStyledButton("↩️ Retour au menu");
 
         panel.add(boutonSpecialistes);
         panel.add(Box.createVerticalStrut(15));
@@ -86,7 +86,7 @@ public class AdminGestionVue extends JFrame {
 
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("admin").setVisible(true);
+            new MenuPrincipalVue("admin",1).setVisible(true); // rajout 1
         });
     }
 
