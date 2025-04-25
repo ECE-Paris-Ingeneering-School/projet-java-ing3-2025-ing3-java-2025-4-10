@@ -80,7 +80,7 @@ public class ReportingVue extends JFrame {
         fakeChart.setMaximumSize(new Dimension(600, 600));
 
         // === Bouton retour ===
-        boutonRetour = createStyledButton("↩️ Retour au menu");
+        boutonRetour = createStyledButton("Retour au menu");
 
         panel.add(label);
         panel.add(fakeChart);
@@ -93,7 +93,7 @@ public class ReportingVue extends JFrame {
         // === Action du bouton ===
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("admin",1).setVisible(true); // rajout 1
+            new MenuPrincipalVue("admin").setVisible(true);
         });
     }
 
