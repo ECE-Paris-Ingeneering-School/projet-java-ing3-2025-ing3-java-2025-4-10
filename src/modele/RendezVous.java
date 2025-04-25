@@ -8,19 +8,19 @@ public class RendezVous {
     private int idLieu;
     private String date;      // Format : "YYYY-MM-DD"
     private String heure;     // Format : "HH:MM"
-    private String note;
+    private String motif;
 
     public RendezVous() {
 
     }
-    public RendezVous(int id, int idPatient, int idSpecialiste, int idLieu, String date, String heure, String note) {
+    public RendezVous(int id, int idPatient, int idSpecialiste, int idLieu, String date, String heure, String motif) {
         this.id = id;
         this.idPatient = idPatient;
         this.idSpecialiste = idSpecialiste;
         this.idLieu = idLieu;
         this.date = date;
         this.heure = heure;
-        this.note = note;
+        this.motif = motif;
     }
 
     // === GETTERS ===
@@ -49,8 +49,8 @@ public class RendezVous {
         return heure;
     }
 
-    public String getNote() {
-        return note;
+    public String getMotif() {
+        return motif;
     }
 
     // === SETTERS ===
@@ -63,8 +63,8 @@ public class RendezVous {
         this.heure = heure;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setMotif(String motif) {
+        this.motif = motif;
     }
 
     public void setId(int id) {

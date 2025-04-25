@@ -10,7 +10,7 @@ public class RendezVousDAO {
 
     // Ajouter un nouveau rendez-vous
     public boolean ajouterRendezVous(RendezVous r) {
-        String requete = "INSERT INTO RendezVous (idPatient, idSpecialiste, idLieu, date, heure, note) VALUES (?, ?, ?, ?, ?, ?)";
+        String requete = "INSERT INTO rdv (idPatient, idSpecialiste, idLieu, date, heure, motif) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
@@ -20,7 +20,7 @@ public class RendezVousDAO {
             stmt.setInt(3, r.getIdLieu());
             stmt.setString(4, r.getDate());
             stmt.setString(5, r.getHeure());
-            stmt.setString(6, r.getNote());
+            stmt.setString(6, r.getMotif());
 
             return stmt.executeUpdate() > 0;
 
@@ -34,7 +34,7 @@ public class RendezVousDAO {
     // Récupérer tous les RDV pour un patient
     public List<RendezVous> recupererRendezVousParPatient(int idPatient) {
         List<RendezVous> liste = new ArrayList<>();
-        String requete = "SELECT * FROM RendezVous WHERE idPatient = ? ORDER BY date DESC, heure DESC";
+        String requete = "SELECT * FROM rdv WHERE FK_ID_Patient = ? ORDER BY date DESC, heure DESC";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
@@ -44,13 +44,13 @@ public class RendezVousDAO {
 
             while (rs.next()) {
                 RendezVous r = new RendezVous(
-                        rs.getInt("id"),
-                        rs.getInt("idPatient"),
-                        rs.getInt("idSpecialiste"),
-                        rs.getInt("idLieu"),
-                        rs.getString("date"),
-                        rs.getString("heure"),
-                        rs.getString("note")
+                        rs.getInt("ID_RDV"),
+                        rs.getInt("FK_ID_Patient"),
+                        rs.getInt("FK_ID_Spécialiste"),
+                        rs.getInt("FK_ID_Lieu"),
+                        rs.getString("Date"),
+                        rs.getString("Heure"),
+                        rs.getString("Motif")
                 );
                 liste.add(r);
             }
@@ -66,7 +66,7 @@ public class RendezVousDAO {
     // (Optionnel) Lister tous les rendez-vous (admin)
     public List<RendezVous> recupererTousLesRendezVous() {
         List<RendezVous> liste = new ArrayList<>();
-        String requete = "SELECT * FROM RendezVous ORDER BY date DESC, heure DESC";
+        String requete = "SELECT * FROM rdv ORDER BY date DESC, heure DESC";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete);
@@ -74,13 +74,13 @@ public class RendezVousDAO {
 
             while (rs.next()) {
                 RendezVous r = new RendezVous(
-                        rs.getInt("id"),
-                        rs.getInt("idPatient"),
-                        rs.getInt("idSpecialiste"),
-                        rs.getInt("idLieu"),
-                        rs.getString("date"),
-                        rs.getString("heure"),
-                        rs.getString("note")
+                        rs.getInt("ID_RDV"),
+                        rs.getInt("FK_ID_Patient"),
+                        rs.getInt("FK_ID_Spécialiste"),
+                        rs.getInt("FK_ID_Lieu"),
+                        rs.getString("Date"),
+                        rs.getString("Heure"),
+                        rs.getString("Motif")
                 );
                 liste.add(r);
             }
@@ -95,7 +95,7 @@ public class RendezVousDAO {
 
     // (Optionnel) Supprimer un rendez-vous par ID
     public boolean supprimerRendezVousParId(int id) {
-        String requete = "DELETE FROM RendezVous WHERE id = ?";
+        String requete = "DELETE FROM RendezVous WHERE ID_RDV = ?";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
