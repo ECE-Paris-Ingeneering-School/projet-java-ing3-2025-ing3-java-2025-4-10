@@ -58,7 +58,7 @@ public class SpecialisteDAO {
     }
 
     public boolean supprimerSpecialisteParId(int id) {
-        String requete = "DELETE FROM Specialiste WHERE id = ?";
+        String requete = "DELETE FROM Specialiste WHERE ID_Specialiste = ?";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {

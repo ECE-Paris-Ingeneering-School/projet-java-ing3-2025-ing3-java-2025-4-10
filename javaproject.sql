@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `specialiste_lieu` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `ID_User` int NOT NULL AUTO_INCREMENT,
-  `email` text NOT NULL,
+  `Email` text NOT NULL,
   `MotDePasse` text NOT NULL,
   `Role` text NOT NULL,
   PRIMARY KEY (`ID_User`)
@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`ID_User`, `email`, `MotDePasse`, `Role`) VALUES
+INSERT INTO `user` (`ID_User`, `Email`, `MotDePasse`, `Role`) VALUES
 (1, 'kimi.ho@edu.ece.fr', '1234', 'Patient'),
 (2, 'maxence.ribautepicard@edu.ece.fr', '5678', 'Admin'),
 (3, 'henri.davroux@edu.ece.fr', '0147', 'Patient'),
