@@ -43,7 +43,7 @@ public class HistoriqueVue extends JFrame {
         titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         panel.add(titre);
 
-        String[] colonnes = {"Date", "Heure", "Spécialiste", "Lieu", "Note"};
+        String[] colonnes = {"Date", "Heure", "Spécialiste", "Lieu", "Motif"};
         tableModel = new DefaultTableModel(colonnes, 0);
         tableHistorique = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(tableHistorique);
@@ -67,7 +67,7 @@ public class HistoriqueVue extends JFrame {
     }
 
     private void chargerHistorique() {
-        int idPatientSimule = 1; // À remplacer par l'ID réel du patient connecté
+        int idPatientSimule = 0; // À remplacer par l'ID réel du patient connecté
         List<RendezVous> historique = controleur.getRendezVousParPatient(idPatientSimule);
 
         for (RendezVous rdv : historique) {
