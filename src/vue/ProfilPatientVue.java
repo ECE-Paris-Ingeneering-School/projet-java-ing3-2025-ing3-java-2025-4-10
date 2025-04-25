@@ -49,10 +49,10 @@ public class ProfilPatientVue extends JFrame {
         panel.add(createInput("Nouveau mot de passe :", champMotDePasse));
 
         panel.add(Box.createVerticalStrut(20));
-        boutonModifier = createStyledButton("💾 Enregistrer");
+        boutonModifier = createStyledButton("Enregistrer");
         panel.add(boutonModifier);
         panel.add(Box.createVerticalStrut(10));
-        boutonRetour = createStyledButton("↩️ Retour");
+        boutonRetour = createStyledButton("Retour");
         panel.add(boutonRetour);
 
         fond.add(panel);
