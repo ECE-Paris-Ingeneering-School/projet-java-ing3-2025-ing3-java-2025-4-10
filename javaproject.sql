@@ -109,6 +109,7 @@ CREATE TABLE IF NOT EXISTS `rdv` (
   `Date` date NOT NULL,
   `Heure` time NOT NULL,
   `Motif` text NOT NULL,
+  `Disponibilite` tinyint(1) DEFAULT NULL,
   `FK_ID_Lieu` int NOT NULL,
   `FK_ID_Spécialiste` int NOT NULL,
   `FK_ID_Patient` int NOT NULL,
@@ -122,11 +123,12 @@ CREATE TABLE IF NOT EXISTS `rdv` (
 -- Déchargement des données de la table `rdv`
 --
 
-INSERT INTO `rdv` (`ID_RDV`, `Date`, `Heure`, `Motif`, `FK_ID_Lieu`, `FK_ID_Spécialiste`, `FK_ID_Patient`) VALUES
-(1, '2025-04-28', '08:30:00', 'Otite', 1, 4, 6),
-(2, '2025-04-28', '09:00:00', 'Mal de tete', 2, 4, 3),
-(3, '2025-04-28', '09:30:00', 'Rythme cardiaque', 1, 1, 1),
-(4, '2025-04-28', '10:00:00', 'Fievre', 3, 5, 5);
+INSERT INTO `rdv` (`ID_RDV`, `Date`, `Heure`, `Motif`, `Disponibilite`, `FK_ID_Lieu`, `FK_ID_Spécialiste`, `FK_ID_Patient`) VALUES
+(1, '2025-04-28', '08:30:00', 'Otite', 1, 1, 4, 6),
+(2, '2025-04-28', '09:00:00', 'Mal de tete', 1, 2, 4, 3),
+(3, '2025-04-28', '09:30:00', 'Rythme cardiaque', 1, 1, 1, 1),
+(4, '2025-04-28', '10:00:00', 'Fievre', 1, 3, 5, 5);
+
 
 -- --------------------------------------------------------
 
