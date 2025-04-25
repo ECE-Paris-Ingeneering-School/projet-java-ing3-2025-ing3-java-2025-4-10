@@ -53,8 +53,8 @@ public class MenuPrincipalVue extends JFrame {
 
         // === BOUTONS SELON LE RÔLE ===
         if (role.equalsIgnoreCase("patient")) {
-            boutonPrendreRDV = createStyledButton("🗓️ Prendre un rendez-vous");
-            boutonHistorique = createStyledButton("📄 Voir l'historique");
+            boutonPrendreRDV = createStyledButton("Prendre un rendez-vous");
+            boutonHistorique = createStyledButton("Voir l'historique");
 
             panelCentre.add(boutonPrendreRDV);
             panelCentre.add(Box.createVerticalStrut(15));
@@ -71,8 +71,8 @@ public class MenuPrincipalVue extends JFrame {
             });
 
         } else if (role.equalsIgnoreCase("admin")) {
-            boutonGestion = createStyledButton("⚙️ Espace d'administration");
-            boutonStats = createStyledButton("📊 Voir les statistiques");
+            boutonGestion = createStyledButton("Espace d'administration");
+            boutonStats = createStyledButton("Voir les statistiques");
 
             panelCentre.add(boutonGestion);
             panelCentre.add(Box.createVerticalStrut(15));
@@ -90,7 +90,7 @@ public class MenuPrincipalVue extends JFrame {
         }
 
         panelCentre.add(Box.createVerticalStrut(30));
-        boutonDeconnexion = createStyledButton("🚪 Se déconnecter");
+        boutonDeconnexion = createStyledButton("Se déconnecter");
         panelCentre.add(boutonDeconnexion);
 
         boutonDeconnexion.addActionListener(e -> {

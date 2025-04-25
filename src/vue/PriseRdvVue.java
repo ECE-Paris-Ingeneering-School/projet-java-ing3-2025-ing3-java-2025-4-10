@@ -73,8 +73,8 @@ public class PriseRdvVue extends JFrame {
         panel.add(createInput("Motif :", textMotif));
         panel.add(Box.createVerticalStrut(20));
 
-        boutonConfirmer = createStyledButton("✅ Confirmer le rendez-vous");
-        boutonRetour = createStyledButton("↩️ Retour");
+        boutonConfirmer = createStyledButton("Confirmer le rendez-vous");
+        boutonRetour = createStyledButton("Retour");
         panel.add(boutonConfirmer);
         panel.add(Box.createVerticalStrut(10));
         panel.add(boutonRetour);

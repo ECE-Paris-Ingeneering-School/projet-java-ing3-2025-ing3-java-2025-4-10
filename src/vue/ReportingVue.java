@@ -42,35 +42,35 @@ public class ReportingVue extends JFrame {
         // === Statistiques simulées ===
         JTextArea fakeChart = new JTextArea(
                 "📊 Statistiques générales :\n\n" +
-                        "🔹 Médecin généraliste        18%\n" +
-                        "🔹 Cardiologue                12%\n" +
-                        "🔹 Dentiste                   10%\n" +
-                        "🔹 Dermatologue               8%\n" +
-                        "🔹 Gynécologue                7%\n" +
-                        "🔹 Pédiatre                   6%\n" +
-                        "🔹 Ophtalmologue              5%\n" +
-                        "🔹 Psychiatre                 4%\n" +
-                        "🔹 Gastro-entérologue         3%\n" +
-                        "🔹 Neurologue                 3%\n" +
-                        "🔹 ORL                        2%\n" +
-                        "🔹 Urologue                   2%\n" +
-                        "🔹 Rhumatologue               2%\n" +
-                        "🔹 Endocrinologue             2%\n" +
-                        "🔹 Pneumologue                2%\n" +
-                        "🔹 Oncologue                  2%\n" +
-                        "🔹 Anesthésiste               1%\n" +
-                        "🔹 Allergologue               1%\n" +
-                        "🔹 Sexologue                  1%\n" +
-                        "🔹 Médecin du sport           1%\n" +
-                        "🔹 Radiologue                 1%\n" +
-                        "🔹 Néphrologue                0.5%\n" +
-                        "🔹 Hématologue                0.5%\n" +
-                        "🔹 Gériatre                   0.5%\n" +
-                        "🔹 Médecin du travail         0.5%\n" +
-                        "🔹 Diabétologue               0.5%\n" +
-                        "🔹 Interniste                 0.5%\n" +
-                        "🔹 Immunologiste              0.3%\n" +
-                        "🔹 Médecin esthétique         0.2%"
+                        "Médecin généraliste        18%\n" +
+                        "Cardiologue                12%\n" +
+                        "Dentiste                   10%\n" +
+                        "Dermatologue               8%\n" +
+                        "Gynécologue                7%\n" +
+                        "Pédiatre                   6%\n" +
+                        "Ophtalmologue              5%\n" +
+                        "Psychiatre                 4%\n" +
+                        "Gastro-entérologue         3%\n" +
+                        "Neurologue                 3%\n" +
+                        "ORL                        2%\n" +
+                        "Urologue                   2%\n" +
+                        "Rhumatologue               2%\n" +
+                        "Endocrinologue             2%\n" +
+                        "Pneumologue                2%\n" +
+                        "Oncologue                  2%\n" +
+                        "Anesthésiste               1%\n" +
+                        "Allergologue               1%\n" +
+                        "Sexologue                  1%\n" +
+                        "Médecin du sport           1%\n" +
+                        "Radiologue                 1%\n" +
+                        "Néphrologue                0.5%\n" +
+                        "Hématologue                0.5%\n" +
+                        "Gériatre                   0.5%\n" +
+                        "Médecin du travail         0.5%\n" +
+                        "Diabétologue               0.5%\n" +
+                        "Interniste                 0.5%\n" +
+                        "Immunologiste              0.3%\n" +
+                        "Médecin esthétique         0.2%"
         );
         fakeChart.setEditable(false);
         fakeChart.setFont(new Font("Monospaced", Font.PLAIN, 15));
@@ -80,7 +80,7 @@ public class ReportingVue extends JFrame {
         fakeChart.setMaximumSize(new Dimension(600, 600));
 
         // === Bouton retour ===
-        boutonRetour = createStyledButton("↩️ Retour au menu");
+        boutonRetour = createStyledButton("Retour au menu");
 
         panel.add(label);
         panel.add(fakeChart);

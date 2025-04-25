@@ -50,7 +50,7 @@ public class GestionRendezVousVue extends JFrame {
         panel.add(scrollPane);
         panel.add(Box.createVerticalStrut(20));
 
-        boutonRetour = createStyledButton("↩️ Retour");
+        boutonRetour = createStyledButton("Retour");
         panel.add(boutonRetour);
 
         fond.add(panel);

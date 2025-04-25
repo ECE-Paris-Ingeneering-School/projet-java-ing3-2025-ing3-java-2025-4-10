@@ -51,7 +51,7 @@ public class HistoriqueVue extends JFrame {
         scrollPane.setMaximumSize(new Dimension(800, 250));
         panel.add(scrollPane);
 
-        boutonRetour = createStyledButton("↩️ Retour au menu");
+        boutonRetour = createStyledButton("Retour au menu");
         panel.add(Box.createVerticalStrut(20));
         panel.add(boutonRetour);
 
