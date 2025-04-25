@@ -10,7 +10,7 @@ public class RendezVousDAO {
 
     // Ajouter un nouveau rendez-vous
     public boolean ajouterRendezVous(RendezVous r) {
-        String requete = "INSERT INTO rdv (idPatient, idSpecialiste, idLieu, date, heure, motif) VALUES (?, ?, ?, ?, ?, ?)";
+        String requete = "INSERT INTO rdv (FK_ID_Patient, FK_ID_Spécialiste, FK_ID_Lieu, date, heure, motif) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {

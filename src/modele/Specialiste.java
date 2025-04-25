@@ -7,15 +7,14 @@ public class Specialiste {
     private String prenom;
     private String email;
     private String specialite;
-    private String qualification;
 
-    public Specialiste(int id, String nom, String prenom, String email, String specialite, String qualification) {
+
+    public Specialiste(int id, String nom, String prenom, String email, String specialite) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.specialite = specialite;
-        this.qualification = qualification;
     }
 
     // === GETTERS ===
@@ -40,9 +39,6 @@ public class Specialiste {
         return specialite;
     }
 
-    public String getQualification() {
-        return qualification;
-    }
 
     // === SETTERS ===
 
@@ -62,9 +58,6 @@ public class Specialiste {
         this.specialite = specialite;
     }
 
-    public void setQualification(String qualification) {
-        this.qualification = qualification;
-    }
 
     // === Affichage (utile pour ComboBox) ===
     @Override

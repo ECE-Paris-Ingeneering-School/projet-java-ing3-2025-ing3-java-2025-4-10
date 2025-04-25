@@ -10,7 +10,7 @@ public class SpecialisteDAO {
 
     public List<Specialiste> recupererTousLesSpecialistes() {
         List<Specialiste> liste = new ArrayList<>();
-        String requete = "SELECT * FROM Specialiste";
+        String requete = "SELECT * FROM specialiste";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              Statement stmt = conn.createStatement();
@@ -18,12 +18,11 @@ public class SpecialisteDAO {
 
             while (rs.next()) {
                 Specialiste s = new Specialiste(
-                        rs.getInt("id"),
+                        rs.getInt("ID_Spécialiste"),
                         rs.getString("nom"),
                         rs.getString("prenom"),
                         rs.getString("email"),
-                        rs.getString("specialite"),
-                        rs.getString("qualification")
+                        rs.getString("spécialité")
                 );
                 liste.add(s);
             }
@@ -37,7 +36,7 @@ public class SpecialisteDAO {
     }
 
     public boolean ajouterSpecialiste(Specialiste s) {
-        String requete = "INSERT INTO Specialiste (nom, prenom, email, specialite, qualification) VALUES (?, ?, ?, ?, ?)";
+        String requete = "INSERT INTO specialiste (nom, prenom, email, specialite) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
@@ -46,7 +45,6 @@ public class SpecialisteDAO {
             stmt.setString(2, s.getPrenom());
             stmt.setString(3, s.getEmail());
             stmt.setString(4, s.getSpecialite());
-            stmt.setString(5, s.getQualification());
 
             return stmt.executeUpdate() > 0;
 
@@ -58,7 +56,7 @@ public class SpecialisteDAO {
     }
 
     public boolean supprimerSpecialisteParId(int id) {
-        String requete = "DELETE FROM Specialiste WHERE ID_Specialiste = ?";
+        String requete = "DELETE FROM specialiste WHERE ID_Spécialiste = ?";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {

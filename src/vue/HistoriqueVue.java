@@ -76,7 +76,7 @@ public class HistoriqueVue extends JFrame {
                     rdv.getHeure(),
                     rdv.getIdSpecialiste(),
                     rdv.getIdLieu(),
-                    rdv.getNote()
+                    rdv.getMotif()
             });
         }
     }

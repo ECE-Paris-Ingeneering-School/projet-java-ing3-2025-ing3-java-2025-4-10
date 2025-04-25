@@ -10,7 +10,7 @@ import java.util.List;
 
 public class GestionSpecialistesVue extends JFrame {
 
-    private JTextField champNom, champPrenom, champEmail, champSpecialite, champQualification;
+    private JTextField champNom, champPrenom, champEmail, champSpecialite;
     private JButton boutonAjouter, boutonSupprimer, boutonRetour;
     private JTable tableSpecialistes;
     private DefaultTableModel tableModel;
@@ -48,13 +48,11 @@ public class GestionSpecialistesVue extends JFrame {
         champPrenom = new JTextField();
         champEmail = new JTextField();
         champSpecialite = new JTextField();
-        champQualification = new JTextField();
 
         panel.add(createInput("Nom :", champNom));
         panel.add(createInput("Prénom :", champPrenom));
         panel.add(createInput("Email :", champEmail));
         panel.add(createInput("Spécialité :", champSpecialite));
-        panel.add(createInput("Qualification :", champQualification));
         panel.add(Box.createVerticalStrut(20));
 
         boutonAjouter = createStyledButton("Ajouter spécialiste");
@@ -92,7 +90,7 @@ public class GestionSpecialistesVue extends JFrame {
     private void chargerSpecialistes() {
         List<Specialiste> liste = controleur.getTousLesSpecialistes();
 
-        String[] colonnes = {"ID", "Nom", "Prénom", "Email", "Spécialité", "Qualification"};
+        String[] colonnes = {"ID", "Nom", "Prénom", "Email", "Spécialité"};
         tableModel = new DefaultTableModel(colonnes, 0);
 
         for (Specialiste s : liste) {
@@ -102,7 +100,6 @@ public class GestionSpecialistesVue extends JFrame {
                     s.getPrenom(),
                     s.getEmail(),
                     s.getSpecialite(),
-                    s.getQualification()
             };
             tableModel.addRow(ligne);
         }
@@ -115,14 +112,14 @@ public class GestionSpecialistesVue extends JFrame {
         String prenom = champPrenom.getText().trim();
         String email = champEmail.getText().trim();
         String specialite = champSpecialite.getText().trim();
-        String qualification = champQualification.getText().trim();
 
-        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || specialite.isEmpty() || qualification.isEmpty()) {
+
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || specialite.isEmpty() ) {
             JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
             return;
         }
 
-        Specialiste specialiste = new Specialiste(0, nom, prenom, email, specialite, qualification);
+        Specialiste specialiste = new Specialiste(0, nom, prenom, email, specialite);
 
         if (controleur.ajouterSpecialiste(specialiste)) {
             JOptionPane.showMessageDialog(this, "Spécialiste ajouté avec succès.");
@@ -156,7 +153,7 @@ public class GestionSpecialistesVue extends JFrame {
         champPrenom.setText("");
         champEmail.setText("");
         champSpecialite.setText("");
-        champQualification.setText("");
+
     }
 
     private JPanel createInput(String labelText, JTextField champ) {
