@@ -60,7 +60,7 @@ public class HistoriqueVue extends JFrame {
 
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("patient",1).setVisible(true); // rajout 1
+            new MenuPrincipalVue("patient").setVisible(true);
         });
 
         chargerHistorique();
@@ -74,8 +74,8 @@ public class HistoriqueVue extends JFrame {
             tableModel.addRow(new Object[]{
                     rdv.getDate(),
                     rdv.getHeure(),
-                    rdv.getIdSpecialiste(),
-                    rdv.getIdLieu(),
+                    rdv.getNomSpecialiste(),
+                    rdv.getNomLieu(),
                     rdv.getNote()
             });
         }

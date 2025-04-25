@@ -82,7 +82,7 @@ public class PriseRdvVue extends JFrame {
         boutonConfirmer.addActionListener(e -> confirmerRDV());
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("patient",1).setVisible(true); // rajout 1
+            new MenuPrincipalVue("patient").setVisible(true);
         });
 
         chargerSpecialistes();
@@ -124,7 +124,7 @@ public class PriseRdvVue extends JFrame {
             return;
         }
 
-        RendezVous rdv = new RendezVous(1, 1, 1, 1, "12/12","10:00","help" ); //rajout informations au pif
+        RendezVous rdv = new RendezVous();
         rdv.setIdSpecialiste(specialiste.getId());
         rdv.setIdLieu(lieu.getId());
         rdv.setIdPatient(1); // TODO: remonter id du patient connecté
