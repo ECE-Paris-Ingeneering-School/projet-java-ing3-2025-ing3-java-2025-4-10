@@ -14,6 +14,7 @@ public class HistoriqueVue extends JFrame {
     private JButton boutonRetour;
     private DefaultTableModel tableModel;
 
+    
     private final RendezVousControleur controleur;
 
     public HistoriqueVue() {
