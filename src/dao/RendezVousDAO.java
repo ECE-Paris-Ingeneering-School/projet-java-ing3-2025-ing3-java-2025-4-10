@@ -14,7 +14,6 @@ public class RendezVousDAO {
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
-
             stmt.setInt(1, r.getIdPatient());
             stmt.setInt(2, r.getIdSpecialiste());
             stmt.setInt(3, r.getIdLieu());
