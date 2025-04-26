@@ -24,7 +24,6 @@ public class GestionSpecialistesVue extends JFrame {
         setLocationRelativeTo(null);
 
         this.controleur = new SpecialisteControleur();
-
         initialiserInterface();
     }
 
