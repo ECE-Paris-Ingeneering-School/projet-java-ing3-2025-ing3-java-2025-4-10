@@ -16,7 +16,8 @@ public class PatientDAO {
             ResultSet rs = stmt.executeQuery();
             return rs.next();
 
-        } catch (SQLException e) {
+        } catch (SQLException e) 
+        {
             System.err.println("Erreur lors de la vérification de l'email.");
             e.printStackTrace();
             return true; // En cas d'erreur, on suppose que c'est déjà pris
