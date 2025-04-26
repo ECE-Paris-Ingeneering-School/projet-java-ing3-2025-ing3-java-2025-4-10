@@ -12,7 +12,6 @@ public class MenuPrincipalVue extends JFrame {
     private JButton boutonStats;
     private JButton boutonGestion;
     private JButton boutonDeconnexion;
-
     private final int idUser;
     private final String role;
 
