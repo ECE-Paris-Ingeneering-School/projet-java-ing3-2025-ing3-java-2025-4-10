@@ -17,7 +17,7 @@ public class HistoriqueVue extends JFrame {
     
     private final RendezVousControleur controleur;
 
-    public HistoriqueVue() {
+    public HistoriqueVue(int IdUser) {
         setTitle("Historique des rendez-vous");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -25,10 +25,10 @@ public class HistoriqueVue extends JFrame {
 
         this.controleur = new RendezVousControleur();
 
-        initialiserInterface();
+        initialiserInterface(IdUser);
     }
 
-    private void initialiserInterface() {
+    private void initialiserInterface(int IdUser) {
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
 
@@ -61,15 +61,15 @@ public class HistoriqueVue extends JFrame {
 
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("patient",1).setVisible(true);
+            new MenuPrincipalVue("patient",IdUser).setVisible(true);
         });
 
-        chargerHistorique();
+        chargerHistorique(IdUser);
     }
 
-    private void chargerHistorique() {
-        int idPatientSimule = 0; // À remplacer par l'ID réel du patient connecté
-        List<RendezVous> historique = controleur.getRendezVousParPatient(idPatientSimule);
+    private void chargerHistorique(int IdUser) {
+
+        List<RendezVous> historique = controleur.getRendezVousParPatient(IdUser);
 
         for (RendezVous rdv : historique) {
             tableModel.addRow(new Object[]{
@@ -96,6 +96,6 @@ public class HistoriqueVue extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new HistoriqueVue().setVisible(true));
+        SwingUtilities.invokeLater(() -> new HistoriqueVue(1).setVisible(true));
     }
 }

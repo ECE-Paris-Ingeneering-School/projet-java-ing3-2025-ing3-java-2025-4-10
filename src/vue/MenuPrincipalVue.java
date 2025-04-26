@@ -23,10 +23,10 @@ public class MenuPrincipalVue extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
-        initialiserInterface();
+        initialiserInterface(idUser);
     }
 
-    private void initialiserInterface() {
+    private void initialiserInterface(int idUser) {
         // === FOND BLEU CIEL ===
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
@@ -60,12 +60,12 @@ public class MenuPrincipalVue extends JFrame {
 
             boutonPrendreRDV.addActionListener(e -> {
                 dispose();
-                new PriseRdvVue(/*idUser*/).setVisible(true); //mise en commentaire idUser
+                new PriseRdvVue(idUser).setVisible(true); //mise en commentaire idUser
             });
 
             boutonHistorique.addActionListener(e -> {
                 dispose();
-                new HistoriqueVue(/*idUser*/).setVisible(true); //mise en commentaire idUser
+                new HistoriqueVue(idUser).setVisible(true); //mise en commentaire idUser
             });
 
         } else if (role.equalsIgnoreCase("admin")) {

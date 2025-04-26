@@ -9,6 +9,7 @@ import modele.Specialiste;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.IDN;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -28,7 +29,8 @@ public class PriseRdvVue extends JFrame {
     private final LieuControleur lieuControleur;
     private final RendezVousControleur rdvControleur;
 
-    public PriseRdvVue() {
+    public PriseRdvVue(int IdUser) {
+        //on récupère l'ID de l'utilisateur pour associer le RDV à la bonne personne
         setTitle("Prendre un rendez-vous");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -38,10 +40,10 @@ public class PriseRdvVue extends JFrame {
         lieuControleur = new LieuControleur();
         rdvControleur = new RendezVousControleur();
 
-        initialiserInterface();
+        initialiserInterface(IdUser);
     }
 
-    private void initialiserInterface() {
+    private void initialiserInterface(int IdUser) {
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
 
@@ -83,10 +85,10 @@ public class PriseRdvVue extends JFrame {
         fond.add(panel);
         setContentPane(fond);
 
-        boutonConfirmer.addActionListener(e -> confirmerRDV());
+        boutonConfirmer.addActionListener(e -> confirmerRDV(IdUser));
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("patient",1).setVisible(true);
+            new MenuPrincipalVue("patient",IdUser).setVisible(true);
         });
 
         chargerSpecialistes();
@@ -116,7 +118,7 @@ public class PriseRdvVue extends JFrame {
         }
     }
 
-    private void confirmerRDV() {
+    private void confirmerRDV(int IdUser) {
         Specialiste specialiste = (Specialiste) comboSpecialiste.getSelectedItem();
         Lieu lieu = (Lieu) comboLieu.getSelectedItem();
         String heureStr = (String) comboHeure.getSelectedItem();
@@ -132,7 +134,7 @@ public class PriseRdvVue extends JFrame {
         RendezVous rdv = new RendezVous();
         rdv.setIdSpecialiste(specialiste.getId());
         rdv.setIdLieu(lieu.getId());
-        rdv.setIdPatient(1); // TODO: remonter id du patient connecté
+        rdv.setIdPatient(IdUser); //association IdUser et RDV
         rdv.setDate(date.toString());
         rdv.setHeure(heure.toString());
         rdv.setMotif(motif);
@@ -178,6 +180,6 @@ public class PriseRdvVue extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PriseRdvVue().setVisible(true));
+        SwingUtilities.invokeLater(() -> new PriseRdvVue(1).setVisible(true));
     }
 }
