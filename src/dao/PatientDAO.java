@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class PatientDAO {
 
-    // Vérifie si l'email existe dans la table User
+    // Vérifie si l'email existe déjà dans la table User
     public boolean emailExisteDeja(String email) {
         String requete = "SELECT ID_User FROM  `user` WHERE email = ?";
 
