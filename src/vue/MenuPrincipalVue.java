@@ -24,7 +24,6 @@ public class MenuPrincipalVue extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
-
         initialiserInterface();
     }
 
