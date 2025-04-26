@@ -14,6 +14,7 @@ public class UserDAO {
         }
     }
 
+    
     public Utilisateur verifierConnexion(String email, String motDePasse) {
         String requete = "SELECT ID_User, Role FROM User WHERE email = ? AND MotDePasse = ?";
 
