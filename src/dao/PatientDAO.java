@@ -1,7 +1,6 @@
 package dao;
 
 import modele.Patient;
-
 import java.sql.*;
 
 public class PatientDAO {
