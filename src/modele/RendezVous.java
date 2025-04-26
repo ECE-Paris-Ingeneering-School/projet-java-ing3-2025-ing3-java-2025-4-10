@@ -10,9 +10,8 @@ public class RendezVous {
     private String heure;     // Format : "HH:MM"
     private String motif;
 
-    public RendezVous() {
-
-    }
+    public RendezVous() {}
+    
     public RendezVous(int id, int idPatient, int idSpecialiste, int idLieu, String date, String heure, String motif) {
         this.id = id;
         this.idPatient = idPatient;
