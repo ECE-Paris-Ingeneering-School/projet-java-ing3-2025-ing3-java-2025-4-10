@@ -11,6 +11,7 @@ public class Patient {
         this.nom = nom;
         this.prenom = prenom;
     }
+    
 
     // === GETTERS ===
 
