@@ -27,6 +27,7 @@ public class GestionRendezVousVue extends JFrame {
         initialiserInterface();
     }
 
+    
     private void initialiserInterface() {
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
