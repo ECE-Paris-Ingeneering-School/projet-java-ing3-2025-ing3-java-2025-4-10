@@ -35,7 +35,7 @@ public class LieuDAO {
     }
 
     public boolean ajouterLieu(Lieu lieu) {
-        String requete = "INSERT INTO Lieu (adresse, ville, code_postal) VALUES (?, ?, ?)";
+        String requete = "INSERT INTO Lieu (Adresse, Ville, CodePostal) VALUES (?, ?, ?)";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
