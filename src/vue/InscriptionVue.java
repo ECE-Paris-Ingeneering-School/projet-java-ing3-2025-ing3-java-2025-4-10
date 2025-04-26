@@ -52,10 +52,10 @@ public class InscriptionVue extends JFrame {
         panel.add(createInputRow("Mot de passe :", champMotDePasse = new JPasswordField()));
 
         panel.add(Box.createVerticalStrut(20));
-        boutonInscription = createStyledButton("✅ S'inscrire");
+        boutonInscription = createStyledButton("S'inscrire");
         panel.add(boutonInscription);
         panel.add(Box.createVerticalStrut(10));
-        boutonRetour = createStyledButton("↩️ Retour");
+        boutonRetour = createStyledButton("Retour");
         panel.add(boutonRetour);
 
         fond.add(panel);
