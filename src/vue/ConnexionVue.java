@@ -2,7 +2,6 @@ package vue;
 
 import dao.UserDAO;
 import dao.UserDAO.Utilisateur;
-
 import javax.swing.*;
 import java.awt.*;
 
