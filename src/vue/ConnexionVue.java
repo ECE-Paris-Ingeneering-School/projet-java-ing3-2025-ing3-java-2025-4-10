@@ -54,6 +54,7 @@ public class ConnexionVue extends JFrame {
             if (utilisateur != null) {
                 dispose();
                 new MenuPrincipalVue(utilisateur.role, utilisateur.id).setVisible(true);
+                System.out.println("ID : "+ utilisateur.id);
             } else {
                 JOptionPane.showMessageDialog(this, "Identifiants incorrects.");
             }
