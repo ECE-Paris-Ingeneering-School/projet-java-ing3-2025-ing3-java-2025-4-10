@@ -1,19 +1,20 @@
-package dao;
+package dao; // package dao
 
+// importation des classes nécessaires
 import modele.RendezVous;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RendezVousDAO {
+public class RendezVousDAO { // classe pour accéder aux données des rendez-vous
 
-    // Ajouter un nouveau rendez-vous
+    // méthode pour ajouter un nouveau rendez-vous
     public boolean ajouterRendezVous(RendezVous r) {
         String requete = "INSERT INTO rdv (FK_ID_Patient, FK_ID_Spécialiste, FK_ID_Lieu, date, heure, motif) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
+
             stmt.setInt(1, r.getIdPatient());
             stmt.setInt(2, r.getIdSpecialiste());
             stmt.setInt(3, r.getIdLieu());
@@ -21,7 +22,7 @@ public class RendezVousDAO {
             stmt.setString(5, r.getHeure());
             stmt.setString(6, r.getMotif());
 
-            return stmt.executeUpdate() > 0;
+            return stmt.executeUpdate() > 0; // succès si au moins une ligne ajoutée
 
         } catch (SQLException e) {
             System.err.println("Erreur lors de l'ajout du rendez-vous.");
@@ -30,7 +31,7 @@ public class RendezVousDAO {
         }
     }
 
-    // Récupérer tous les RDV pour un patient
+    // méthode pour récupérer tous les rendez-vous d'un patient
     public List<RendezVous> recupererRendezVousParPatient(int idPatient) {
         List<RendezVous> liste = new ArrayList<>();
         String requete = "SELECT * FROM rdv WHERE FK_ID_Patient = ? ORDER BY date DESC, heure DESC";
@@ -51,7 +52,7 @@ public class RendezVousDAO {
                         rs.getString("Heure"),
                         rs.getString("Motif")
                 );
-                liste.add(r);
+                liste.add(r); // ajout du rendez-vous dans la liste
             }
 
         } catch (SQLException e) {
@@ -59,10 +60,10 @@ public class RendezVousDAO {
             e.printStackTrace();
         }
 
-        return liste;
+        return liste; // retourne la liste
     }
 
-    // (Optionnel) Lister tous les rendez-vous (admin)
+    // méthode pour récupérer tous les rendez-vous (admin)
     public List<RendezVous> recupererTousLesRendezVous() {
         List<RendezVous> liste = new ArrayList<>();
         String requete = "SELECT * FROM rdv ORDER BY date DESC, heure DESC";
@@ -81,7 +82,7 @@ public class RendezVousDAO {
                         rs.getString("Heure"),
                         rs.getString("Motif")
                 );
-                liste.add(r);
+                liste.add(r); // ajout du rendez-vous dans la liste
             }
 
         } catch (SQLException e) {
@@ -89,10 +90,10 @@ public class RendezVousDAO {
             e.printStackTrace();
         }
 
-        return liste;
+        return liste; // retourne la liste
     }
 
-    // (Optionnel) Supprimer un rendez-vous par ID
+    // méthode pour supprimer un rendez-vous par son id
     public boolean supprimerRendezVousParId(int id) {
         String requete = "DELETE FROM RendezVous WHERE ID_RDV = ?";
 
@@ -100,7 +101,7 @@ public class RendezVousDAO {
              PreparedStatement stmt = conn.prepareStatement(requete)) {
 
             stmt.setInt(1, id);
-            return stmt.executeUpdate() > 0;
+            return stmt.executeUpdate() > 0; // true si une ligne supprimée
 
         } catch (SQLException e) {
             System.err.println("Erreur lors de la suppression du RDV.");
