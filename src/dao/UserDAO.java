@@ -1,4 +1,4 @@
-package dao; // package dao
+package dao; 
 
 // importation des classes nécessaires
 import java.sql.*;
