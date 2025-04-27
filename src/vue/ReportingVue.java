@@ -1,45 +1,43 @@
-package vue;
+package vue; // package vue
 
+// importation des classes nécessaires
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class ReportingVue extends JFrame {
+public class ReportingVue extends JFrame { // classe reporting vue qui hérite de jframe
 
-    private JButton boutonRetour;
+    private JButton boutonRetour; // bouton retour
 
-    public ReportingVue() {
-        setTitle("Statistiques & Reporting");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLocationRelativeTo(null);
+    public ReportingVue() { // constructeur
+        setTitle("Statistiques & Reporting"); // titre de la fenetre
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // fermer tout à la fermeture
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // ouverture plein écran
+        setLocationRelativeTo(null); // centrer
 
-        initialiserInterface();
+        initialiserInterface(); // création de l'interface
     }
 
-    private void initialiserInterface() {
-        // === Fond bleu ciel ===
-        JPanel fond = new JPanel(new GridBagLayout());
+    private void initialiserInterface() { // méthode pour dessiner l'interface
+        JPanel fond = new JPanel(new GridBagLayout()); // fond bleu ciel
         fond.setBackground(new Color(200, 225, 255));
 
-        // === Panel central blanc ===
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(); // panneau central blanc
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(210, 210, 210), 1),
                 BorderFactory.createEmptyBorder(40, 60, 40, 60)
         ));
-        panel.setMaximumSize(new Dimension(700, 700));
+        panel.setMaximumSize(new Dimension(700, 700)); // dimensions max du panel
 
-        // === Titre ===
-        JLabel label = new JLabel("Répartition des rendez-vous par spécialité");
+        JLabel label = new JLabel("Répartition des rendez-vous par spécialité"); // titre
         label.setFont(new Font("Segoe UI", Font.BOLD, 20));
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
 
-        // === Statistiques simulées ===
+        // statistiques simulées dans une textarea
         JTextArea fakeChart = new JTextArea(
                 "📊 Statistiques générales :\n\n" +
                         "Médecin généraliste        18%\n" +
@@ -72,35 +70,34 @@ public class ReportingVue extends JFrame {
                         "Immunologiste              0.3%\n" +
                         "Médecin esthétique         0.2%"
         );
-        fakeChart.setEditable(false);
-        fakeChart.setFont(new Font("Monospaced", Font.PLAIN, 15));
-        fakeChart.setBackground(new Color(245, 245, 245));
-        fakeChart.setMargin(new Insets(10, 15, 10, 15));
+        fakeChart.setEditable(false); // non éditable
+        fakeChart.setFont(new Font("Monospaced", Font.PLAIN, 15)); // police alignée
+        fakeChart.setBackground(new Color(245, 245, 245)); // fond clair
+        fakeChart.setMargin(new Insets(10, 15, 10, 15)); // marges internes
         fakeChart.setAlignmentX(Component.CENTER_ALIGNMENT);
-        fakeChart.setMaximumSize(new Dimension(600, 600));
+        fakeChart.setMaximumSize(new Dimension(600, 600)); // limite la taille
 
-        // === Bouton retour ===
-        boutonRetour = createStyledButton("Retour au menu");
+        boutonRetour = createStyledButton("Retour au menu"); // bouton retour
 
+        // ajout des éléments au panel
         panel.add(label);
         panel.add(fakeChart);
         panel.add(Box.createVerticalStrut(30));
         panel.add(boutonRetour);
 
-        fond.add(panel);
+        fond.add(panel); // ajout du panel blanc dans le fond bleu
         setContentPane(fond);
 
-        // === Action du bouton ===
-        boutonRetour.addActionListener(e -> {
+        boutonRetour.addActionListener(e -> { // action retour
             dispose();
-            new MenuPrincipalVue("admin",1).setVisible(true); // rajout 1
+            new MenuPrincipalVue("admin", 1).setVisible(true);
         });
     }
 
-    private JButton createStyledButton(String text) {
+    private JButton createStyledButton(String text) { // méthode pour créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        button.setBackground(new Color(33, 150, 243));
+        button.setBackground(new Color(33, 150, 243)); // bleu
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -111,11 +108,10 @@ public class ReportingVue extends JFrame {
         Color base = button.getBackground();
         Color hover = base.brighter();
 
-        button.addMouseListener(new MouseAdapter() {
+        button.addMouseListener(new MouseAdapter() { // hover effet
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(hover);
             }
-
             public void mouseExited(MouseEvent e) {
                 button.setBackground(base);
             }
@@ -124,7 +120,7 @@ public class ReportingVue extends JFrame {
         return button;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // méthode pour tester seul
         SwingUtilities.invokeLater(() -> new ReportingVue().setVisible(true));
     }
 }
