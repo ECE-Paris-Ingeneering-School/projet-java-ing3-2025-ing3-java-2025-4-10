@@ -1,4 +1,4 @@
-package vue; // package vue
+package vue;
 
 import controleur.LieuControleur; // importation du controleur pour les lieux
 import modele.Lieu; // importation de la classe lieu
