@@ -1,32 +1,34 @@
-package dao;
+package dao; // package dao
 
+// importation des classes nécessaires
 import java.sql.*;
 
-public class UserDAO {
+public class UserDAO { // classe d'accès aux données pour l'utilisateur
 
-    public static class Utilisateur {
-        public int id;
-        public String role;
+    public static class Utilisateur { // classe interne pour stocker un utilisateur connecté
+        public int id; // id de l'utilisateur
+        public String role; // role (patient ou admin)
 
-        public Utilisateur(int id, String role) {
+        public Utilisateur(int id, String role) { // constructeur
             this.id = id;
             this.role = role;
         }
     }
 
-    
+    // méthode pour vérifier les identifiants de connexion
     public Utilisateur verifierConnexion(String email, String motDePasse) {
-        String requete = "SELECT ID_User, Role FROM User WHERE email = ? AND MotDePasse = ?";
+        String requete = "SELECT ID_User, Role FROM User WHERE email = ? AND MotDePasse = ?"; // requête SQL
 
-        try (Connection conn = ConnexionBDD.getConnexion();
+        try (Connection conn = ConnexionBDD.getConnexion(); // connexion à la base
              PreparedStatement stmt = conn.prepareStatement(requete)) {
 
-            stmt.setString(1, email);
+            stmt.setString(1, email); // insertion des paramètres
             stmt.setString(2, motDePasse);
 
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Utilisateur(rs.getInt("ID_User"), rs.getString("Role"));
+            ResultSet rs = stmt.executeQuery(); // exécution
+
+            if (rs.next()) { // si un résultat trouvé
+                return new Utilisateur(rs.getInt("ID_User"), rs.getString("Role")); // on retourne l'utilisateur
             }
 
         } catch (SQLException e) {
@@ -34,6 +36,6 @@ public class UserDAO {
             e.printStackTrace();
         }
 
-        return null;
+        return null; // si pas trouvé, on retourne null
     }
 }
