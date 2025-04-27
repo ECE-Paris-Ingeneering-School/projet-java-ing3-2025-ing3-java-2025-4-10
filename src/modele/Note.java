@@ -1,5 +1,13 @@
 package modele;
 
+/**
+ * Constructeur de Note.
+ *
+ * @param idNote identifiant de la note
+ * @param idRDV identifiant du rendez-vous lié
+ * @param valeur nombre d'étoiles attribué (1 à 5)
+ */
+
 public class Note {
 
     private int idNote;
