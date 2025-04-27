@@ -5,10 +5,16 @@ import modele.Specialiste;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Classe d'accès aux données des spécialistes.
+ * Permet de récupérer, ajouter et supprimer des spécialistes dans la base de données.
+ */
 public class SpecialisteDAO { // classe d'accès aux données des spécialistes
 
-    // méthode pour récupérer tous les spécialistes
+    /**
+     * Méthode pour récupérer tous les spécialistes de la base de données.
+     * @return une liste de spécialistes.
+     */
     public List<Specialiste> recupererTousLesSpecialistes() {
         List<Specialiste> liste = new ArrayList<>();
         String requete = "SELECT * FROM specialiste"; // requête SQL
@@ -36,7 +42,11 @@ public class SpecialisteDAO { // classe d'accès aux données des spécialistes
         return liste; // renvoyer la liste
     }
 
-    // méthode pour ajouter un spécialiste
+    /**
+     * Méthode pour ajouter un spécialiste dans la base de données.
+     * @param s le spécialiste à ajouter.
+     * @return true si l'ajout a réussi, false sinon.
+     */
     public boolean ajouterSpecialiste(Specialiste s) {
         String requete = "INSERT INTO specialiste (nom, prenom, email, specialite) VALUES (?, ?, ?, ?)";
 
@@ -57,7 +67,11 @@ public class SpecialisteDAO { // classe d'accès aux données des spécialistes
         }
     }
 
-    // méthode pour supprimer un spécialiste par son id
+    /**
+     * Méthode pour supprimer un spécialiste de la base de données par son ID.
+     * @param id l'ID du spécialiste à supprimer.
+     * @return true si la suppression a réussi, false sinon.
+     */
     public boolean supprimerSpecialisteParId(int id) {
         String requete = "DELETE FROM specialiste WHERE ID_Spécialiste = ?";
 

@@ -3,7 +3,11 @@ package dao;
 // importation des classes nécessaires
 import modele.Patient;
 import java.sql.*;
-
+/**
+ * Classe PatientDAO pour gérer les opérations liées aux patients dans la base de données.
+ * Elle permet de vérifier l'existence d'un email, d'enregistrer un patient, de récupérer ses informations
+ * et de modifier ses informations.
+ */
 public class PatientDAO { // classe pour accéder aux données des patients
 
     // méthode pour vérifier si un email existe déjà dans la table user
@@ -24,7 +28,16 @@ public class PatientDAO { // classe pour accéder aux données des patients
         }
     }
 
-    // méthode pour enregistrer un patient (inscription)
+    /**
+     * Méthode pour enregistrer un patient dans la base de données.
+     * Elle insère d'abord l'utilisateur dans la table `user`, puis le patient dans la table `patient`.
+     * @param nom Le nom du patient.
+     * @param prenom Le prénom du patient.
+     * @param email L'email du patient.
+     * @param motDePasse Le mot de passe de l'utilisateur.
+     * @param ancien Indique si le patient est ancien ou non (0 ou 1).
+     * @return true si l'enregistrement a réussi, false sinon.
+     */
     public boolean enregistrerPatient(String nom, String prenom, String email, String motDePasse, String ancien) {
         String requeteUser = "INSERT INTO `user` (email, MotDePasse, Role) VALUES (?, ?, 'patient')"; // insertion user
         String requetePatient = "INSERT INTO `patient` (FK_ID_User, Nom, Prenom, Email, Ancien) VALUES (?, ?, ?, ?, ?)"; // insertion patient
@@ -89,7 +102,15 @@ public class PatientDAO { // classe pour accéder aux données des patients
         return null; // si pas trouvé
     }
 
-    // méthode pour modifier les informations d'un patient
+    /**
+     * Méthode pour modifier les informations d'un patient et son mot de passe.
+     * Elle met à jour la table `patient` et la table `user`.
+     * @param idUser L'ID de l'utilisateur (patient).
+     * @param nom Le nouveau nom du patient.
+     * @param prenom Le nouveau prénom du patient.
+     * @param motDePasse Le nouveau mot de passe de l'utilisateur.
+     * @return true si la mise à jour a réussi, false sinon.
+     */
     public boolean modifierInfosPatient(int idUser, String nom, String prenom, String motDePasse) {
         String requete1 = "UPDATE Patient SET nom = ?, prenom = ? WHERE idUser = ?"; // update patient
         String requete2 = "UPDATE User SET mot_de_passe = ? WHERE id = ?"; // update mot de passe user

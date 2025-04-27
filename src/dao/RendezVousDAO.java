@@ -7,7 +7,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Classe pour gérer les opérations liées aux rendez-vous dans la base de données.
+ * Contient des méthodes pour ajouter, récupérer et supprimer des rendez-vous.
+ */
 public class RendezVousDAO { // classe pour accéder aux données des rendez-vous
 
     // méthode pour ajouter un nouveau rendez-vous
@@ -33,7 +36,12 @@ public class RendezVousDAO { // classe pour accéder aux données des rendez-vou
             return false;
         }
     }
-    // methode pour récuperer les heures déjà reserver avec un combo spécialiste + date
+    /**
+     * Méthode pour récupérer toutes les heures déjà réservées pour un spécialiste à une date donnée.
+     * @param idSpecialiste L'identifiant du spécialiste.
+     * @param date La date pour laquelle on veut récupérer les heures réservées.
+     * @return Une liste de chaînes de caractères représentant les heures réservées au format "HH:mm".
+     */
     public List<String> getHeuresPrises(int idSpecialiste, LocalDate date) {
         List<String> heures = new ArrayList<>();
         try (Connection conn = ConnexionBDD.getConnexion();
@@ -57,7 +65,11 @@ public class RendezVousDAO { // classe pour accéder aux données des rendez-vou
         return heures;
     }
 
-    // méthode pour récupérer tous les rendez-vous d'un patient
+    /**
+     * Méthode pour récupérer tous les rendez-vous d'un patient donné.
+     * @param idPatient L'identifiant du patient.
+     * @return Une liste de rendez-vous associés au patient.
+     */
     public List<RendezVous> recupererRendezVousParPatient(int idPatient) {
         List<RendezVous> liste = new ArrayList<>();
         String requete = "SELECT * FROM rdv WHERE FK_ID_Patient = ? ORDER BY date DESC, heure DESC";
@@ -89,7 +101,10 @@ public class RendezVousDAO { // classe pour accéder aux données des rendez-vou
         return liste; // retourne la liste
     }
 
-    // méthode pour récupérer tous les rendez-vous (admin)
+    /**
+     * Méthode pour récupérer tous les rendez-vous de la base de données.
+     * @return Une liste de tous les rendez-vous.
+     */
     public List<RendezVous> recupererTousLesRendezVous() {
         List<RendezVous> liste = new ArrayList<>();
         String requete = "SELECT * FROM rdv ORDER BY date DESC, heure DESC";
@@ -119,7 +134,11 @@ public class RendezVousDAO { // classe pour accéder aux données des rendez-vou
         return liste; // retourne la liste
     }
 
-    // méthode pour supprimer un rendez-vous par son id
+    /**
+     * Méthode pour supprimer un rendez-vous par son identifiant.
+     * @param id L'identifiant du rendez-vous à supprimer.
+     * @return true si la suppression a réussi, false sinon.
+     */
     public boolean supprimerRendezVousParId(int id) {
         String requete = "DELETE FROM rdv WHERE ID_RDV = ?";
 
