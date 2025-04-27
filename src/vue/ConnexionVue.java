@@ -75,11 +75,4 @@ public class ConnexionVue extends JFrame { // classe connexionvue qui hérite de
             new InscriptionVue().setVisible(true); // ouvrir la vue inscription
         });
     }
-    /**
-     * Méthode principale pour lancer l'application.
-     * @param args arguments de la ligne de commande
-     */
-    public static void main(String[] args) { // méthode principale pour tester
-        SwingUtilities.invokeLater(() -> new ConnexionVue().setVisible(true)); // lancer la vue connexion
-    }
 }
