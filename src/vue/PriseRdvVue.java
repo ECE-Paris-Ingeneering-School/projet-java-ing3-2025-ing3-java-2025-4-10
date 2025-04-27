@@ -137,6 +137,7 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
         rdv.setDate(date.toString());
         rdv.setHeure(heure.toString());
         rdv.setMotif(motif);
+        rdv.setDisponibilite(1);
 
         if (rdvControleur.ajouterRendezVous(rdv)) { // si ok
             JOptionPane.showMessageDialog(this, "Rendez-vous confirmé !");

@@ -9,6 +9,7 @@ public class RendezVous { // classe rendez-vous
     private String date; // date du rdv, format "YYYY-MM-DD"
     private String heure; // heure du rdv, format "HH:MM"
     private String motif; // motif du rendez-vous
+    private int disponibilite; // etat de disponibilite du rdv
 
     // constructeur vide
     public RendezVous() {}
@@ -54,6 +55,7 @@ public class RendezVous { // classe rendez-vous
         return motif;
     }
 
+    public int getDisponibilite() { return disponibilite; }
     // === setters ===
 
     public void setDate(String date) { // modifier la date
@@ -82,6 +84,10 @@ public class RendezVous { // classe rendez-vous
 
     public void setIdLieu(int idLieu) { // modifier l'id du lieu
         this.idLieu = idLieu;
+    }
+
+    public void setDisponibilite(int disponibilite) { //modifie l'etat de disponibilité
+        this.disponibilite = disponibilite;
     }
 
     // affichage lisible pour debug
