@@ -1,46 +1,47 @@
-package vue;
+package vue; // package vue
 
+// importation des classes nécessaires
 import dao.PatientDAO;
 import modele.Patient;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ProfilPatientVue extends JFrame {
+public class ProfilPatientVue extends JFrame { // classe profil patient qui hérite de jframe
 
-    private final int idUser;
-    private JTextField champNom, champPrenom;
-    private JPasswordField champMotDePasse;
-    private JButton boutonModifier, boutonRetour;
+    private final int idUser; // id du patient connecté
+    private JTextField champNom, champPrenom; // champs texte pour nom et prénom
+    private JPasswordField champMotDePasse; // champ mot de passe
+    private JButton boutonModifier, boutonRetour; // boutons
 
-    public ProfilPatientVue(int idUser) {
+    public ProfilPatientVue(int idUser) { // constructeur avec id user
         this.idUser = idUser;
 
-        setTitle("Mon profil");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLocationRelativeTo(null);
+        setTitle("Mon profil"); // titre de la fenetre
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // fermer toute l'application à la fermeture
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // ouvrir en plein écran
+        setLocationRelativeTo(null); // centrer
 
-        initialiserInterface();
+        initialiserInterface(); // construire l'interface
     }
 
-    
-    private void initialiserInterface() {
-        JPanel fond = new JPanel(new GridBagLayout());
+    private void initialiserInterface() { // méthode pour créer l'interface
+        JPanel fond = new JPanel(new GridBagLayout()); // fond bleu ciel
         fond.setBackground(new Color(200, 225, 255));
 
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel(); // panneau central blanc
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
-        panel.setMaximumSize(new Dimension(500, 500));
+        panel.setMaximumSize(new Dimension(500, 500)); // dimensions maximales
 
-        JLabel titre = new JLabel("Mes informations");
+        JLabel titre = new JLabel("Mes informations"); // titre
         titre.setFont(new Font("Segoe UI", Font.BOLD, 24));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titre);
-        panel.add(Box.createVerticalStrut(30));
+        panel.add(Box.createVerticalStrut(30)); // espace vertical
 
+        // création des champs de saisie
         champNom = new JTextField();
         champPrenom = new JTextField();
         champMotDePasse = new JPasswordField();
@@ -50,26 +51,27 @@ public class ProfilPatientVue extends JFrame {
         panel.add(createInput("Nouveau mot de passe :", champMotDePasse));
 
         panel.add(Box.createVerticalStrut(20));
-        boutonModifier = createStyledButton("Enregistrer");
+
+        boutonModifier = createStyledButton("Enregistrer"); // bouton enregistrer
         panel.add(boutonModifier);
         panel.add(Box.createVerticalStrut(10));
-        boutonRetour = createStyledButton("Retour");
+        boutonRetour = createStyledButton("Retour"); // bouton retour
         panel.add(boutonRetour);
 
         fond.add(panel);
         setContentPane(fond);
 
-        boutonRetour.addActionListener(e -> {
+        boutonRetour.addActionListener(e -> { // action retour
             dispose();
             new MenuPrincipalVue("patient", idUser).setVisible(true);
         });
 
-        boutonModifier.addActionListener(e -> modifierInfos());
+        boutonModifier.addActionListener(e -> modifierInfos()); // action enregistrer
 
-        chargerDonnees();
+        chargerDonnees(); // chargement des infos du patient
     }
 
-    private void chargerDonnees() {
+    private void chargerDonnees() { // méthode pour charger les données du patient
         Patient p = new PatientDAO().recupererInfosPatient(idUser);
         if (p != null) {
             champNom.setText(p.getNom());
@@ -77,7 +79,7 @@ public class ProfilPatientVue extends JFrame {
         }
     }
 
-    private void modifierInfos() {
+    private void modifierInfos() { // méthode pour modifier les infos du patient
         String nom = champNom.getText().trim();
         String prenom = champPrenom.getText().trim();
         String mdp = new String(champMotDePasse.getPassword()).trim();
@@ -97,7 +99,7 @@ public class ProfilPatientVue extends JFrame {
         }
     }
 
-    private JPanel createInput(String labelText, JComponent champ) {
+    private JPanel createInput(String labelText, JComponent champ) { // méthode pour créer un champ avec label
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
         wrapper.setBackground(Color.WHITE);
@@ -117,7 +119,7 @@ public class ProfilPatientVue extends JFrame {
         return wrapper;
     }
 
-    private JButton createStyledButton(String text) {
+    private JButton createStyledButton(String text) { // méthode pour créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         button.setBackground(new Color(33, 150, 243));
@@ -130,7 +132,7 @@ public class ProfilPatientVue extends JFrame {
         return button;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // méthode pour tester seul
         SwingUtilities.invokeLater(() -> new ProfilPatientVue(1).setVisible(true));
     }
 }
