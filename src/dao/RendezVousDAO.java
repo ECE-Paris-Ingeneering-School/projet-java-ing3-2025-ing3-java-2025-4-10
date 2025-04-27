@@ -121,7 +121,7 @@ public class RendezVousDAO { // classe pour accéder aux données des rendez-vou
 
     // méthode pour supprimer un rendez-vous par son id
     public boolean supprimerRendezVousParId(int id) {
-        String requete = "DELETE FROM RendezVous WHERE ID_RDV = ?";
+        String requete = "DELETE FROM rdv WHERE ID_RDV = ?";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
