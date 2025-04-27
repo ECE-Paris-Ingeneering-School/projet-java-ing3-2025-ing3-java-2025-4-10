@@ -1,5 +1,11 @@
 package dao; 
 
+/**
+ Classe utilitaire pour gérer la connexion à la base de données MySQL.
+ Fournit une méthode pour obtenir la connexion et une autre pour la fermer.
+ */
+
+
 // importation des classes nécessaires
 import java.sql.Connection;
 import java.sql.DriverManager;
