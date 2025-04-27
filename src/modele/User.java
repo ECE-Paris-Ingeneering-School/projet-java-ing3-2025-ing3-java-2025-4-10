@@ -1,4 +1,4 @@
-package modele; // package modele
+package modele;
 
 public class User { // classe user
 
