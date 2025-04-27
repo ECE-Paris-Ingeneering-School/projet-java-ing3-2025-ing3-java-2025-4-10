@@ -1,38 +1,38 @@
-package dao;
+package dao; // package dao
 
+// importation des classes nécessaires
 import modele.Patient;
 import java.sql.*;
 
-public class PatientDAO {
+public class PatientDAO { // classe pour accéder aux données des patients
 
-    // Vérifie si l'email existe déjà dans la table User
+    // méthode pour vérifier si un email existe déjà dans la table user
     public boolean emailExisteDeja(String email) {
-        String requete = "SELECT ID_User FROM  `user` WHERE email = ?";
+        String requete = "SELECT ID_User FROM  `user` WHERE email = ?"; // requête pour chercher email
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
 
-            stmt.setString(1, email);
+            stmt.setString(1, email); // remplacement du ?
             ResultSet rs = stmt.executeQuery();
-            return rs.next();
+            return rs.next(); // true si résultat trouvé
 
-        } catch (SQLException e) 
-        {
+        } catch (SQLException e) {
             System.err.println("Erreur lors de la vérification de l'email.");
             e.printStackTrace();
-            return true; // En cas d'erreur, on suppose que c'est déjà pris
+            return true; // en cas d'erreur, on suppose que l'email existe
         }
     }
 
-    // Inscrit un patient (User + Patient)
+    // méthode pour enregistrer un patient (inscription)
     public boolean enregistrerPatient(String nom, String prenom, String email, String motDePasse, String ancien) {
-        String requeteUser = "INSERT INTO `user` (email, MotDePasse, Role) VALUES (?, ?, 'patient')";
-        String requetePatient = "INSERT INTO `patient` (FK_ID_User, Nom, Prenom, Email, Ancien) VALUES (?, ?, ?, ?, ?)";
+        String requeteUser = "INSERT INTO `user` (email, MotDePasse, Role) VALUES (?, ?, 'patient')"; // insertion user
+        String requetePatient = "INSERT INTO `patient` (FK_ID_User, Nom, Prenom, Email, Ancien) VALUES (?, ?, ?, ?, ?)"; // insertion patient
 
         try (Connection conn = ConnexionBDD.getConnexion()) {
-            conn.setAutoCommit(false); // Démarrer transaction
+            conn.setAutoCommit(false); // on commence une transaction
 
-            int idUser;
+            int idUser; // id généré pour l'user
 
             try (PreparedStatement stmtUser = conn.prepareStatement(requeteUser, Statement.RETURN_GENERATED_KEYS)) {
                 stmtUser.setString(1, email);
@@ -41,9 +41,9 @@ public class PatientDAO {
 
                 ResultSet keys = stmtUser.getGeneratedKeys();
                 if (keys.next()) {
-                    idUser = keys.getInt(1);
+                    idUser = keys.getInt(1); // on récupère l'id généré
                 } else {
-                    conn.rollback();
+                    conn.rollback(); // problème, on annule
                     return false;
                 }
             }
@@ -57,7 +57,7 @@ public class PatientDAO {
                 stmtPatient.executeUpdate();
             }
 
-            conn.commit();
+            conn.commit(); // on valide tout
             return true;
 
         } catch (SQLException e) {
@@ -67,9 +67,9 @@ public class PatientDAO {
         }
     }
 
-    // Récupère les infos du patient à partir de l'idUser
+    // méthode pour récupérer les infos d'un patient par idUser
     public Patient recupererInfosPatient(int idUser) {
-        String requete = "SELECT nom, prenom FROM Patient WHERE idUser = ?";
+        String requete = "SELECT nom, prenom FROM Patient WHERE idUser = ?"; // requête récupération
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
@@ -78,7 +78,7 @@ public class PatientDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Patient(idUser, rs.getString("nom"), rs.getString("prenom"));
+                return new Patient(idUser, rs.getString("nom"), rs.getString("prenom")); // création objet patient
             }
 
         } catch (SQLException e) {
@@ -86,30 +86,32 @@ public class PatientDAO {
             e.printStackTrace();
         }
 
-        return null;
+        return null; // si pas trouvé
     }
 
-    // Met à jour nom, prénom, mot de passe
+    // méthode pour modifier les informations d'un patient
     public boolean modifierInfosPatient(int idUser, String nom, String prenom, String motDePasse) {
-        String requete1 = "UPDATE Patient SET nom = ?, prenom = ? WHERE idUser = ?";
-        String requete2 = "UPDATE User SET mot_de_passe = ? WHERE id = ?";
+        String requete1 = "UPDATE Patient SET nom = ?, prenom = ? WHERE idUser = ?"; // update patient
+        String requete2 = "UPDATE User SET mot_de_passe = ? WHERE id = ?"; // update mot de passe user
 
         try (Connection conn = ConnexionBDD.getConnexion()) {
-            conn.setAutoCommit(false);
+            conn.setAutoCommit(false); // transaction
 
             try (PreparedStatement stmt1 = conn.prepareStatement(requete1);
                  PreparedStatement stmt2 = conn.prepareStatement(requete2)) {
 
+                // modification patient
                 stmt1.setString(1, nom);
                 stmt1.setString(2, prenom);
                 stmt1.setInt(3, idUser);
                 stmt1.executeUpdate();
 
+                // modification user
                 stmt2.setString(1, motDePasse);
                 stmt2.setInt(2, idUser);
                 stmt2.executeUpdate();
 
-                conn.commit();
+                conn.commit(); // valider
                 return true;
             }
 
