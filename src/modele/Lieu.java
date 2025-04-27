@@ -1,12 +1,13 @@
-package modele;
+package modele; // package modele
 
-public class Lieu {
+public class Lieu { // classe lieu
 
-    private int id;
-    private String adresse;
-    private String ville;
-    private String codePostal;
+    private int id; // identifiant unique
+    private String adresse; // adresse du lieu
+    private String ville; // ville du lieu
+    private String codePostal; // code postal du lieu
 
+    // constructeur de lieu
     public Lieu(int id, String adresse, String ville, String codePostal) {
         this.id = id;
         this.adresse = adresse;
@@ -14,46 +15,45 @@ public class Lieu {
         this.codePostal = codePostal;
     }
 
-    // === GETTERS ===
+    // === getters ===
 
-    public int getId() {
+    public int getId() { // récupérer l'id
         return id;
     }
 
-    public String getAdresse() {
+    public String getAdresse() { // récupérer l'adresse
         return adresse;
     }
 
-    public String getVille() {
+    public String getVille() { // récupérer la ville
         return ville;
     }
 
-    public String getCodePostal() {
+    public String getCodePostal() { // récupérer le code postal
         return codePostal;
     }
 
-    // === SETTERS (si besoin) ===
+    // === setters (si besoin) ===
 
-    public void setAdresse(String adresse) {
+    public void setAdresse(String adresse) { // modifier l'adresse
         this.adresse = adresse;
     }
 
-    public void setVille(String ville) {
+    public void setVille(String ville) { // modifier la ville
         this.ville = ville;
     }
 
-    public void setCodePostal(String codePostal) {
+    public void setCodePostal(String codePostal) { // modifier le code postal
         this.codePostal = codePostal;
     }
 
-    public void setId(int id) {
+    public void setId(int id) { // modifier l'id
         this.id = id;
     }
 
-    // === Affichage dans les interfaces ===
-
+    // === affichage dans les interfaces (combo box etc) ===
     @Override
-    public String toString() {
+    public String toString() { // comment afficher l'objet
         return ville + " - " + adresse + " (" + codePostal + ")";
     }
 }
