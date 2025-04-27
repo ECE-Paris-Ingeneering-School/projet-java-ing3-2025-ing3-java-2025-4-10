@@ -1,8 +1,8 @@
 package dao;
 
 /**
-DAO pour gérer les opérations liées aux patients.
-Permet d'inscrire un patient, récupérer ses informations et modifier son profil.
+ * DAO pour gérer les opérations sur la table `Lieu`.
+ * Permet de récupérer, ajouter et supprimer des lieux.
  */
 
 
