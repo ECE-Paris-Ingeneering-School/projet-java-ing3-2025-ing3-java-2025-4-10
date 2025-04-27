@@ -26,7 +26,10 @@ public class AdminGestionVue extends JFrame { // classe admingestionvue qui hér
 
         initialiserInterface(); // appel pour construire l'interface
     }
-
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     * Crée le fond, le panneau central, les boutons et les actions associées.
+     */
     private void initialiserInterface() { // construire l'interface
         // création du fond bleu ciel
         JPanel fond = new JPanel(new GridBagLayout());
@@ -97,7 +100,11 @@ public class AdminGestionVue extends JFrame { // classe admingestionvue qui hér
             new MenuPrincipalVue("admin", 1).setVisible(true); // on passe admin et l'id 1
         });
     }
-
+    /**
+     * Méthode pour créer un champ de saisie avec une étiquette.
+     * @param text Le champ de texte à ajouter.
+     * @return Un JPanel contenant l'étiquette et le champ de texte.
+     */
     private JButton createStyledButton(String text) { // méthode pour créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));

@@ -18,6 +18,9 @@ public class GestionRendezVousVue extends JFrame {
     private JButton boutonRetour, boutonAjouter, boutonSupprimer;
     private final RendezVousControleur controleur;
 
+    /**
+     * Constructeur de la classe GestionRendezVousVue.
+     */
     public GestionRendezVousVue() {
         setTitle("Gestion des rendez-vous");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -29,6 +32,9 @@ public class GestionRendezVousVue extends JFrame {
         initialiserInterface();
     }
 
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     */
     private void initialiserInterface() {
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
@@ -76,6 +82,9 @@ public class GestionRendezVousVue extends JFrame {
         chargerRendezVous();
     }
 
+    /**
+     * Méthode pour charger tous les rendez-vous dans le tableau.
+     */
     private void chargerRendezVous() {
         List<RendezVous> liste = controleur.getTousLesRendezVous();
 
@@ -98,6 +107,9 @@ public class GestionRendezVousVue extends JFrame {
         tableRendezVous.setModel(tableModel);
     }
 
+    /**
+     * Méthode pour ajouter un rendez-vous.
+     */
     private void ajouterRendezVous() {
         // Fenêtres pour entrer les infos
         String idPatient = JOptionPane.showInputDialog(this, "ID Patient:");
@@ -114,6 +126,9 @@ public class GestionRendezVousVue extends JFrame {
         }
     }
 
+    /**
+     * Méthode pour supprimer un rendez-vous sélectionné.
+     */
     private void supprimerRendezVous() {
         int ligneSelectionnee = tableRendezVous.getSelectedRow();
         if (ligneSelectionnee != -1) {
@@ -124,7 +139,11 @@ public class GestionRendezVousVue extends JFrame {
             JOptionPane.showMessageDialog(this, "Veuillez sélectionner un rendez-vous à supprimer.");
         }
     }
-
+    /**
+     * Méthode pour créer un bouton stylisé.
+     * @param text Le texte à afficher sur le bouton.
+     * @return Le bouton stylisé.
+     */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -136,9 +155,5 @@ public class GestionRendezVousVue extends JFrame {
         button.setMaximumSize(new Dimension(300, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
         return button;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new GestionRendezVousVue().setVisible(true));
     }
 }

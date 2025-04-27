@@ -21,6 +21,9 @@ public class InscriptionVue extends JFrame { // classe inscription vue qui héri
     private JButton boutonInscription; // bouton incription
     private JButton boutonRetour; // bouton retour
 
+    /**
+     * Constructeur de la classe InscriptionVue.
+     */
     public InscriptionVue() { // constructeur qui appelle l'initialisation de la page
         setTitle("Création d'un compte patient"); // titre de la fenêtre
         setDefaultCloseOperation(EXIT_ON_CLOSE); // fermer l'appli si on ferme la fenêtre
@@ -29,7 +32,10 @@ public class InscriptionVue extends JFrame { // classe inscription vue qui héri
 
         initialiserInterface(); // création de l'interface
     }
-
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     * Crée le fond, le panneau central, les champs de saisie et les boutons.
+     */
     private void initialiserInterface() { // méthode pour dessiner la page
         JPanel fond = new JPanel(new GridBagLayout()); // fond bleu ciel
         fond.setBackground(new Color(200, 225, 255));
@@ -71,7 +77,11 @@ public class InscriptionVue extends JFrame { // classe inscription vue qui héri
             new ConnexionVue().setVisible(true); // rouvrir la page de connexion
         });
     }
-
+    /**
+     * Méthode pour gérer l'inscription d'un patient.
+     * Vérifie si tous les champs sont remplis et si l'email n'est pas déjà utilisé.
+     * Enregistre le patient dans la base de données.
+     */
     private void inscrire() { // méthode permettant l'inscription
         // récuperer tout les champs compléter
         String nom = champNom.getText().trim();
@@ -101,7 +111,12 @@ public class InscriptionVue extends JFrame { // classe inscription vue qui héri
             JOptionPane.showMessageDialog(this, "Erreur lors de la création du compte."); // erreur en cas d'échec
         }
     }
-
+    /**
+     * Méthode pour créer une ligne d'entrée avec un label et un champ de texte.
+     * @param labelText Le texte du label.
+     * @param field Le champ de texte à ajouter.
+     * @return Un JPanel contenant le label et le champ de texte.
+     */
     private JPanel createInputRow(String labelText, JTextField field) { // méthode pour une ligne label + text
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -121,7 +136,11 @@ public class InscriptionVue extends JFrame { // classe inscription vue qui héri
         wrapper.add(field);
         return wrapper;
     }
-
+    /**
+     * Méthode pour créer un bouton stylisé.
+     * @param text Le texte du bouton.
+     * @return Un JButton stylisé.
+     */
     private JButton createStyledButton(String text) { // méthode pour bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -146,9 +165,5 @@ public class InscriptionVue extends JFrame { // classe inscription vue qui héri
         });
 
         return button;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new InscriptionVue().setVisible(true));
     }
 }

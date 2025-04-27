@@ -19,7 +19,11 @@ public class MenuPrincipalVue extends JFrame { // classe du menu principal qui h
     private JButton boutonDeconnexion; // bouton pour se déconnecter
     private final int idUser; // id du user connecté
     private final String role; // rôle du user (patient ou admin)
-
+    /**
+     * Constructeur de la classe MenuPrincipalVue.
+     * @param role le rôle de l'utilisateur (patient ou admin)
+     * @param idUser l'identifiant de l'utilisateur
+     */
     public MenuPrincipalVue(String role, int idUser) { // constructeur
         this.role = role;
         this.idUser = idUser;
@@ -31,7 +35,10 @@ public class MenuPrincipalVue extends JFrame { // classe du menu principal qui h
 
         initialiserInterface(idUser); // créer l'interface
     }
-
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     * Crée le fond, le panneau central, les boutons et les actions associées.
+     */
     private void initialiserInterface(int idUser) { // méthode pour dessiner la page
         JPanel fond = new JPanel(new GridBagLayout()); // fond bleu ciel
         fond.setBackground(new Color(200, 225, 255));
@@ -113,7 +120,11 @@ public class MenuPrincipalVue extends JFrame { // classe du menu principal qui h
 
         setJMenuBar(menuBar);
     }
-
+    /**
+     * Méthode pour créer un bouton stylisé.
+     * @param text le texte du bouton
+     * @return le bouton stylisé
+     */
     private JButton createStyledButton(String text) { // méthode pour créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -139,10 +150,5 @@ public class MenuPrincipalVue extends JFrame { // classe du menu principal qui h
         });
 
         return button;
-    }
-
-    public static void main(String[] args) { // méthode main pour tester
-        SwingUtilities.invokeLater(() -> new MenuPrincipalVue("patient", 1).setVisible(true));
-        // SwingUtilities.invokeLater(() -> new MenuPrincipalVue("admin", 1).setVisible(true));
     }
 }

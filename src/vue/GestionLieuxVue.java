@@ -20,6 +20,9 @@ public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hér
 
     private final LieuControleur controleur; // controleur pour gérer les lieux
 
+    /**
+     * Constructeur de la classe GestionLieuxVue.
+     */
     public GestionLieuxVue() { // constructeur
         setTitle("Gestion des lieux"); // titre de la fenetre
         setDefaultCloseOperation(EXIT_ON_CLOSE); // fermeture complète à la croix
@@ -31,6 +34,9 @@ public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hér
         initialiserInterface(); // appel pour construire l'interface
     }
 
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     */
     private void initialiserInterface() { // construire l'interface
         JPanel fond = new JPanel(new GridBagLayout()); // fond en grille
         fond.setBackground(new Color(200, 225, 255)); // fond bleu ciel
@@ -91,6 +97,9 @@ public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hér
         chargerLieux(); // afficher les lieux existants
     }
 
+    /**
+     * Méthode pour charger les lieux dans la table.
+     */
     private void chargerLieux() { // remplir la table
         List<Lieu> lieux = controleur.getTousLesLieux(); // récupération des lieux
 
@@ -110,6 +119,9 @@ public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hér
         tableLieux.setModel(tableModel); // associer le modèle à la table
     }
 
+    /**
+     * Méthode pour ajouter un lieu.
+     */
     private void ajouterLieu() { // ajouter un lieu
         String adresse = champAdresse.getText().trim();
         String ville = champVille.getText().trim();
@@ -131,6 +143,9 @@ public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hér
         }
     }
 
+    /**
+     * Méthode pour supprimer un lieu.
+     */
     private void supprimerLieu() { // supprimer un lieu
         int ligneSelectionnee = tableLieux.getSelectedRow(); // récupérer ligne sélectionnée
 
@@ -149,12 +164,21 @@ public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hér
         }
     }
 
+    /**
+     * Méthode pour vider les champs de saisie.
+     */
     private void viderChamps() { // vider tous les champs
         champAdresse.setText("");
         champVille.setText("");
         champCodePostal.setText("");
     }
 
+    /**
+     * Méthode pour créer un champ de saisie avec un label.
+     * @param labelText
+     * @param champ
+     * @return
+     */
     private JPanel createInput(String labelText, JTextField champ) { // créer un label + champ alignés
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -175,6 +199,11 @@ public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hér
         return wrapper;
     }
 
+    /**
+     * Méthode pour créer un bouton stylisé.
+     * @param text
+     * @return
+     */
     private JButton createStyledButton(String text) { // créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -186,9 +215,5 @@ public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hér
         button.setMaximumSize(new Dimension(350, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
         return button;
-    }
-
-    public static void main(String[] args) { // méthode pour tester la vue seule
-        SwingUtilities.invokeLater(() -> new GestionLieuxVue().setVisible(true));
     }
 }

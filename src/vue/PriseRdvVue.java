@@ -31,7 +31,10 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
     private final SpecialisteControleur specialisteControleur; // controleur des spécialistes
     private final LieuControleur lieuControleur; // controleur des lieux
     private final RendezVousControleur rdvControleur; // controleur des rdv
-
+    /**
+     * Constructeur de la classe PriseRdvVue.
+     * @param IdUser id de l'utilisateur
+     */
     public PriseRdvVue(int IdUser) { // constructeur avec l'id du user
         setTitle("Prendre un rendez-vous"); // titre de la fenetre
         setDefaultCloseOperation(EXIT_ON_CLOSE); // ferme tout en quittant
@@ -44,7 +47,11 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
 
         initialiserInterface(IdUser); // construire interface
     }
-
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     * Crée le fond, le panneau central, les champs de saisie et les boutons.
+     * @param IdUser id de l'utilisateur
+     */
     private void initialiserInterface(int IdUser) { // méthode interface
         JPanel fond = new JPanel(new GridBagLayout()); // fond bleu
         fond.setBackground(new Color(200, 225, 255));
@@ -100,7 +107,9 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
         chargerSpecialistes(); // charger spécialistes
         chargerLieux(); // charger lieux
     }
-
+    /**
+     * Méthode pour charger tous les spécialistes dans la liste déroulante.
+     */
     private void chargerSpecialistes() { // remplir combo des spécialistes
         comboSpecialiste.removeAllItems();
         List<Specialiste> liste = specialisteControleur.getTousLesSpecialistes();
@@ -108,7 +117,9 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
             comboSpecialiste.addItem(s);
         }
     }
-
+    /**
+     * Méthode pour charger tous les lieux dans la liste déroulante.
+     */
     private void chargerLieux() { // remplir combo des lieux
         comboLieu.removeAllItems();
         List<Lieu> liste = lieuControleur.getTousLesLieux();
@@ -116,7 +127,9 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
             comboLieu.addItem(l);
         }
     }
-
+    /**
+     * Méthode pour remplir la liste des heures disponibles en fonction du spécialiste et de la date sélectionnée.
+     */
     private void remplirHeures() {
         comboHeure.removeAllItems(); // on vide la combo à chaque appel
 
@@ -145,7 +158,11 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
             }
         }
     }
-
+    /**
+     * Méthode pour confirmer le rendez-vous.
+     * Récupère les informations saisies et les enregistre dans la base de données.
+     * @param IdUser id de l'utilisateur
+     */
     private void confirmerRDV(int IdUser) { // méthode confirmer le rdv
         Specialiste specialiste = (Specialiste) comboSpecialiste.getSelectedItem();
         Lieu lieu = (Lieu) comboLieu.getSelectedItem();
@@ -175,7 +192,12 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
             JOptionPane.showMessageDialog(this, "Erreur lors de la confirmation.");
         }
     }
-
+    /**
+     * Méthode pour créer une ligne de saisie avec un label et un champ.
+     * @param labelText texte du label
+     * @param champ champ à ajouter
+     * @return JPanel contenant le label et le champ
+     */
     private JPanel createInput(String labelText, JComponent champ) { // méthode pour une ligne label + champ
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -195,7 +217,11 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
         wrapper.add(champ);
         return wrapper;
     }
-
+    /**
+     * Méthode pour créer un bouton stylisé.
+     * @param text texte du bouton
+     * @return JButton stylisé
+     */
     private JButton createStyledButton(String text) { // méthode pour bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -207,9 +233,5 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
         button.setMaximumSize(new Dimension(350, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
         return button;
-    }
-
-    public static void main(String[] args) { // pour tester seul
-        SwingUtilities.invokeLater(() -> new PriseRdvVue(1).setVisible(true));
     }
 }

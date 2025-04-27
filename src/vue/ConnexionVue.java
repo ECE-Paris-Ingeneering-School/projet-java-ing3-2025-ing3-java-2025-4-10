@@ -16,6 +16,9 @@ public class ConnexionVue extends JFrame { // classe connexionvue qui hérite de
     private JButton boutonConnexion; // bouton de connexion
     private JButton boutonInscription; // bouton d'inscription
 
+    /**
+     * Constructeur de la classe ConnexionVue.
+     */
     public ConnexionVue() { // constructeur
         setTitle("Connexion utilisateur"); // titre de la fenêtre
         setDefaultCloseOperation(EXIT_ON_CLOSE); // ferme complètement l'application
@@ -24,7 +27,10 @@ public class ConnexionVue extends JFrame { // classe connexionvue qui hérite de
 
         initialiserInterface(); // appel de la méthode pour construire l'interface
     }
-
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     * Crée les composants et les ajoute à la fenêtre.
+     */
     private void initialiserInterface() { // construction de l'interface
         JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10)); // grille 4x2 avec espaces
 
@@ -69,7 +75,10 @@ public class ConnexionVue extends JFrame { // classe connexionvue qui hérite de
             new InscriptionVue().setVisible(true); // ouvrir la vue inscription
         });
     }
-
+    /**
+     * Méthode principale pour lancer l'application.
+     * @param args arguments de la ligne de commande
+     */
     public static void main(String[] args) { // méthode principale pour tester
         SwingUtilities.invokeLater(() -> new ConnexionVue().setVisible(true)); // lancer la vue connexion
     }

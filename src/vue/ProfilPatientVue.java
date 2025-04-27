@@ -17,7 +17,10 @@ public class ProfilPatientVue extends JFrame { // classe profil patient qui hér
     private JTextField champNom, champPrenom; // champs texte pour nom et prénom
     private JPasswordField champMotDePasse; // champ mot de passe
     private JButton boutonModifier, boutonRetour; // boutons
-
+    /**
+     * Constructeur de la classe ProfilPatientVue.
+     * @param idUser id de l'utilisateur
+     */
     public ProfilPatientVue(int idUser) { // constructeur avec id user
         this.idUser = idUser;
 
@@ -28,7 +31,10 @@ public class ProfilPatientVue extends JFrame { // classe profil patient qui hér
 
         initialiserInterface(); // construire l'interface
     }
-
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     * Crée le fond, le panneau central, les champs de saisie et les boutons.
+     */
     private void initialiserInterface() { // méthode pour créer l'interface
         JPanel fond = new JPanel(new GridBagLayout()); // fond bleu ciel
         fond.setBackground(new Color(200, 225, 255));
@@ -74,7 +80,10 @@ public class ProfilPatientVue extends JFrame { // classe profil patient qui hér
 
         chargerDonnees(); // chargement des infos du patient
     }
-
+    /**
+     * Méthode pour charger les données du patient.
+     * Récupère les informations du patient depuis la base de données et les affiche dans les champs.
+     */
     private void chargerDonnees() { // méthode pour charger les données du patient
         Patient p = new PatientDAO().recupererInfosPatient(idUser);
         if (p != null) {
@@ -82,7 +91,10 @@ public class ProfilPatientVue extends JFrame { // classe profil patient qui hér
             champPrenom.setText(p.getPrenom());
         }
     }
-
+    /**
+     * Méthode pour modifier les informations du patient.
+     * Vérifie si tous les champs sont remplis et met à jour les informations dans la base de données.
+     */
     private void modifierInfos() { // méthode pour modifier les infos du patient
         String nom = champNom.getText().trim();
         String prenom = champPrenom.getText().trim();
@@ -102,7 +114,12 @@ public class ProfilPatientVue extends JFrame { // classe profil patient qui hér
             JOptionPane.showMessageDialog(this, "Erreur lors de la mise à jour.");
         }
     }
-
+    /**
+     * Méthode pour créer un champ de saisie avec une étiquette.
+     * @param labelText texte de l'étiquette
+     * @param champ composant à ajouter
+     * @return JPanel contenant le label et le champ
+     */
     private JPanel createInput(String labelText, JComponent champ) { // méthode pour créer un champ avec label
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -122,7 +139,11 @@ public class ProfilPatientVue extends JFrame { // classe profil patient qui hér
         wrapper.add(champ);
         return wrapper;
     }
-
+    /**
+     * Méthode pour créer un bouton stylisé.
+     * @param text texte du bouton
+     * @return JButton stylisé
+     */
     private JButton createStyledButton(String text) { // méthode pour créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -134,9 +155,5 @@ public class ProfilPatientVue extends JFrame { // classe profil patient qui hér
         button.setMaximumSize(new Dimension(300, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
         return button;
-    }
-
-    public static void main(String[] args) { // méthode pour tester seul
-        SwingUtilities.invokeLater(() -> new ProfilPatientVue(1).setVisible(true));
     }
 }

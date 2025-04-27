@@ -17,6 +17,12 @@ public class DonnerNoteVue extends JFrame {
     private final int idUser;
     private final NoteControleur noteControleur;
 
+    /**
+     * Constructeur de la classe DonnerNoteVue
+     *
+     * @param idRDV
+     * @param idUser
+     */
     public DonnerNoteVue(int idRDV, int idUser) {
         this.idRDV = idRDV;
         this.idUser = idUser;
@@ -30,6 +36,9 @@ public class DonnerNoteVue extends JFrame {
         initialiserInterface();
     }
 
+    /**
+     * Méthode pour initialiser l'interface graphique
+     */
     private void initialiserInterface() {
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
@@ -71,6 +80,9 @@ public class DonnerNoteVue extends JFrame {
         });
     }
 
+    /**
+     * Méthode pour enregistrer la note
+     */
     private void enregistrerNote() {
         int valeur = (int) comboEtoiles.getSelectedItem();
 
@@ -93,6 +105,13 @@ public class DonnerNoteVue extends JFrame {
         new HistoriqueVue(idUser).setVisible(true);
     }
 
+    /**
+     * Méthode pour créer un champ de saisie avec une étiquette.
+     *
+     * @param labelText
+     * @param champ
+     * @return
+     */
     private JPanel createInput(String labelText, JComponent champ) {
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -113,6 +132,12 @@ public class DonnerNoteVue extends JFrame {
         return wrapper;
     }
 
+    /**
+     * Méthode pour créer un bouton stylisé.
+     *
+     * @param text
+     * @return
+     */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -124,9 +149,5 @@ public class DonnerNoteVue extends JFrame {
         button.setMaximumSize(new Dimension(300, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
         return button;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new DonnerNoteVue(1, 1).setVisible(true));
     }
 }

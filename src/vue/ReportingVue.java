@@ -22,7 +22,10 @@ public class ReportingVue extends JFrame { // classe reporting vue qui hérite d
 
         initialiserInterface(); // création de l'interface
     }
-
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     * Crée le fond, le panneau central, les boutons et les actions associées.
+     */
     private void initialiserInterface() { // méthode pour dessiner l'interface
         JPanel fond = new JPanel(new GridBagLayout()); // fond bleu ciel
         fond.setBackground(new Color(200, 225, 255));
@@ -97,7 +100,11 @@ public class ReportingVue extends JFrame { // classe reporting vue qui hérite d
             new MenuPrincipalVue("admin", 1).setVisible(true);
         });
     }
-
+    /**
+     * Méthode pour créer un champ de saisie avec un label.
+     * @param text le texte du label
+     * @return le panneau contenant le label et le champ de texte
+     */
     private JButton createStyledButton(String text) { // méthode pour créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -122,9 +129,5 @@ public class ReportingVue extends JFrame { // classe reporting vue qui hérite d
         });
 
         return button;
-    }
-
-    public static void main(String[] args) { // méthode pour tester seul
-        SwingUtilities.invokeLater(() -> new ReportingVue().setVisible(true));
     }
 }

@@ -23,6 +23,10 @@ public class HistoriqueVue extends JFrame {
     private final RendezVousControleur controleur;
     private final int idUser;
 
+    /**
+     * Constructeur de la classe HistoriqueVue.
+     * @param idUser
+     */
     public HistoriqueVue(int idUser) {
         this.idUser = idUser;
         setTitle("Historique des rendez-vous");
@@ -34,7 +38,10 @@ public class HistoriqueVue extends JFrame {
 
         initialiserInterface();
     }
-
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     * Crée le fond, le panneau central, la table et les boutons.
+     */
     private void initialiserInterface() {
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
@@ -90,7 +97,9 @@ public class HistoriqueVue extends JFrame {
 
         chargerHistorique();
     }
-
+    /**
+     * Méthode pour charger l'historique des rendez-vous du patient dans le tableau.
+     */
     private void chargerHistorique() {
         List<RendezVous> historique = controleur.getRendezVousParPatient(idUser);
 
@@ -105,7 +114,11 @@ public class HistoriqueVue extends JFrame {
             });
         }
     }
-
+    /**
+     * Méthode pour créer un bouton avec un style personnalisé.
+     * @param text Le texte à afficher sur le bouton.
+     * @return Le bouton stylisé.
+     */
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -117,9 +130,5 @@ public class HistoriqueVue extends JFrame {
         button.setMaximumSize(new Dimension(350, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
         return button;
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new HistoriqueVue(1).setVisible(true));
     }
 }

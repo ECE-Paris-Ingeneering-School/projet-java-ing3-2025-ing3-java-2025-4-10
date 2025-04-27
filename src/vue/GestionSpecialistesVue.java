@@ -20,6 +20,9 @@ public class GestionSpecialistesVue extends JFrame { // classe qui hérite de jf
 
     private final SpecialisteControleur controleur; // controleur spécialité
 
+    /**
+     * Constructeur de la classe GestionSpecialistesVue.
+     */
     public GestionSpecialistesVue() { // constructeur
         setTitle("Gestion des spécialistes"); // titre de la fenetre
         setDefaultCloseOperation(EXIT_ON_CLOSE); // fermer l'application
@@ -29,7 +32,10 @@ public class GestionSpecialistesVue extends JFrame { // classe qui hérite de jf
         this.controleur = new SpecialisteControleur(); // création du controleur
         initialiserInterface(); // création de l'interface
     }
-
+    /**
+     * Méthode pour initialiser l'interface graphique.
+     * Crée le fond, le panneau central, les champs de saisie et les boutons.
+     */
     private void initialiserInterface() { // méthode pour construire l'interface
         JPanel fond = new JPanel(new GridBagLayout()); // fond bleu ciel
         fond.setBackground(new Color(200, 225, 255));
@@ -92,7 +98,10 @@ public class GestionSpecialistesVue extends JFrame { // classe qui hérite de jf
 
         chargerSpecialistes(); // charger les spécialistes au démarrage
     }
-
+    /**
+     * Méthode pour charger tous les spécialistes dans le tableau.
+     * Récupère la liste des spécialistes depuis le controleur et les affiche dans le tableau.
+     */
     private void chargerSpecialistes() { // méthode pour charger les spécialistes
         List<Specialiste> liste = controleur.getTousLesSpecialistes(); // récupération depuis le controleur
 
@@ -112,7 +121,10 @@ public class GestionSpecialistesVue extends JFrame { // classe qui hérite de jf
 
         tableSpecialistes.setModel(tableModel); // attacher le modèle à la table
     }
-
+    /**
+     * Méthode pour ajouter un spécialiste.
+     * Récupère les données des champs, crée un objet Spécialiste et l'ajoute via le controleur.
+     */
     private void ajouterSpecialiste() { // ajouter un spécialiste
         String nom = champNom.getText().trim();
         String prenom = champPrenom.getText().trim();
@@ -134,7 +146,10 @@ public class GestionSpecialistesVue extends JFrame { // classe qui hérite de jf
             JOptionPane.showMessageDialog(this, "Échec de l'ajout.");
         }
     }
-
+    /**
+     * Méthode pour supprimer un spécialiste.
+     * Récupère l'ID du spécialiste sélectionné et le supprime via le controleur.
+     */
     private void supprimerSpecialiste() { // méthode pour supprimer un spécialiste
         int ligneSelectionnee = tableSpecialistes.getSelectedRow();
 
@@ -152,14 +167,22 @@ public class GestionSpecialistesVue extends JFrame { // classe qui hérite de jf
             JOptionPane.showMessageDialog(this, "Échec de la suppression.");
         }
     }
-
+    /**
+     * Méthode pour vider les champs de saisie.
+     * Réinitialise les champs texte à une chaîne vide.
+     */
     private void viderChamps() { // méthode pour vider les champs
         champNom.setText("");
         champPrenom.setText("");
         champEmail.setText("");
         champSpecialite.setText("");
     }
-
+    /**
+     * Méthode pour créer un champ de saisie avec un label.
+     * @param labelText le texte du label
+     * @param champ le champ de saisie
+     * @return le panneau contenant le label et le champ
+     */
     private JPanel createInput(String labelText, JTextField champ) { // méthode pour créer une ligne texte
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
@@ -179,7 +202,11 @@ public class GestionSpecialistesVue extends JFrame { // classe qui hérite de jf
         wrapper.add(champ);
         return wrapper;
     }
-
+    /**
+     * Méthode pour créer un bouton stylisé.
+     * @param text le texte du bouton
+     * @return le bouton stylisé
+     */
     private JButton createStyledButton(String text) { // méthode pour créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -191,9 +218,5 @@ public class GestionSpecialistesVue extends JFrame { // classe qui hérite de jf
         button.setMaximumSize(new Dimension(350, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
         return button;
-    }
-
-    public static void main(String[] args) { // méthode pour tester la page seule
-        SwingUtilities.invokeLater(() -> new GestionSpecialistesVue().setVisible(true));
     }
 }
