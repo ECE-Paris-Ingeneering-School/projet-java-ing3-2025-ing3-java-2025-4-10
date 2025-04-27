@@ -1,49 +1,50 @@
-package vue;
+package vue; // package vue
 
-import controleur.LieuControleur;
-import modele.Lieu;
+import controleur.LieuControleur; // importation du controleur pour les lieux
+import modele.Lieu; // importation de la classe lieu
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.util.List;
+import javax.swing.*; // composants swing
+import javax.swing.table.DefaultTableModel; // modèle pour la table
+import java.awt.*; // gestion de l'interface graphique
+import java.util.List; // gestion des listes
 
-public class GestionLieuxVue extends JFrame {
+public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hérite de jframe
 
-    private JTextField champAdresse, champVille, champCodePostal;
-    private JButton boutonAjouter, boutonSupprimer, boutonRetour;
-    private JTable tableLieux;
-    private DefaultTableModel tableModel;
+    private JTextField champAdresse, champVille, champCodePostal; // champs de saisie
+    private JButton boutonAjouter, boutonSupprimer, boutonRetour; // boutons
+    private JTable tableLieux; // table pour afficher les lieux
+    private DefaultTableModel tableModel; // modèle de données pour la table
 
-    private final LieuControleur controleur;
+    private final LieuControleur controleur; // controleur pour gérer les lieux
 
-    public GestionLieuxVue() {
-        setTitle("Gestion des lieux");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLocationRelativeTo(null);
+    public GestionLieuxVue() { // constructeur
+        setTitle("Gestion des lieux"); // titre de la fenetre
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // fermeture complète à la croix
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // ouverture en plein ecran
+        setLocationRelativeTo(null); // centrer la fenetre
 
-        this.controleur = new LieuControleur();
+        this.controleur = new LieuControleur(); // création du controleur
 
-        initialiserInterface();
+        initialiserInterface(); // appel pour construire l'interface
     }
 
-    private void initialiserInterface() {
-        JPanel fond = new JPanel(new GridBagLayout());
-        fond.setBackground(new Color(200, 225, 255));
+    private void initialiserInterface() { // construire l'interface
+        JPanel fond = new JPanel(new GridBagLayout()); // fond en grille
+        fond.setBackground(new Color(200, 225, 255)); // fond bleu ciel
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(Color.WHITE);
-        panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
-        panel.setMaximumSize(new Dimension(900, 700));
+        JPanel panel = new JPanel(); // bloc central
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); // disposition verticale
+        panel.setBackground(Color.WHITE); // fond blanc
+        panel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60)); // marges internes
+        panel.setMaximumSize(new Dimension(900, 700)); // taille max
 
-        JLabel titre = new JLabel("Gestion des lieux");
-        titre.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        JLabel titre = new JLabel("Gestion des lieux"); // titre
+        titre.setFont(new Font("Segoe UI", Font.BOLD, 24)); // police du titre
+        titre.setAlignmentX(Component.CENTER_ALIGNMENT); // centré
+        titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0)); // espacement bas
         panel.add(titre);
 
+        // champs de saisie
         champAdresse = new JTextField();
         champVille = new JTextField();
         champCodePostal = new JTextField();
@@ -51,8 +52,9 @@ public class GestionLieuxVue extends JFrame {
         panel.add(createInput("Adresse :", champAdresse));
         panel.add(createInput("Ville :", champVille));
         panel.add(createInput("Code postal :", champCodePostal));
-        panel.add(Box.createVerticalStrut(20));
+        panel.add(Box.createVerticalStrut(20)); // espace
 
+        // boutons
         boutonAjouter = createStyledButton("Ajouter lieu");
         boutonSupprimer = createStyledButton("Supprimer lieu");
         boutonRetour = createStyledButton("Retour");
@@ -64,92 +66,93 @@ public class GestionLieuxVue extends JFrame {
         panel.add(boutonRetour);
         panel.add(Box.createVerticalStrut(30));
 
+        // table pour afficher les lieux
         tableLieux = new JTable();
         JScrollPane scrollPane = new JScrollPane(tableLieux);
         scrollPane.setPreferredSize(new Dimension(800, 200));
         scrollPane.setMaximumSize(new Dimension(800, 200));
         panel.add(scrollPane);
 
-        fond.add(panel);
-        setContentPane(fond);
+        fond.add(panel); // ajout du bloc dans le fond
+        setContentPane(fond); // placement du fond dans la fenetre
 
+        // actions sur les boutons
         boutonRetour.addActionListener(e -> {
             dispose();
             new AdminGestionVue().setVisible(true);
         });
 
         boutonAjouter.addActionListener(e -> ajouterLieu());
-
         boutonSupprimer.addActionListener(e -> supprimerLieu());
 
-        chargerLieux();
+        chargerLieux(); // afficher les lieux existants
     }
 
-    private void chargerLieux() {
-        List<Lieu> lieux = controleur.getTousLesLieux();
+    private void chargerLieux() { // remplir la table
+        List<Lieu> lieux = controleur.getTousLesLieux(); // récupération des lieux
 
-        String[] colonnes = {"ID", "Adresse", "Ville", "Code postal"};
-        tableModel = new DefaultTableModel(colonnes, 0);
+        String[] colonnes = {"ID", "Adresse", "Ville", "Code postal"}; // titres des colonnes
+        tableModel = new DefaultTableModel(colonnes, 0); // création du modèle vide
 
-        for (Lieu l : lieux) {
+        for (Lieu l : lieux) { // pour chaque lieu
             Object[] ligne = {
                     l.getId(),
                     l.getAdresse(),
                     l.getVille(),
                     l.getCodePostal()
             };
-            tableModel.addRow(ligne);
+            tableModel.addRow(ligne); // ajout dans le modèle
         }
 
-        tableLieux.setModel(tableModel);
+        tableLieux.setModel(tableModel); // associer le modèle à la table
     }
 
-    private void ajouterLieu() {
+    private void ajouterLieu() { // ajouter un lieu
         String adresse = champAdresse.getText().trim();
         String ville = champVille.getText().trim();
         String codePostal = champCodePostal.getText().trim();
 
-        if (adresse.isEmpty() || ville.isEmpty() || codePostal.isEmpty()) {
+        if (adresse.isEmpty() || ville.isEmpty() || codePostal.isEmpty()) { // vérification champs
             JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs.");
             return;
         }
 
-        Lieu lieu = new Lieu(0, adresse, ville, codePostal);
+        Lieu lieu = new Lieu(0, adresse, ville, codePostal); // création du lieu
 
-        if (controleur.ajouterLieu(lieu)) {
+        if (controleur.ajouterLieu(lieu)) { // tentative d'ajout
             JOptionPane.showMessageDialog(this, "Lieu ajouté avec succès.");
             viderChamps();
-            chargerLieux();
+            chargerLieux(); // rafraichir la table
         } else {
             JOptionPane.showMessageDialog(this, "Erreur lors de l'ajout.");
         }
     }
 
-    private void supprimerLieu() {
-        int ligneSelectionnee = tableLieux.getSelectedRow();
+    private void supprimerLieu() { // supprimer un lieu
+        int ligneSelectionnee = tableLieux.getSelectedRow(); // récupérer ligne sélectionnée
 
-        if (ligneSelectionnee == -1) {
+        if (ligneSelectionnee == -1) { // si rien sélectionné
             JOptionPane.showMessageDialog(this, "Veuillez sélectionner un lieu à supprimer.");
             return;
         }
 
-        int id = (int) tableModel.getValueAt(ligneSelectionnee, 0);
+        int id = (int) tableModel.getValueAt(ligneSelectionnee, 0); // récupérer l'id
 
-        if (controleur.supprimerLieuParId(id)) {
+        if (controleur.supprimerLieuParId(id)) { // tentative de suppression
             JOptionPane.showMessageDialog(this, "Lieu supprimé.");
-            chargerLieux();
+            chargerLieux(); // rafraichir la table
         } else {
             JOptionPane.showMessageDialog(this, "Erreur lors de la suppression.");
         }
     }
 
-    private void viderChamps() {
+    private void viderChamps() { // vider tous les champs
         champAdresse.setText("");
         champVille.setText("");
         champCodePostal.setText("");
     }
 
-    private JPanel createInput(String labelText, JTextField champ) {
+    private JPanel createInput(String labelText, JTextField champ) { // créer un label + champ alignés
         JPanel wrapper = new JPanel();
         wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
         wrapper.setBackground(Color.WHITE);
@@ -169,7 +172,7 @@ public class GestionLieuxVue extends JFrame {
         return wrapper;
     }
 
-    private JButton createStyledButton(String text) {
+    private JButton createStyledButton(String text) { // créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         button.setBackground(new Color(33, 150, 243));
@@ -182,7 +185,7 @@ public class GestionLieuxVue extends JFrame {
         return button;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // méthode pour tester la vue seule
         SwingUtilities.invokeLater(() -> new GestionLieuxVue().setVisible(true));
     }
 }
