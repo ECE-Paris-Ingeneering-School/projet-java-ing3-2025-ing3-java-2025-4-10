@@ -1,38 +1,38 @@
-package vue;
+package vue; // package vue
 
+// importation des classes nécessaires
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MenuPrincipalVue extends JFrame {
+public class MenuPrincipalVue extends JFrame { // classe du menu principal qui hérite de jframe
 
-    private JButton boutonPrendreRDV;
-    private JButton boutonHistorique;
-    private JButton boutonStats;
-    private JButton boutonGestion;
-    private JButton boutonDeconnexion;
-    private final int idUser;
-    private final String role;
+    private JButton boutonPrendreRDV; // bouton pour prendre un rdv
+    private JButton boutonHistorique; // bouton pour voir historique
+    private JButton boutonStats; // bouton pour voir les stats (admin)
+    private JButton boutonGestion; // bouton pour gérer (admin)
+    private JButton boutonDeconnexion; // bouton pour se déconnecter
+    private final int idUser; // id du user connecté
+    private final String role; // rôle du user (patient ou admin)
 
-    public MenuPrincipalVue(String role, int idUser) {
+    public MenuPrincipalVue(String role, int idUser) { // constructeur
         this.role = role;
         this.idUser = idUser;
 
-        setTitle("Menu principal - " + role.toUpperCase());
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLocationRelativeTo(null);
-        initialiserInterface(idUser);
+        setTitle("Menu principal - " + role.toUpperCase()); // titre de la fenêtre
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // fermer appli si fermeture fenetre
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // ouvrir en plein écran
+        setLocationRelativeTo(null); // centrer
+
+        initialiserInterface(idUser); // créer l'interface
     }
 
-    private void initialiserInterface(int idUser) {
-        // === FOND BLEU CIEL ===
-        JPanel fond = new JPanel(new GridBagLayout());
+    private void initialiserInterface(int idUser) { // méthode pour dessiner la page
+        JPanel fond = new JPanel(new GridBagLayout()); // fond bleu ciel
         fond.setBackground(new Color(200, 225, 255));
 
-        // === CONTENU CENTRAL ENCADRÉ ===
-        JPanel panelCentre = new JPanel();
+        JPanel panelCentre = new JPanel(); // bloc blanc centré
         panelCentre.setLayout(new BoxLayout(panelCentre, BoxLayout.Y_AXIS));
         panelCentre.setBackground(Color.WHITE);
         panelCentre.setBorder(BorderFactory.createCompoundBorder(
@@ -41,31 +41,29 @@ public class MenuPrincipalVue extends JFrame {
         ));
         panelCentre.setMaximumSize(new Dimension(600, 600));
 
-        // === TITRE ===
-        JLabel titre = new JLabel("Bienvenue sur le tableau de bord " + role);
+        JLabel titre = new JLabel("Bienvenue sur le tableau de bord " + role); // titre de la page
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
         titre.setFont(new Font("Segoe UI", Font.BOLD, 28));
         titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 40, 0));
-
         panelCentre.add(titre);
 
-        // === BOUTONS SELON LE RÔLE ===
+        // boutons différents selon le rôle
         if (role.equalsIgnoreCase("patient")) {
             boutonPrendreRDV = createStyledButton("Prendre un rendez-vous");
             boutonHistorique = createStyledButton("Voir l'historique");
 
             panelCentre.add(boutonPrendreRDV);
-            panelCentre.add(Box.createVerticalStrut(15));
+            panelCentre.add(Box.createVerticalStrut(15)); // espace
             panelCentre.add(boutonHistorique);
 
-            boutonPrendreRDV.addActionListener(e -> {
+            boutonPrendreRDV.addActionListener(e -> { // clique rdv
                 dispose();
-                new PriseRdvVue(idUser).setVisible(true); //mise en commentaire idUser
+                new PriseRdvVue(idUser).setVisible(true);
             });
 
-            boutonHistorique.addActionListener(e -> {
+            boutonHistorique.addActionListener(e -> { // clique historique
                 dispose();
-                new HistoriqueVue(idUser).setVisible(true); //mise en commentaire idUser
+                new HistoriqueVue(idUser).setVisible(true);
             });
 
         } else if (role.equalsIgnoreCase("admin")) {
@@ -76,33 +74,32 @@ public class MenuPrincipalVue extends JFrame {
             panelCentre.add(Box.createVerticalStrut(15));
             panelCentre.add(boutonStats);
 
-            boutonGestion.addActionListener(e -> {
+            boutonGestion.addActionListener(e -> { // clique gestion
                 dispose();
                 new AdminGestionVue().setVisible(true);
             });
 
-            boutonStats.addActionListener(e -> {
+            boutonStats.addActionListener(e -> { // clique stats
                 dispose();
                 new ReportingVue().setVisible(true);
             });
         }
 
-        panelCentre.add(Box.createVerticalStrut(30));
-        boutonDeconnexion = createStyledButton("Se déconnecter");
+        panelCentre.add(Box.createVerticalStrut(30)); // espace avant déconnexion
+        boutonDeconnexion = createStyledButton("Se déconnecter"); // bouton déconnexion
         panelCentre.add(boutonDeconnexion);
 
-        boutonDeconnexion.addActionListener(e -> {
+        boutonDeconnexion.addActionListener(e -> { // clique déconnexion
             dispose();
             new ConnexionVue().setVisible(true);
         });
 
-        // CENTRAGE DU CONTENU
-        fond.add(panelCentre);
-        setContentPane(fond);
+        fond.add(panelCentre); // ajout panel centre dans fond
+        setContentPane(fond); // définir fond
 
-        // === BARRE DE MENU EN HAUT ===
+        // barre de menu en haut
         JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(230, 240, 255));
+        menuBar.setBackground(new Color(230, 240, 255)); // bleu clair
 
         for (String title : new String[]{"Accueil", "Prendre RDV", "Recherche", "Profil"}) {
             JMenu menu = new JMenu(title);
@@ -113,20 +110,21 @@ public class MenuPrincipalVue extends JFrame {
         setJMenuBar(menuBar);
     }
 
-    private JButton createStyledButton(String text) {
+    private JButton createStyledButton(String text) { // méthode pour créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        button.setBackground(new Color(33, 150, 243));
-        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(33, 150, 243)); // fond bleu
+        button.setForeground(Color.WHITE); // texte blanc
         button.setFocusPainted(false);
-        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR)); // curseur main
         button.setBorder(BorderFactory.createEmptyBorder(14, 20, 14, 20));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setMaximumSize(new Dimension(350, 50));
 
         Color base = button.getBackground();
         Color hover = base.brighter();
-        button.addMouseListener(new MouseAdapter() {
+
+        button.addMouseListener(new MouseAdapter() { // effet survol
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(hover);
             }
@@ -139,7 +137,7 @@ public class MenuPrincipalVue extends JFrame {
         return button;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // méthode main pour tester
         SwingUtilities.invokeLater(() -> new MenuPrincipalVue("patient", 1).setVisible(true));
         // SwingUtilities.invokeLater(() -> new MenuPrincipalVue("admin", 1).setVisible(true));
     }
