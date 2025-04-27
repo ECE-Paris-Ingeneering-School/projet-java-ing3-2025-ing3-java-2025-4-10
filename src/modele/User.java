@@ -1,12 +1,13 @@
-package modele;
+package modele; // package modele
 
-public class User {
-    private int idUser;
-    private String email;
-    private String motDePasse;
-    private String role;
+public class User { // classe user
 
-    //constructeur
+    private int idUser; // id de l'utilisateur
+    private String email; // email de l'utilisateur
+    private String motDePasse; // mot de passe de l'utilisateur
+    private String role; // role de l'utilisateur (patient ou admin)
+
+    // constructeur
     public User(int idUser, String email, String motDePasse, String role) {
         this.idUser = idUser;
         this.email = email;
@@ -14,9 +15,22 @@ public class User {
         this.role = role;
     }
 
-    //getters
-    public int getIdUser() {return idUser;}
-    public String getEmail() {return email;}
-    public String getMotDePasse() {return motDePasse;}
-    public String getRole() {return role;}
+    // === getters ===
+
+    public int getIdUser() { // récupérer l'id utilisateur
+        return idUser;
+    }
+
+    public String getEmail() { // récupérer l'email
+        return email;
+    }
+
+    public String getMotDePasse() { // récupérer le mot de passe
+        return motDePasse;
+    }
+
+    public String getRole() { // récupérer le role
+        return role;
+    }
 }
+
