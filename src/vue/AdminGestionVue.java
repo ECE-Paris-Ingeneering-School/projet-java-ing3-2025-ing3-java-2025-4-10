@@ -1,4 +1,4 @@
-package vue; // package vue
+package vue;
 
 // on importe les classes nécessaires
 import javax.swing.*;
