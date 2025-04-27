@@ -1,5 +1,11 @@
 package dao;
 
+/**
+Classe simple pour tester la connexion à la base de données.
+Exécute un test d'ouverture et de fermeture de connexion.
+ */
+
+
 // importation des classes nécessaires
 import java.sql.Connection;
 import java.sql.SQLException;
