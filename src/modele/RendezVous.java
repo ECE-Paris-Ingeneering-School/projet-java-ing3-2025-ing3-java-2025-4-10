@@ -1,17 +1,19 @@
-package modele;
+package modele; // package modele
 
-public class RendezVous {
+public class RendezVous { // classe rendez-vous
 
-    private int id;
-    private int idPatient;
-    private int idSpecialiste;
-    private int idLieu;
-    private String date;      // Format : "YYYY-MM-DD"
-    private String heure;     // Format : "HH:MM"
-    private String motif;
+    private int id; // id du rendez-vous
+    private int idPatient; // id du patient
+    private int idSpecialiste; // id du spécialiste
+    private int idLieu; // id du lieu
+    private String date; // date du rdv, format "YYYY-MM-DD"
+    private String heure; // heure du rdv, format "HH:MM"
+    private String motif; // motif du rendez-vous
 
+    // constructeur vide
     public RendezVous() {}
-    
+
+    // constructeur plein
     public RendezVous(int id, int idPatient, int idSpecialiste, int idLieu, String date, String heure, String motif) {
         this.id = id;
         this.idPatient = idPatient;
@@ -22,66 +24,67 @@ public class RendezVous {
         this.motif = motif;
     }
 
-    // === GETTERS ===
+    // === getters ===
 
-    public int getId() {
+    public int getId() { // récupérer l'id
         return id;
     }
 
-    public int getIdPatient() {
+    public int getIdPatient() { // récupérer l'id du patient
         return idPatient;
     }
 
-    public int getIdSpecialiste() {
+    public int getIdSpecialiste() { // récupérer l'id du spécialiste
         return idSpecialiste;
     }
 
-    public int getIdLieu() {
+    public int getIdLieu() { // récupérer l'id du lieu
         return idLieu;
     }
 
-    public String getDate() {
+    public String getDate() { // récupérer la date
         return date;
     }
 
-    public String getHeure() {
+    public String getHeure() { // récupérer l'heure
         return heure;
     }
 
-    public String getMotif() {
+    public String getMotif() { // récupérer le motif
         return motif;
     }
 
-    // === SETTERS ===
+    // === setters ===
 
-    public void setDate(String date) {
+    public void setDate(String date) { // modifier la date
         this.date = date;
     }
 
-    public void setHeure(String heure) {
+    public void setHeure(String heure) { // modifier l'heure
         this.heure = heure;
     }
 
-    public void setMotif(String motif) {
+    public void setMotif(String motif) { // modifier le motif
         this.motif = motif;
     }
 
-    public void setId(int id) {
+    public void setId(int id) { // modifier l'id
         this.id = id;
     }
 
-    public void setIdPatient(int idPatient) {
+    public void setIdPatient(int idPatient) { // modifier l'id du patient
         this.idPatient = idPatient;
     }
 
-    public void setIdSpecialiste(int idSpecialiste) {
+    public void setIdSpecialiste(int idSpecialiste) { // modifier l'id du spécialiste
         this.idSpecialiste = idSpecialiste;
     }
 
-    public void setIdLieu(int idLieu) {
+    public void setIdLieu(int idLieu) { // modifier l'id du lieu
         this.idLieu = idLieu;
     }
 
+    // affichage lisible pour debug
     @Override
     public String toString() {
         return date + " à " + heure + " (Spécialiste #" + idSpecialiste + ", Lieu #" + idLieu + ")";
