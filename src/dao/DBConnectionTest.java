@@ -1,25 +1,24 @@
-package dao;
+package dao; // package dao
 
-import dao.ConnexionBDD;
-
-import java.sql.Connection;
+// importation des classes nécessaires
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static dao.ConnexionBDD.fermerConnexion;
-import static dao.ConnexionBDD.getConnexion;
+import static dao.ConnexionBDD.fermerConnexion; // importer méthode fermer connexion
+import static dao.ConnexionBDD.getConnexion;    // importer méthode obtenir connexion
 
-public class DBConnectionTest {
-    public static void main(String[] args) {
+public class DBConnectionTest { // classe pour tester la connexion
+
+    public static void main(String[] args) { // méthode principale
         try {
-            // Établir la connexion
+            // établir la connexion
             Connection conn = getConnexion();
 
-            // Tu peux ajouter des requêtes ici si tu veux tester quelque chose
+            // ici on pourrait faire d'autres requêtes pour tester
 
-            // Fermer la connexion proprement
+            // fermer la connexion proprement
             fermerConnexion();
-        } catch (SQLException e) {
+        } catch (SQLException e) { // si une erreur SQL survient
             System.err.println("Une erreur est survenue : " + e.getMessage());
         }
     }
