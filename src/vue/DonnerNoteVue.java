@@ -5,7 +5,10 @@ import modele.Note;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Classe DonnerNoteVue
+ * Permet à l'utilisateur de donner une note à un rendez-vous.
+ */
 public class DonnerNoteVue extends JFrame {
 
     private JComboBox<Integer> comboEtoiles;

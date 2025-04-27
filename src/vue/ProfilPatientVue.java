@@ -7,6 +7,10 @@ import modele.Patient;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Classe ProfilPatientVue
+ * Permet d'afficher et de modifier le profil d'un patient.
+ */
 public class ProfilPatientVue extends JFrame { // classe profil patient qui hérite de jframe
 
     private final int idUser; // id du patient connecté

@@ -10,6 +10,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+/**
+ * Classe de la vue pour afficher l'historique des rendez-vous d'un patient.
+ * Permet de visualiser les détails des rendez-vous passés.
+ */
 public class HistoriqueVue extends JFrame {
 
     private JTable tableHistorique;

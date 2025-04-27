@@ -7,7 +7,10 @@ import javax.swing.*; // composants swing
 import javax.swing.table.DefaultTableModel; // modèle pour la table
 import java.awt.*; // gestion de l'interface graphique
 import java.util.List; // gestion des listes
-
+/**
+ * Classe de la vue pour la gestion des lieux.
+ * Permet d'ajouter, supprimer et afficher les lieux.
+ */
 public class GestionLieuxVue extends JFrame { // classe gestionlieuxvue qui hérite de jframe
 
     private JTextField champAdresse, champVille, champCodePostal; // champs de saisie

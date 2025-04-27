@@ -5,7 +5,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+ * Classe AdminGestionVue
+ * Permet d'afficher la vue de gestion pour l'administrateur.
+ */
 public class AdminGestionVue extends JFrame { // classe admingestionvue qui hérite de jframe
 
     // déclaration des boutons visibles

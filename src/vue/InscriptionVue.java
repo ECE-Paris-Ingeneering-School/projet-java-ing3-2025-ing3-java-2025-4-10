@@ -7,7 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+ * Classe InscriptionVue
+ * Permet de créer une interface d'inscription pour les patients.
+ */
 public class InscriptionVue extends JFrame { // classe inscription vue qui hérite de jframe
 
     private JTextField champNom; // champ texte pour le nom

@@ -5,6 +5,10 @@ import dao.UserDAO.Utilisateur; // importation de la classe interne utilisateur
 import javax.swing.*; // composants swing
 import java.awt.*; // layout et composants graphiques
 
+/**
+ * Classe ConnexionVue : Interface de connexion pour les utilisateurs.
+ * Permet aux utilisateurs de se connecter ou de s'inscrire.
+ */
 public class ConnexionVue extends JFrame { // classe connexionvue qui hérite de jframe
 
     private JTextField champEmail; // champ pour l'email

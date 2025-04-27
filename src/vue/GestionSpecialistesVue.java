@@ -7,7 +7,10 @@ import javax.swing.*; // composants swing
 import javax.swing.table.DefaultTableModel; // modèle pour tableau
 import java.awt.*; // interface graphique
 import java.util.List; // listes
-
+/**
+ * Classe de la vue pour la gestion des spécialistes.
+ * Permet d'ajouter, supprimer et afficher les spécialistes.
+ */
 public class GestionSpecialistesVue extends JFrame { // classe qui hérite de jframe
 
     private JTextField champNom, champPrenom, champEmail, champSpecialite; // champs texte

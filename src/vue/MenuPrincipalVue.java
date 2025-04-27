@@ -6,6 +6,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Classe MenuPrincipalVue
+ * Permet d'afficher le menu principal de l'application.
+ */
 public class MenuPrincipalVue extends JFrame { // classe du menu principal qui hérite de jframe
 
     private JButton boutonPrendreRDV; // bouton pour prendre un rdv

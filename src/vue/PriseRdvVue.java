@@ -14,6 +14,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Classe de la vue pour la prise de rendez-vous.
+ * Permet de choisir un spécialiste, un lieu, une date et une heure.
+ */
 public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de jframe
 
     private JComboBox<Specialiste> comboSpecialiste; // liste déroulante de spécialistes

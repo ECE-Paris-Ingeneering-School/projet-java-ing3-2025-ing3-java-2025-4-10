@@ -7,7 +7,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
-
+/**
+ * Classe de la vue pour la gestion des rendez-vous.
+ * Permet d'afficher, ajouter et supprimer des rendez-vous.
+ */
 public class GestionRendezVousVue extends JFrame {
 
     private JTable tableRendezVous;
