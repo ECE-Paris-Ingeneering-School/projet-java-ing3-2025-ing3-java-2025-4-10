@@ -1,5 +1,11 @@
 package dao;
 
+/**
+DAO pour gérer les opérations liées aux patients.
+Permet d'inscrire un patient, récupérer ses informations et modifier son profil.
+ */
+
+
 // importation des classes nécessaires
 import modele.Lieu;
 import java.sql.*;
