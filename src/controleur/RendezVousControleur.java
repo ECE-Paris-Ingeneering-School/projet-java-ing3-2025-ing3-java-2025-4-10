@@ -3,7 +3,10 @@ package controleur;
 // importation des classes nécessaires
 import dao.RendezVousDAO;
 import modele.RendezVous;
+
+import java.time.LocalDate;
 import java.util.List;
+import java.sql.Date;
 
 public class RendezVousControleur { // classe controleur pour gérer les rdv
 
@@ -22,6 +25,11 @@ public class RendezVousControleur { // classe controleur pour gérer les rdv
     // supprime un rendez-vous par son id
     public boolean supprimerRendezVous(int id) {
         return dao.supprimerRendezVousParId(id);
+    }
+
+    public List<String> getHeuresPrises(int idSpecialiste, LocalDate date) {
+        // Cette méthode va faire une requête SQL pour récupérer toutes les heures déjà réservées
+        return dao.getHeuresPrises(idSpecialiste, date);
     }
 
     // récupère les rendez-vous d'un patient spécifique

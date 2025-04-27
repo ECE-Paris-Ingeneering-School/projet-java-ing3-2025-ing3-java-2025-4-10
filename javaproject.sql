@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `rdv` (
   `Date` date NOT NULL,
   `Heure` time NOT NULL,
   `Motif` text NOT NULL,
-  `Disponibilite` tinyint(1) DEFAULT NULL,
+  `Disponibilite` tinyint(1) NOT NULL,
   `FK_ID_Lieu` int NOT NULL,
   `FK_ID_Spécialiste` int NOT NULL,
   `FK_ID_Patient` int NOT NULL,

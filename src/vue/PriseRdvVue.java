@@ -90,6 +90,9 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
             new MenuPrincipalVue("patient", IdUser).setVisible(true);
         });
 
+        comboSpecialiste.addActionListener(e -> remplirHeures());
+        dateSpinner.addChangeListener(e -> remplirHeures());
+
         chargerSpecialistes(); // charger spécialistes
         chargerLieux(); // charger lieux
     }
@@ -110,10 +113,32 @@ public class PriseRdvVue extends JFrame { // classe prise de rdv qui hérite de 
         }
     }
 
-    private void remplirHeures() { // ajouter les créneaux horaires
-        for (int h = 8; h <= 19; h++) {
-            comboHeure.addItem(String.format("%02d:00", h));
-            comboHeure.addItem(String.format("%02d:30", h));
+    private void remplirHeures() {
+        comboHeure.removeAllItems(); // on vide la combo à chaque appel
+
+        Specialiste specialiste = (Specialiste) comboSpecialiste.getSelectedItem();
+        if (specialiste == null) return;
+
+        LocalDate date = LocalDate.ofInstant(((java.util.Date) dateSpinner.getValue()).toInstant(), java.time.ZoneId.systemDefault());
+
+        // Récupérer toutes les heures déjà prises pour ce spécialiste à cette date
+        List<String> heuresPrises = rdvControleur.getHeuresPrises(specialiste.getId(), date);
+
+        for (int h = 8; h <= 18; h++) {
+            String h1 = String.format("%02d:00", h);
+            String h2 = String.format("%02d:30", h);
+
+            if (!heuresPrises.contains(h1)) {
+                comboHeure.addItem(h1);
+            } else {
+                System.out.println("Exclu car déjà réservé : " + h1);
+            }
+
+            if (!heuresPrises.contains(h2)) {
+                comboHeure.addItem(h2);
+            } else {
+                System.out.println("Exclu car déjà réservé : " + h2);
+            }
         }
     }
 
