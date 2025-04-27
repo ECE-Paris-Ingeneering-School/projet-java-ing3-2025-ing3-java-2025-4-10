@@ -1,30 +1,38 @@
-package modele; 
+package modele;
 
-public class Note { // classe note
+public class Note {
 
-    private int idNote; // id unique de la note
-    private String commentaire; // texte du commentaire
-    private int idRDV; // id du rendez-vous lié
+    private int idNote;
+    private int idRDV;
+    private int valeur; // entre 1 et 5
 
-    // constructeur
-    public Note(int idNote, String commentaire, int idRDV) {
+    public Note(int idNote, int idRDV, int valeur) {
         this.idNote = idNote;
-        this.commentaire = commentaire;
         this.idRDV = idRDV;
+        this.valeur = valeur;
     }
 
-    // === getters ===
-
-    public int getIdNote() { // récupérer l'id de la note
+    public int getIdNote() {
         return idNote;
     }
 
-    public String getCommentaire() { // récupérer le commentaire
-        return commentaire;
-    }
-
-    public int getIdRDV() { // récupérer l'id du rendez-vous associé
+    public int getIdRDV() {
         return idRDV;
     }
-}
 
+    public int getValeur() {
+        return valeur;
+    }
+
+    public void setIdNote(int idNote) {
+        this.idNote = idNote;
+    }
+
+    public void setIdRDV(int idRDV) {
+        this.idRDV = idRDV;
+    }
+
+    public void setValeur(int valeur) {
+        this.valeur = valeur;
+    }
+}
