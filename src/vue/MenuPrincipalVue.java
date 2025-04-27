@@ -107,18 +107,6 @@ public class MenuPrincipalVue extends JFrame { // classe du menu principal qui h
 
         fond.add(panelCentre); // ajout panel centre dans fond
         setContentPane(fond); // définir fond
-
-        // barre de menu en haut
-        JMenuBar menuBar = new JMenuBar();
-        menuBar.setBackground(new Color(230, 240, 255)); // bleu clair
-
-        for (String title : new String[]{"Accueil", "Prendre RDV", "Recherche", "Profil"}) {
-            JMenu menu = new JMenu(title);
-            menu.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-            menuBar.add(menu);
-        }
-
-        setJMenuBar(menuBar);
     }
     /**
      * Méthode pour créer un bouton stylisé.
