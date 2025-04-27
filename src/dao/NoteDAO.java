@@ -1,5 +1,10 @@
 package dao;
 
+/**
+Cette classe gère les opérations de la base de données concernant les notes attribuées aux rendez-vous.
+Elle permet d'ajouter une note et de récupérer une note par identifiant de rendez-vous.
+ */
+
 import modele.Note;
 import java.sql.*;
 
