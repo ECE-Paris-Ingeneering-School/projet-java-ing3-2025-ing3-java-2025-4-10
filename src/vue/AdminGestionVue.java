@@ -1,33 +1,31 @@
-package vue; 
+package vue; // package vue
 
-// on importe les classe nécessaires pour construire l'interface graphique
+// on importe les classes nécessaires
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter; // effets de souris
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class AdminGestionVue extends JFrame {
+public class AdminGestionVue extends JFrame { // classe admingestionvue qui hérite de jframe
 
-    // on déclare les boutons visibles
+    // déclaration des boutons visibles
     private JButton boutonSpecialistes;
     private JButton boutonLieux;
     private JButton boutonRendezVous;
     private JButton boutonStats;
     private JButton boutonRetour;
 
-    // constructeur
-    public AdminGestionVue() {
+    public AdminGestionVue() { // constructeur
         setTitle("Espace d'administration"); // titre de la fenetre
-        setDefaultCloseOperation(EXIT_ON_CLOSE); // l'appli se ferme si user ferme la fenetre
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // ouvrir la fenetre en plein écran
-        setLocationRelativeTo(null); // centre
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // ferme l'appli si on ferme la fenetre
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // fenetre en plein ecran
+        setLocationRelativeTo(null); // centre la fenetre
 
-        initialiserInterface();
+        initialiserInterface(); // appel pour construire l'interface
     }
 
-    // méthode pour construire le contenu graphique
-    private void initialiserInterface() {
-        // on cree un fond bleu ciel
+    private void initialiserInterface() { // construire l'interface
+        // création du fond bleu ciel
         JPanel fond = new JPanel(new GridBagLayout());
         fond.setBackground(new Color(200, 225, 255));
 
@@ -35,28 +33,27 @@ public class AdminGestionVue extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBackground(Color.WHITE);
-        // contour du bloc, mis en gris
         panel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(210, 210, 210), 1),
-                BorderFactory.createEmptyBorder(40, 60, 40, 60) // padding
+                BorderFactory.createEmptyBorder(40, 60, 40, 60) // padding autour du bloc
         ));
         panel.setMaximumSize(new Dimension(500, 500));
 
-        // on cree le titre de la fenetre
+        // création du titre
         JLabel titre = new JLabel("Espace d'administration");
         titre.setFont(new Font("Segoe UI", Font.BOLD, 26));
         titre.setAlignmentX(Component.CENTER_ALIGNMENT);
         titre.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         panel.add(titre);
 
-        // creation des boutons
+        // création des boutons
         boutonSpecialistes = createStyledButton("Gérer les spécialistes");
         boutonLieux = createStyledButton("Gérer les lieux");
         boutonRendezVous = createStyledButton("Gérer les rendez-vous");
         boutonStats = createStyledButton("Voir les statistiques");
         boutonRetour = createStyledButton("Retour au menu");
 
-        // on ajt les boutons dans le bloc blance, séparés par des espace
+        // on ajoute les boutons séparés par des espacements
         panel.add(boutonSpecialistes);
         panel.add(Box.createVerticalStrut(15));
         panel.add(boutonLieux);
@@ -67,11 +64,11 @@ public class AdminGestionVue extends JFrame {
         panel.add(Box.createVerticalStrut(25));
         panel.add(boutonRetour);
 
-        // on place le panel blanc au centre du fond bleu
+        // on place le bloc blanc au centre du fond bleu
         fond.add(panel);
         setContentPane(fond);
 
-        // actions
+        // actions sur les boutons
         boutonSpecialistes.addActionListener(e -> {
             dispose();
             new GestionSpecialistesVue().setVisible(true);
@@ -94,12 +91,11 @@ public class AdminGestionVue extends JFrame {
 
         boutonRetour.addActionListener(e -> {
             dispose();
-            new MenuPrincipalVue("admin",1).setVisible(true); // rajout 1
+            new MenuPrincipalVue("admin", 1).setVisible(true); // on passe admin et l'id 1
         });
     }
 
-    private JButton createStyledButton(String text) {
-        // on cree un bouton stylisé hehehe
+    private JButton createStyledButton(String text) { // méthode pour créer un bouton stylisé
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         button.setBackground(new Color(33, 150, 243));
@@ -110,11 +106,11 @@ public class AdminGestionVue extends JFrame {
         button.setMaximumSize(new Dimension(350, 45));
         button.setBorder(BorderFactory.createEmptyBorder(12, 20, 12, 20));
 
-        // deux couleurs, brighter = quad la souris survole
+        // gestion des couleurs de survol
         Color base = button.getBackground();
         Color hover = base.brighter();
 
-        // ajt un effet visuel quand on passe la souris
+        // effet visuel au passage souris
         button.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 button.setBackground(hover);
@@ -127,7 +123,8 @@ public class AdminGestionVue extends JFrame {
 
         return button;
     }
-// pour tester cette classe indépendamment
+
+    // pour tester indépendamment cette fenêtre
     /**
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new AdminGestionVue().setVisible(true));
