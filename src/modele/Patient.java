@@ -1,4 +1,4 @@
-package modele; // package modele
+package modele;
 
 public class Patient { // classe patient
 
