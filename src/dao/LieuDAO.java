@@ -13,7 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LieuDAO { // classe d'accès aux données pour les lieux
-
+    /**
+     * Récupère tous les lieux de la base de données.
+     *
+     * @return une liste de tous les lieux
+     */
     public List<Lieu> recupererTousLesLieux() { // méthode pour récupérer tous les lieux
         List<Lieu> lieux = new ArrayList<>(); // liste des lieux à remplir
         String requete = "SELECT * FROM Lieu"; // requête SQL pour tout prendre
@@ -40,7 +44,12 @@ public class LieuDAO { // classe d'accès aux données pour les lieux
 
         return lieux; // retourner la liste finale
     }
-
+    /**
+     * Récupère un lieu par son identifiant.
+     *
+     * @param id l'identifiant du lieu
+     * @return le lieu correspondant à l'identifiant
+     */
     public boolean ajouterLieu(Lieu lieu) { // méthode pour insérer un lieu
         String requete = "INSERT INTO Lieu (Adresse, Ville, CodePostal) VALUES (?, ?, ?)"; // requête insertion
 
@@ -60,7 +69,12 @@ public class LieuDAO { // classe d'accès aux données pour les lieux
             return false;
         }
     }
-
+    /**
+     * Supprime un lieu par son identifiant.
+     *
+     * @param id l'identifiant du lieu à supprimer
+     * @return true si la suppression a réussi, false sinon
+     */
     public boolean supprimerLieuParId(int id) { // méthode pour supprimer un lieu
         String requete = "DELETE FROM Lieu WHERE id = ?"; // requête suppression
 

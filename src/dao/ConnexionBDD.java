@@ -20,7 +20,14 @@ public class ConnexionBDD { // classe connexionbdd
 
     private static Connection connexion; // objet connexion partagé
 
-    // méthode pour récupérer une connexion active
+    /**
+     * Méthode pour obtenir une connexion à la base de données.
+     * Si la connexion est déjà ouverte, elle la retourne.
+     * Sinon, elle en crée une nouvelle.
+     *
+     * @return la connexion à la base de données
+     * @throws SQLException si une erreur se produit lors de la connexion
+     */
     public static Connection getConnexion() throws SQLException {
         if (connexion == null || connexion.isClosed()) { // si pas connecté ou connexion fermée
             try {
@@ -38,7 +45,10 @@ public class ConnexionBDD { // classe connexionbdd
         return connexion; // retourner la connexion
     }
 
-    // méthode pour fermer la connexion proprement
+    /**
+     * Méthode pour fermer la connexion à la base de données.
+     * Elle vérifie d'abord si la connexion est ouverte avant de la fermer.
+     */
     public static void fermerConnexion() {
         try {
             if (connexion != null && !connexion.isClosed()) { // si connexion ouverte

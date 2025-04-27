@@ -1,15 +1,18 @@
 package dao;
 
-/**
-Cette classe gère les opérations de la base de données concernant les notes attribuées aux rendez-vous.
-Elle permet d'ajouter une note et de récupérer une note par identifiant de rendez-vous.
- */
-
 import modele.Note;
 import java.sql.*;
-
+/**
+ Cette classe gère les opérations de la base de données concernant les notes attribuées aux rendez-vous.
+ Elle permet d'ajouter une note et de récupérer une note par identifiant de rendez-vous.
+ */
 public class NoteDAO {
-
+    /**
+     * Ajoute une nouvelle note à la base de données.
+     *
+     * @param note la note à ajouter
+     * @return true si l'ajout a réussi, false sinon
+     */
     public boolean ajouterNote(Note note) {
         String requete = "INSERT INTO Note (FK_ID_RDV, Valeur) VALUES (?, ?)";
 
@@ -27,7 +30,12 @@ public class NoteDAO {
             return false;
         }
     }
-
+    /**
+     * Vérifie si une note existe déjà pour un rendez-vous donné.
+     *
+     * @param idRDV l'identifiant du rendez-vous
+     * @return true si la note existe déjà, false sinon
+     */
     public boolean noteExisteDeja(int idRDV) {
         // Correction ici : il manquait les colonnes après SELECT
         String requete = "SELECT 1 FROM Note WHERE FK_ID_RDV = ?";
@@ -46,7 +54,12 @@ public class NoteDAO {
             return false;
         }
     }
-
+    /**
+     * Modifie une note existante dans la base de données.
+     *
+     * @param note la note à modifier
+     * @return true si la modification a réussi, false sinon
+     */
     public boolean modifierNote(Note note) {
         String requete = "UPDATE Note SET Valeur = ? WHERE FK_ID_RDV = ?";
 
