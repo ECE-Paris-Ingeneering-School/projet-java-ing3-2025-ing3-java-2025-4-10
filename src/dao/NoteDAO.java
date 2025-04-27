@@ -24,7 +24,8 @@ public class NoteDAO {
     }
 
     public boolean noteExisteDeja(int idRDV) {
-        String requete = "SELECT FROM Note WHERE FK_ID_RDV = ?";
+        // Correction ici : il manquait les colonnes après SELECT
+        String requete = "SELECT 1 FROM Note WHERE FK_ID_RDV = ?";
 
         try (Connection conn = ConnexionBDD.getConnexion();
              PreparedStatement stmt = conn.prepareStatement(requete)) {
@@ -36,6 +37,24 @@ public class NoteDAO {
 
         } catch (SQLException e) {
             System.err.println("Erreur lors de la vérification de l'existence de la note.");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean modifierNote(Note note) {
+        String requete = "UPDATE Note SET Valeur = ? WHERE FK_ID_RDV = ?";
+
+        try (Connection conn = ConnexionBDD.getConnexion();
+             PreparedStatement stmt = conn.prepareStatement(requete)) {
+
+            stmt.setInt(1, note.getValeur());
+            stmt.setInt(2, note.getIdRDV());
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la modification de la note.");
             e.printStackTrace();
             return false;
         }

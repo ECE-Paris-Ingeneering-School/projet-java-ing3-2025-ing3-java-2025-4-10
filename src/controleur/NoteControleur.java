@@ -14,4 +14,8 @@ public class NoteControleur {
     public boolean noteExisteDeja(int idRDV) {
         return dao.noteExisteDeja(idRDV);
     }
+
+    public boolean modifierNote(Note note) {
+        return dao.modifierNote(note);
+    }
 }

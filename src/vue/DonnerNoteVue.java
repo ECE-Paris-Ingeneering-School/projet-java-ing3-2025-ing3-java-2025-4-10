@@ -11,10 +11,12 @@ public class DonnerNoteVue extends JFrame {
     private JComboBox<Integer> comboEtoiles;
     private JButton boutonValider, boutonRetour;
     private final int idRDV;
+    private final int idUser;
     private final NoteControleur noteControleur;
 
-    public DonnerNoteVue(int idRDV) {
+    public DonnerNoteVue(int idRDV, int idUser) {
         this.idRDV = idRDV;
+        this.idUser = idUser;
         this.noteControleur = new NoteControleur();
 
         setTitle("Noter votre rendez-vous");
@@ -62,27 +64,30 @@ public class DonnerNoteVue extends JFrame {
         boutonValider.addActionListener(e -> enregistrerNote());
         boutonRetour.addActionListener(e -> {
             dispose();
-            new HistoriqueVue(1).setVisible(true); // ou MenuPatient selon logique
+            new HistoriqueVue(idUser).setVisible(true);
         });
     }
 
     private void enregistrerNote() {
         int valeur = (int) comboEtoiles.getSelectedItem();
 
-        if (noteControleur.noteExisteDeja(idRDV)) {
-            JOptionPane.showMessageDialog(this, "Vous avez déjà noté ce rendez-vous !");
-            return;
-        }
-
         Note note = new Note(0, idRDV, valeur);
 
-        if (noteControleur.ajouterNote(note)) {
-            JOptionPane.showMessageDialog(this, "Merci pour votre note !");
-            dispose();
-            new HistoriqueVue(1).setVisible(true);
+        if (noteControleur.noteExisteDeja(idRDV)) {
+            if (noteControleur.modifierNote(note)) {
+                JOptionPane.showMessageDialog(this, "Note mise à jour !");
+            } else {
+                JOptionPane.showMessageDialog(this, "Erreur lors de la mise à jour de la note.");
+            }
         } else {
-            JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement de la note.");
+            if (noteControleur.ajouterNote(note)) {
+                JOptionPane.showMessageDialog(this, "Merci pour votre note !");
+            } else {
+                JOptionPane.showMessageDialog(this, "Erreur lors de l'ajout de la note.");
+            }
         }
+        dispose();
+        new HistoriqueVue(idUser).setVisible(true);
     }
 
     private JPanel createInput(String labelText, JComponent champ) {
@@ -119,6 +124,6 @@ public class DonnerNoteVue extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new DonnerNoteVue(1).setVisible(true));
+        SwingUtilities.invokeLater(() -> new DonnerNoteVue(1, 1).setVisible(true));
     }
 }

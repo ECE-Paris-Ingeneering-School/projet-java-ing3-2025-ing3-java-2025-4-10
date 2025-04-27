@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class ConnexionBDD { // classe connexionbdd
 
     // informations pour se connecter à la base de données
-    private static final String URL = "jdbc:mysql://localhost:3306/javaproject"; // url bdd
+    private static final String URL = "jdbc:mysql://localhost:3306/javaproject2"; // url bdd
     private static final String UTILISATEUR = "root"; // utilisateur
     private static final String MOT_DE_PASSE = ""; // mot de passe (vide)
 

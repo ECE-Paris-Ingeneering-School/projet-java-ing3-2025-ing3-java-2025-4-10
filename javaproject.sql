@@ -53,21 +53,23 @@ INSERT INTO `lieu` (`ID_Lieu`, `Adresse`, `Ville`, `CodePostal`) VALUES
 
 DROP TABLE IF EXISTS `note`;
 CREATE TABLE IF NOT EXISTS `note` (
-  `ID_Note` int NOT NULL,
-  `Commentaire` text NOT NULL,
-  `FK_ID_RDV` int NOT NULL,
-  PRIMARY KEY (`ID_Note`),
-  KEY `FK_ID_RDV` (`FK_ID_RDV`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+                                      `ID_Note` int NOT NULL AUTO_INCREMENT,
+                                      `Valeur` int DEFAULT NULL,
+                                      `Commentaire` text,
+                                      `FK_ID_RDV` int NOT NULL,
+                                      PRIMARY KEY (`ID_Note`),
+    KEY `FK_ID_RDV` (`FK_ID_RDV`)
+    ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `note`
 --
 
-INSERT INTO `note` (`ID_Note`, `Commentaire`, `FK_ID_RDV`) VALUES
-(1, 'Patient tousse', 1),
-(2, 'Patient eternue', 2),
-(3, 'Patient rythme cardiaque elevee', 3);
+INSERT INTO `note` (`Valeur`, `Commentaire`, `FK_ID_RDV`) VALUES
+(NULL, 'Patient tousse', 1),
+(NULL, 'Patient éternue', 2),
+(NULL, 'Patient rythme cardiaque élevé', 3);
+
 
 -- --------------------------------------------------------
 
