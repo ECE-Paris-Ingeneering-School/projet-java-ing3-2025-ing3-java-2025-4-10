@@ -1,15 +1,14 @@
-package modele;
+package modele; // package modele
 
-public class Specialiste {
+public class Specialiste { // classe specialiste
 
-    private int id;
-    private String nom;
-    private String prenom;
-    private String email;
-    private String specialite;
+    private int id; // id du specialiste
+    private String nom; // nom du specialiste
+    private String prenom; // prenom du specialiste
+    private String email; // email du specialiste
+    private String specialite; // specialite du specialiste
 
-
-    
+    // constructeur plein
     public Specialiste(int id, String nom, String prenom, String email, String specialite) {
         this.id = id;
         this.nom = nom;
@@ -18,49 +17,47 @@ public class Specialiste {
         this.specialite = specialite;
     }
 
-    // === GETTERS ===
+    // === getters ===
 
-    public int getId() {
+    public int getId() { // récupérer l'id
         return id;
     }
 
-    public String getNom() {
+    public String getNom() { // récupérer le nom
         return nom;
     }
 
-    public String getPrenom() {
+    public String getPrenom() { // récupérer le prenom
         return prenom;
     }
 
-    public String getEmail() {
+    public String getEmail() { // récupérer l'email
         return email;
     }
 
-    public String getSpecialite() {
+    public String getSpecialite() { // récupérer la specialite
         return specialite;
     }
 
+    // === setters ===
 
-    // === SETTERS ===
-
-    public void setNom(String nom) {
+    public void setNom(String nom) { // modifier le nom
         this.nom = nom;
     }
 
-    public void setPrenom(String prenom) {
+    public void setPrenom(String prenom) { // modifier le prenom
         this.prenom = prenom;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) { // modifier l'email
         this.email = email;
     }
 
-    public void setSpecialite(String specialite) {
+    public void setSpecialite(String specialite) { // modifier la specialite
         this.specialite = specialite;
     }
 
-
-    // === Affichage (utile pour ComboBox) ===
+    // affichage utile pour les combobox
     @Override
     public String toString() {
         return specialite + " - Dr " + prenom + " " + nom;
