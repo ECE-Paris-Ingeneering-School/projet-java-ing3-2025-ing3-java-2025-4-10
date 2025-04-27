@@ -1,4 +1,4 @@
-package vue; // package vue
+package vue;
 
 import controleur.RendezVousControleur; // importation du controleur pour les rendez-vous
 import modele.RendezVous; // importation du modele rendezvous
