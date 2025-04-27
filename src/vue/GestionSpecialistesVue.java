@@ -1,4 +1,4 @@
-package vue; // package vue
+package vue;
 
 import controleur.SpecialisteControleur; // import du controleur pour gérer les spécialistes
 import modele.Specialiste; // import du modèle spécialiste
