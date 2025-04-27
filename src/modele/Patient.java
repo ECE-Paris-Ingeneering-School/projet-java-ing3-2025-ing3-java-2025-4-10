@@ -1,5 +1,13 @@
 package modele;
 
+/**
+ * Constructeur de Patient.
+ *
+ * @param idUser identifiant utilisateur
+ * @param nom nom de famille du patient
+ * @param prenom prénom du patient
+ */
+
 public class Patient { // classe patient
 
     private int idUser; // identifiant utilisateur (lié à la table User)

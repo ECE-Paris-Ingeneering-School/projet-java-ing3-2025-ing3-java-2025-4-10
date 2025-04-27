@@ -1,5 +1,14 @@
 package modele;
 
+/**
+ * Constructeur de Lieu.
+ *
+ * @param id identifiant du lieu
+ * @param adresse adresse complète du lieu
+ * @param ville ville du lieu
+ * @param codePostal code postal du lieu
+ */
+
 public class Lieu { // classe lieu
 
     private int id; // identifiant unique
